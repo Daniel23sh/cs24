@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Card, CardHeader, CardContent } from "./ui/card";
-import { Button } from "./ui/button";
-import { Star, ThumbsUp, ChevronDown, ChevronUp, X } from "lucide-react";
-import { format } from "date-fns";
-import { supabase } from "../lib/supabase";
+import React, { useState, useEffect } from 'react';
+import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
+import { Button } from './ui/button';
+import { Star, MessageCircle, Edit2, ThumbsUp, ChevronDown, ChevronUp, X } from 'lucide-react';
+import { format } from 'date-fns';
+import { supabase } from '../lib/supabase';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
-import { showNotification } from "./ui/notification";
-import { isAdmin } from "../config/admin";
-import GoogleLoginButton from "./GoogleLoginButton";
-import { courseStyles } from "../config/courseStyles"
+import { showNotification } from './ui/notification';
+import { isAdmin } from '../config/admin';
+import GoogleLoginButton from './GoogleLoginButton';
+import { courseStyles } from '../config/courseStyles';
 import { Link } from "react-router-dom";
 
 // Helper function to format tutor name by replacing spaces with dashes
