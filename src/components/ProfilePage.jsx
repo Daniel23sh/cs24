@@ -152,13 +152,13 @@ const ProfilePage = () => {
     .filter((t) => t.name !== tutorData.name && t.subjects?.some((subject) => tutorData.subjects?.includes(subject)))
     .map((t) => ({
       ...t,
-      price: "₪" + (Math.floor(Math.random() * 60) + 80), // fake price: 80-140₪
+      price: "₪" + tutorData.private_price, // fake price: 80-140₪
       quote: "מורה מצוין עם ניסיון בהכנה למבחנים", // placeholder quote
     }))
 
   useEffect(() => {
     // Initialize events with mock data
-    setEvents(mockEvents)
+    setEvents(tutorData.events || mockEvents)
   }, [])
 
   const getDisplayedTutors = () => {
@@ -256,9 +256,14 @@ const ProfilePage = () => {
       private_price: tutorData.private_price || "150",
       group_price: tutorData.group_price || "80",
       profile_image_url: tutorData.profile_image_url || "",
+      status: tutorData.status || "זמין",
     })
-    setEditedGrades(grades.map((grade) => ({ ...grade })))
-    setEditedEvents(events.map((event) => ({ ...event })))
+    setEditedGrades(
+      tutorData.grades ? tutorData.grades.map((grade) => ({ ...grade })) : []
+    );
+    setEditedEvents(
+      tutorData.events ? tutorData.events.map((event) => ({ ...event })) : []
+    );
     setActiveTab("personal")
     setShowEditModal(true)
   }
@@ -266,11 +271,11 @@ const ProfilePage = () => {
 
 
   const handleProfileSave = (updatedData, updatedEvents, updatedGrades) => {
-    setTutorData(updatedData)
-    setEvents(updatedEvents)
-    // (Update grades state too, if needed)
-    setShowEditModal(false)
+    setTutorData({ ...updatedData, grades: updatedGrades });
+    setEvents(updatedEvents);
+    setShowEditModal(false);
   }
+  
 
 
   useEffect(() => {
@@ -467,14 +472,14 @@ const ProfilePage = () => {
             <div className={`p-1.5 rounded-full ${styles.linksIconBg} mr-2`}>
               <Book className={`h-4 w-4 ${styles.iconColor}`} />
             </div>
-            <p className={`text-sm ${styles.textColor}`}>{tutorData.role || "Tutor"}</p>
+            <p className={`text-sm mr-2 ${styles.textColor}`}>{tutorData.role || "Tutor"}</p>
           </div>
           {/* Subjects Taught */}
           <div className="flex items-start mt-2 justify-start w-full">
             <div className={`p-1.5 rounded-full ${styles.linksIconBg} mr-2 mt-0.5 flex-shrink-0`}>
               <Building2 className={`h-4 w-4 ${styles.iconColor}`} />
             </div>
-            <p className={`text-xs ${styles.textColor} text-center leading-tight mr-2 mt-2`}>
+            <p className={`text-xs ${styles.textColor} leading-tight mr-2 mt-2`}>
               {tutorData.subjects ? tutorData.subjects.join(", ") : "N/A"}
             </p>
           </div>
@@ -483,7 +488,9 @@ const ProfilePage = () => {
             <div className={`p-1.5 rounded-full ${styles.linksIconBg} mr-2`}>
               <Clock className={`h-4 w-4 ${styles.iconColor}`} />
             </div>
-            <p className="text-xs mr-2">זמין</p>
+            <p className={`text-sm mr-2 ${tutorData.status === 'זמין' ? "text-green-500" : "text-red-500"}`}>
+            {tutorData.status}
+            </p>
           </div>
           {/* Phone Number */}
           {tutorData.phone && (
@@ -495,19 +502,19 @@ const ProfilePage = () => {
             </div>
           )}
           {/* Social Links */}
-          {(linke || githu) && ( //tutorData.linkedin || tutorData.github
+          {(tutorData.linkedin || tutorData.github) && ( //tutorData.linkedin || tutorData.github
             <div className="flex gap-4 mt-3">
-              {linke && (
+              {tutorData.linkedin && (
                 <a
-                  href={linke}
+                  href={tutorData.linkedin}
                   className={`${styles.iconColorReverse} p-2 rounded-full hover:shadow-md transition-all`}
                 >
                   <Linkedin className="h-4 w-4" />
                 </a>
               )}
-              {githu && (
+              {tutorData.github && (
                 <a
-                  href={githu}
+                  href={tutorData.github}
                   className={`${styles.iconColorReverse} p-2 rounded-full hover:shadow-md transition-all`}
                 >
                   <Github className="h-4 w-4" />
@@ -625,8 +632,10 @@ const ProfilePage = () => {
             <div className={`p-2 rounded-full ${styles.linksIconBg} mr-3`}>
               <Clock className={`h-5 w-5 ${styles.iconColor}`} />
             </div>
-            <p className="text-sm mr-2">זמין</p>
-          </div>
+              <p className={`text-sm mr-2 ${tutorData.status === 'זמין' ? "text-green-500" : "text-red-500"}`}>
+                {tutorData.status}
+              </p>
+            </div>
 
           {tutorData.phone && (
             <div className="flex items-center mt-3 w-full">
@@ -638,25 +647,28 @@ const ProfilePage = () => {
           )}
 
           {/* NEW Footer: Social links (left) and Meeting button (right) */}
-          <div className="w-full flex items-center justify-between mt-6">
-            <button
-              className={`${styles.buttonPrimary} w-auto mr-24 ml-4 py-2.5 px-4 rounded-lg shadow-md hover:shadow-lg transition-all font-medium text-base`}
-            >
+          <div
+            className={`w-full flex items-center mt-6 ${
+              !tutorData.linkedin && !tutorData.github ? "justify-center" : "justify-between"
+            }`}
+          >             <button
+                className={`${styles.buttonPrimary} w-auto py-2.5 px-4 rounded-lg shadow-md hover:shadow-lg transition-all font-medium text-base  ${!tutorData.linkedin && !tutorData.github ? "" : "mr-4"}`}
+              >
               הזמן שיעור
             </button>
             <div className="flex gap-2">
-              {linke && (
+              {tutorData.linkedin && (
                 <a
-                  href={linke}
+                  href={tutorData.linkedin}
                   className={`${styles.iconColorReverse} p-2 rounded-full hover:shadow-md transition-all bg-blue-50`}
                   aria-label="LinkedIn Profile"
                 >
                   <Linkedin className="h-5 w-5" />
                 </a>
               )}
-              {githu && (
+              {tutorData.github && (
                 <a
-                  href={githu}
+                  href={tutorData.github}
                   className={`${styles.iconColorReverse} p-2 rounded-full hover:shadow-md transition-all bg-blue-50`}
                   aria-label="GitHub Profile"
                 >
@@ -882,7 +894,7 @@ const ProfilePage = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {grades.map((grade, index) => (
+                  {(tutorData.grades || []).map((grade, index) => (
                     <tr key={index} className={index % 2 === 0 ? `${styles.bgLight}` : ""}>
                       <td className={`py-3 px-4 ${styles.textColor}`}>{grade.subject}</td>
                       <td className={`py-3 px-4 font-medium ${styles.textSecondary}`}>{grade.grade}</td>
@@ -947,7 +959,7 @@ const ProfilePage = () => {
                 )}
               </div>
             ) : (
-              <div className={`text-center py-8 ${styles.textColor}`}>
+              <div className={`text-center font-bold py-8 ${styles.textColor}`}>
                 <p>אין המלצות עדיין</p>
               </div>
             )}
@@ -1202,8 +1214,8 @@ const ProfilePage = () => {
           setShowEditModal={setShowEditModal}
           tutorData={tutorData}
           styles={styles}
-          grades={grades}
-          events={events}
+          grades={tutorData.grades}
+          events={tutorData.events}
           onSave={handleProfileSave}
         />
       )}
