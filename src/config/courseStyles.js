@@ -22,6 +22,7 @@ const courseStyles = {
     shadowGlowHover: 'rgba(37, 99, 235, 0.5)',
     eventBg: 'bg-blue-500', // Added for event background
     editBg: 'bg-blue-300',
+    background: "#9cc6fc"
   },
   ee: {
     buttonPrimary: 'bg-purple-800 text-white hover:bg-purple-700 shadow-md', // Removed border, kept shadow
@@ -46,6 +47,8 @@ const courseStyles = {
     shadowGlowHover: 'rgba(147, 51, 234, 0.5)',
     eventBg: 'bg-purple-500', // Added for event background
     editBg: 'bg-purple-300',
+    background: "#ca99ff"
+
   },
   ie: {
     buttonPrimary: 'bg-orange-600 text-white hover:bg-orange-500 shadow-md', // Removed border, kept shadow
@@ -70,6 +73,8 @@ const courseStyles = {
     shadowGlowHover: 'rgba(234, 88, 12, 0.5)',
     eventBg: 'bg-orange-500', // Added for event background
     editBg: 'bg-orange-300',
+    background: "#dbeafe"
+
   },
 };
 
