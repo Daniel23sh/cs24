@@ -1,6 +1,4 @@
-"good ver"
 
-"final ver"
 import { useState, useEffect, useRef } from "react"
 import { useParams, useLocation, useNavigate, Link } from "react-router-dom"
 import { Star, Book, Building2, Clock, Linkedin, Github, Phone, ChevronDown, ChevronUp, Send, ChevronLeft, ChevronRight, Pencil, Calendar } from 'lucide-react'
@@ -8,7 +6,7 @@ import { supabase } from "../lib/supabase"
 import { courseStyles } from "../config/courseStyles" // Import the course styles
 import EditPanel from "./EditPanel"
 import mockData from "../config/mockData.json" // adjust path if needed
-
+import { backgroundPath } from "../config/backgroundPath"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 
 // Add responsive layout style if overlapping occurs
@@ -409,7 +407,19 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className={`min-h-screen bg-gradient-to-b ${styles.bgGradient}`}>
+    <div className={`min-h-screen ${styles.bgLight} relative`}>
+    <svg
+      className="fixed inset-0 w-full h-full z-0 "
+      viewBox="0 0 600 600"
+      preserveAspectRatio="xMidYMid slice"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill= {styles.background}
+        fillOpacity="0.49"
+        d={backgroundPath}
+      />
+    </svg>
       {/* Mobile/Tablet Version: Profile card above the about section */}
       <div className={isOverlapping || isTablet ? "block p-4" : "hidden"}>
         <div
@@ -518,7 +528,7 @@ const ProfilePage = () => {
       
       {/* Mobile/Tablet Version: Price card below the profile card */}
       <div className={isOverlapping || isTablet ? "block p-4" : "hidden"}>
-        <div className={`bg-white border ${styles.cardBorder} shadow-lg rounded-xl p-5 flex flex-col items-center ${
+        <div className={`relative z-10 bg-white border ${styles.cardBorder} shadow-lg rounded-xl p-5 flex flex-col items-center ${
           isTablet ? "max-w-[81%] mx-auto" : ""
         }`}>
           <h3 className={`${isTablet ? "text-2xl" : "text-xl"} font-bold mb-3 ${styles.textColor}`}>מחירים</h3>
@@ -557,7 +567,7 @@ const ProfilePage = () => {
       </div>
 
       {/* Desktop Version: Fixed right side profile card – visible only on lg+ screens */}
-      <div className={isOverlapping || isTablet ? "hidden" : "block fixed right-0 top-0 w-[30%] p-4 max-w-[550px]"}>
+      <div className={isOverlapping || isTablet ? "hidden" : "block fixed right-0 top-0 w-[30%] p-4 max-w-[550px] z-20"}>
         <div
           className={`bg-white border ${styles.cardBorder} shadow-lg rounded-xl p-6 max-h-[550px] flex flex-col items-center justify-start mt-4 mr-8 overflow-y-auto relative`}
         >
@@ -659,7 +669,7 @@ const ProfilePage = () => {
       </div>
 
       {/* Desktop Version: Fixed price card below profile card */}
-      <div className={isOverlapping || isTablet ? "hidden" : "block fixed right-0 top-[570px] w-[30%] p-4 max-w-[550px]"}>
+      <div className={isOverlapping || isTablet ? "hidden" : "block fixed right-0 top-[570px] w-[30%] p-4 max-w-[550px] z-20"}>
         <div
           className={`bg-white border ${styles.cardBorder} shadow-lg rounded-xl p-6 flex flex-col items-center justify-start mr-8 overflow-y-auto`}
         >
@@ -700,7 +710,7 @@ const ProfilePage = () => {
       </div>
 
       {/* Main Content Area */}
-      <div className={`pt-4 ${isOverlapping || isTablet ? "" : "md:pr-[33%] lg:pr-[30%]"} md:pl-0`}>
+      <div className={`relative z-10 pt-4  ${isOverlapping || isTablet ? "" : "md:pr-[33%] lg:pr-[30%]"} md:pl-0`}>
         <div className={`${isTablet ? "max-w-2xl" : "max-w-[70rem]"} mx-auto space-y-8 mt-4 px-4 pb-12`}>
           {/* About Me Section */}
           <section
