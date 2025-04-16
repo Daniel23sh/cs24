@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { X, Upload, Plus, ArrowLeft, Save, Trash2 } from "lucide-react"
 
 const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades, events, onSave }) => {
@@ -18,7 +18,7 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
   const fileInputRef = useRef(null)
 
   // Initialize edited data when modal opens
-  useState(() => {
+  useEffect(() => {
     if (showEditModal) {
       setEditedData({
         name: tutorData.name || "",
@@ -32,9 +32,10 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
         private_price: tutorData.private_price || "150",
         group_price: tutorData.group_price || "80",
         profile_image_url: tutorData.profile_image_url || "",
+        status: tutorData.status || "זמין", 
       })
-      setEditedGrades(grades.map((grade) => ({ ...grade })))
-      setEditedEvents(events.map((event) => ({ ...event })))
+      setEditedGrades(Array.isArray(tutorData.grades) ? tutorData.grades.map((grade) => ({ ...grade })) : []);
+      setEditedEvents(Array.isArray(tutorData.events) ? tutorData.events.map((event) => ({ ...event })) : []);
       setActiveTab("personal")
     }
   }, [showEditModal, tutorData, grades, events])
@@ -168,6 +169,17 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
     }
   }
 
+  const handlePhoneChange = (e) => {
+    const { value } = e.target;
+    // Allow an optional leading "+" then only digits.
+    // This regex replaces everything that is not a digit.
+    // If you wish to allow the plus sign only as the first character, you can handle that accordingly.
+    const filteredValue = value.replace(/(?!^\+)[^\d]/g, "");
+    setEditedData((prev) => ({
+      ...prev,
+      phone: filteredValue,
+    }));
+  };
   if (!showEditModal) return null
 
   return (
@@ -290,10 +302,25 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
                       type="tel"
                       name="phone"
                       value={editedData.phone || ""}
+                      onChange={handlePhoneChange}
+                      className={`w-full p-3 border ${styles.cardBorder} rounded-lg`}
+                      dir="rtl"
+                      inputMode="numeric"
+                      pattern="^\+?\d*$"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-1">זמינות</label>
+                    <select
+                      name="status"
+                      value={editedData.role || "זמין"}
                       onChange={handleEditInputChange}
                       className={`w-full p-3 border ${styles.cardBorder} rounded-lg`}
                       dir="rtl"
-                    />
+                    >
+                      <option value="זמין">זמין</option>
+                      <option value="לא זמין">לא זמין</option>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -380,8 +407,16 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
                     <div className="w-20">
                       <input
                         type="text"
+                        inputMode="numeric"
+                        maxLength={3}
                         value={grade.grade}
-                        onChange={(e) => handleGradeChange(index, "grade", e.target.value)}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          // Allow empty string for temporary deletion and match only numbers from 0 to 100.
+                          if (value === "" || /^(0|[1-9]\d?|100)$/.test(value)) {
+                            handleGradeChange(index, "grade", value);
+                          }
+                        }}
                         className={`w-full p-2 border ${styles.cardBorder} rounded-lg mb-2`}
                         dir="rtl"
                         placeholder="ציון"
