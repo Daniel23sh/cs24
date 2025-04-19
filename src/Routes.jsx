@@ -4,6 +4,7 @@ import App from './App';
 import AuthCallback from './components/AuthCallback';
 import ProfilePage from './components/ProfilePage';
 import ScrollToTop from './components/ScrollToTop'; 
+import NotFoundPage from './components/NotFoundPage';
 
 const AppRoutes = () => {
   return (
@@ -13,6 +14,8 @@ const AppRoutes = () => {
         <Route path="/" element={<App />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="/tutors/:tutorName" element={<ProfilePage />} />
+        <Route path="*" element={<NotFoundPage />} />
+c
       </Routes>
     </Router>
   );
