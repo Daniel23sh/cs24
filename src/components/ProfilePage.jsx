@@ -8,7 +8,7 @@ import EditPanel from "./EditPanel"
 import mockData from "../config/mockData.json" // adjust path if needed
 import { backgroundPath } from "../config/backgroundPath"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
-
+import NotFoundPage from "./NotFoundPage"
 // Add responsive layout style if overlapping occurs
 const useResponsiveLayout = () => {
   const [isOverlapping, setIsOverlapping] = useState(false)
@@ -79,6 +79,7 @@ const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("personal")
   const { isOverlapping, isTablet } = useResponsiveLayout()
 
+
   // Determine course type based on tutor data or default to 'cs'
   const stateCourseType = location.state?.courseType
   const courseType = tutorData?.course_type || stateCourseType || "cs"
@@ -148,19 +149,22 @@ const ProfilePage = () => {
     setShowPrices((prev) => !prev)
   }
 
-  const similarTutors = sectionTutors
-    .filter((t) => t.name !== tutorData.name && t.subjects?.some((subject) => tutorData.subjects?.includes(subject)))
-    .map((t) => ({
-      ...t,
-      price: "₪" + tutorData.private_price, // fake price: 80-140₪
-      quote: "מורה מצוין עם ניסיון בהכנה למבחנים", // placeholder quote
-    }))
+  const similarTutors = tutorData
+  ? sectionTutors
+      .filter((t) => t.name !== tutorData.name && t.subjects?.some((s) => tutorData.subjects?.includes(s)))
+      .map((t) => ({
+        ...t,
+        price: "₪" + tutorData.private_price,
+        quote: "מורה מצוין …",
+      }))
+  : []
 
-  useEffect(() => {
-    // Initialize events with mock data
-    setEvents(tutorData.events || mockEvents)
-  }, [])
-
+    useEffect(() => {
+      if (tutorData) {
+        setEvents(tutorData.events || mockEvents)
+      }
+    }, [tutorData])
+    
   const getDisplayedTutors = () => {
     if (!similarTutors || similarTutors.length === 0) return []
     const result = []
@@ -271,7 +275,7 @@ const ProfilePage = () => {
 
 
   const handleProfileSave = (updatedData, updatedEvents, updatedGrades) => {
-    setTutorData({ ...updatedData, grades: updatedGrades });
+    setTutorData({ ...updatedData, grades: updatedGrades, events: updatedEvents });
     setEvents(updatedEvents);
     setShowEditModal(false);
   }
@@ -282,7 +286,7 @@ const ProfilePage = () => {
     if (!passedTutor) {
       // If no data was passed, fetch it from Supabase using the name.
       const fetchTutor = async () => {
-        const { data, error } = await supabase.from("tutors").select("*").eq("name", displayName).single()
+        const { data, error } = await supabase.from("tutors").select("*").eq("name", displayName).maybeSingle()
 
         if (error) {
           setError(error.message)
@@ -296,6 +300,7 @@ const ProfilePage = () => {
     }
   }, [passedTutor, displayName])
 
+  
   // Instead of always fetching, if tutorData already has feedback, use it
   useEffect(() => {
     if (tutorData) {
@@ -355,15 +360,13 @@ const ProfilePage = () => {
       </div>
     )
 
-  if (error)
-    return (
-      <div className="text-center mt-10 text-red-500">
-        <div className="text-xl mb-2">שגיאה</div>
-        {error}
-      </div>
-    )
+  if (error){
+    return <NotFoundPage />;
+    }
 
-  if (!tutorData) return <div className={`text-center mt-10 ${styles.textColor}`}>המורה לא נמצא.</div>
+    if (!tutorData) {
+         return <NotFoundPage />;
+    }
 
   // Generate calendar days
   const year = currentMonth.getFullYear()
