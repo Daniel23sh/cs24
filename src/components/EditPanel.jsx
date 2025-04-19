@@ -20,6 +20,8 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
   // Initialize edited data when modal opens
   useEffect(() => {
     if (showEditModal) {
+      console.log("tutorData.events on open:", tutorData.events);
+
       setEditedData({
         name: tutorData.name || "",
         location: tutorData.location || "",
@@ -689,4 +691,4 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
   )
 }
 
-export default EditPanel
+export default EditPanel;
