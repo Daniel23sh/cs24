@@ -41,9 +41,11 @@ const TutorComponent = ({ tutors, styles }) => {
 
   return (
     <section
+    
       className="relative md:max-w-[65rem] max-w-3xl mx-auto py-8 overflow-hidden"
       dir="rtl"
     >
+      {tutors.length > 0 && (      
 <div className="relative mx-auto -mt-8 ">
       <div className="flex items-center gap-3 border-b pb-6 mb-6 ">
         <Users className={`h-6 w-6 ${styles.iconColor}`} />
@@ -170,6 +172,7 @@ const TutorComponent = ({ tutors, styles }) => {
       </button>
 
       </div>
+      )}
     </section>
   )
 }

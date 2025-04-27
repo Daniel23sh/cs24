@@ -1,13 +1,12 @@
 
-import { useState, useEffect, useRef } from "react"
-import { useParams, useLocation, useNavigate, Link } from "react-router-dom"
-import { Star, Book, Building2, Clock, Linkedin, Github, Phone, ChevronDown, ChevronUp, Send, ChevronLeft, ChevronRight, Pencil, Calendar, User } from 'lucide-react'
+import { useState, useEffect } from "react"
+import { useParams, useLocation } from "react-router-dom"
+import { User } from 'lucide-react'
 import { supabase } from "../lib/supabase"
 import { courseStyles } from "../config/courseStyles" // Import the course styles
 import EditPanel from "./EditPanel"
 import mockData from "../config/mockData.json" // adjust path if needed
 import { backgroundPath } from "../config/backgroundPath"
-import "react-responsive-carousel/lib/styles/carousel.min.css"
 import NotFoundPage from "./NotFoundPage"
 import ReviewSection from "./profile/ReviewsCard"
 import ProfileCard from "./profile/ProfileCard"
@@ -20,7 +19,6 @@ import UpcomingEvents from "./profile/EventsCard"
 const ProfilePage = () => {
   const { tutorName } = useParams()
   const location = useLocation()
-  const navigate = useNavigate()
 
   const displayName = tutorName.replace(/-/g, " ")
 
@@ -30,228 +28,35 @@ const ProfilePage = () => {
   const [tutorData, setTutorData] = useState(passedTutor)
   const [loading, setLoading] = useState(!passedTutor)
   const [error, setError] = useState(null)
-  const [showMoreReviews, setShowMoreReviews] = useState(false)
-  const [showMoreTutors, setShowMoreTutors] = useState(false)
-  const [emailSubject, setEmailSubject] = useState("")
-  const [emailMessage, setEmailMessage] = useState("")
   const [reviews, setReviews] = useState([])
-  const [showPrices, setShowPrices] = useState(false)
-  const [currentTutorIndex, setCurrentTutorIndex] = useState(0)
-  const [isTransitioning, setIsTransitioning] = useState(false)
-  const [touchStartX, setTouchStartX] = useState(0)
-  const [touchCurrentX, setTouchCurrentX] = useState(0)
-  const [isTouching, setIsTouching] = useState(false)
-  const [slideDirection, setSlideDirection] = useState("right") // "left" or "right"
+ 
   const [showEditModal, setShowEditModal] = useState(false)
-  const [editedData, setEditedData] = useState({})
-  const [editedGrades, setEditedGrades] = useState([])
-  const [newGrade, setNewGrade] = useState({ subject: "", grade: "", year: "" })
-  const [currentMonth, setCurrentMonth] = useState(new Date())
   const [events, setEvents] = useState([])
-  const [editedEvents, setEditedEvents] = useState([])
-  const [showPriceModal, setShowPriceModal] = useState(false)
-  const [newEvent, setNewEvent] = useState({
-    title: "",
-    startDate: "",
-    startTime: "",
-    endDate: "",
-    endTime: "",
-    description: "",
-  })
-  const [activeTab, setActiveTab] = useState("personal")
+
+
 
 
   // Determine course type based on tutor data or default to 'cs'
   const stateCourseType = location.state?.courseType
   const courseType = tutorData?.course_type || stateCourseType || "cs"
-  const styles = courseStyles[courseType] // Get the appropriate styles
-  const priceToggleRef = useRef(null)
- 
-  // Mock grades data
-  const grades = [
-    { subject: "Arabic Language", grade: "A+", year: "2015" },
-    { subject: "Arabic Literature", grade: "A", year: "2015" },
-    { subject: "Middle Eastern Studies", grade: "A", year: "2016" },
-    { subject: "Teaching Methodology", grade: "A+", year: "2017" },
-  ]
+  const styles = courseStyles[courseType] // Get the appropriate styles 
 
-  // Mock events data
-  const mockEvents = [
-    {
-      id: 4,
-      title: "שיעור אנגלית מתקדמים",
-      startDate: "2025-04-01",
-      startTime: "10:00",
-      endDate: "2025-04-01",
-      endTime: "11:30",
-      description: "שיעור אנגלית לרמת מתקדמים",
-    },
-    {
-      id: 1,
-      title: "שיעור פרטי - מתמטיקה",
-      startDate: "2025-04-09",
-      startTime: "10:00",
-      endDate: "2025-04-10",
-      endTime: "11:30",
-      description: "שיעור פרטי במתמטיקה לתלמיד כיתה י'",
-    },
-    {
-      id: 2,
-      title: "סדנת פיזיקה קבוצתית",
-      startDate: "2025-04-16",
-      startTime: "10:00",
-      endDate: "2025-04-16",
-      endTime: "12:00",
-      description: "סדנה קבוצתית בנושא חוקי ניוטון",
-    },
-    {
-      id: 3,
-      title: "שיעור אנגלית מתקדמים",
-      startDate: "2025-04-28",
-      startTime: "10:00",
-      endDate: "2025-05-01",
-      endTime: "11:30",
-      description: "שיעור אנגלית לרמת מתקדמים",
-    },
-  ]
 
   const sectionKey = courseType + "Tutors" // e.g. csTutors, eeTutors
   const sectionTutors = mockData[sectionKey] || []
-
-  const handlePriceToggle = () => {
-    const rect = priceToggleRef.current?.getBoundingClientRect()
-    const spaceBelow = window.innerHeight - (rect?.bottom || 0)
-
-    if (!showPrices && spaceBelow < 150) {
-      setShowPriceModal(true) // open modal instead
-      return
-    }
-
-    setShowPrices((prev) => !prev)
-  }
-
   const similarTutors = tutorData
   ? sectionTutors
       .filter((t) => t.name !== tutorData.name && t.subjects?.some((s) => tutorData.subjects?.includes(s)))
       .map((t) => ({
         ...t,
-        price: "₪" + tutorData.private_price,
-        quote: "מורה מצוין …",
       }))
   : []
 
     useEffect(() => {
       if (tutorData) {
-        setEvents(tutorData.events || mockEvents)
+        setEvents(tutorData.events || [])
       }
     }, [tutorData])
-    
-  const getDisplayedTutors = () => {
-    if (!similarTutors || similarTutors.length === 0) return []
-    const result = []
-    for (let i = 0; i < 3; i++) {
-      // Use modular arithmetic to wrap around the array:
-      const index = (currentTutorIndex + i) % similarTutors.length
-      result.push(similarTutors[index])
-    }
-    return result
-  }
-
-  const handlePrevTutor = () => {
-    if (similarTutors.length === 0 || isTransitioning) return
-    setIsTransitioning(true)
-    setSlideDirection("right")
-    setCurrentTutorIndex((prev) => (prev - 1 + similarTutors.length) % similarTutors.length)
-    setTimeout(() => setIsTransitioning(false), 500)
-  }
-
-  const handleNextTutor = () => {
-    if (similarTutors.length === 0 || isTransitioning) return
-    setIsTransitioning(true)
-    setSlideDirection("left")
-    setCurrentTutorIndex((prev) => (prev + 1) % similarTutors.length)
-    setTimeout(() => setIsTransitioning(false), 500)
-  }
-
-
-  // Calendar functions
-  const getDaysInMonth = (year, month) => {
-    return new Date(year, month + 1, 0).getDate()
-  }
-
-  const getFirstDayOfMonth = (year, month) => {
-    return new Date(year, month, 1).getDay()
-  }
-
-  const formatMonth = (date) => {
-    const months = [
-      "ינואר",
-      "פברואר",
-      "מרץ",
-      "אפריל",
-      "מאי",
-      "יוני",
-      "יולי",
-      "אוגוסט",
-      "ספטמבר",
-      "אוקטובר",
-      "נובמבר",
-      "דצמבר",
-    ]
-    return `${months[date.getMonth()]} ${date.getFullYear()}`
-  }
-
-  const prevMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))
-  }
-
-  const nextMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))
-  }
-
-  const getEventsForDay = (day) => {
-    const year = currentMonth.getFullYear()
-    const month = currentMonth.getMonth()
-    const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
-
-    return events.filter((event) => {
-      const eventStartDate = new Date(event.startDate)
-      const eventEndDate = event.endDate ? new Date(event.endDate) : eventStartDate
-      const currentDate = new Date(dateStr)
-
-      return currentDate >= eventStartDate && currentDate <= eventEndDate
-    })
-  }
-
-  const hasEventsOnDay = (day) => {
-    return getEventsForDay(day).length > 0
-  }
-
-  // Open edit modal
-  const handleOpenEditModal = () => {
-    setEditedData({
-      name: tutorData.name || "",
-      location: tutorData.location || "",
-      role: tutorData.role || "",
-      subjects: tutorData.subjects ? [...tutorData.subjects] : [],
-      phone: tutorData.phone || "",
-      linkedin: tutorData.linkedin || "",
-      github: tutorData.github || "",
-      about_me: tutorData.about_me || "",
-      private_price: tutorData.private_price || "150",
-      group_price: tutorData.group_price || "80",
-      profile_image_url: tutorData.profile_image_url || "",
-      status: tutorData.status || "זמין",
-    })
-    setEditedGrades(
-      tutorData.grades ? tutorData.grades.map((grade) => ({ ...grade })) : []
-    );
-    setEditedEvents(
-      tutorData.events ? tutorData.events.map((event) => ({ ...event })) : []
-    );
-    setActiveTab("personal")
-    setShowEditModal(true)
-  }
 
 
 
@@ -316,26 +121,6 @@ const ProfilePage = () => {
     }
   }, [tutorData])
 
-  const displayedReviews = showMoreReviews ? reviews : reviews.slice(0, 3)
-  const displayedTutors = showMoreTutors ? similarTutors : similarTutors.slice(0, 3)
-
-  const handleSendEmail = () => {
-    if (!emailSubject) {
-      alert("Please select a subject for your email")
-      return
-    }
-    if (!emailMessage.trim()) {
-      alert("Please enter a message for your email")
-      return
-    }
-    // In a real application, this would send the email
-    alert("Your message has been sent to the tutor")
-    setEmailMessage("")
-  }
-
-  const linke = "https://www.linkedin.com/in/daniel-shatzov/"
-  const githu = "https://github.com/Daniel23sh"
-
   if (loading)
     return (
       <div className={`text-center mt-10 ${styles.textColor}`}>
@@ -355,45 +140,7 @@ const ProfilePage = () => {
          return <NotFoundPage />;
     }
 
-  // Generate calendar days
-  const year = currentMonth.getFullYear()
-  const month = currentMonth.getMonth()
-  const daysInMonth = getDaysInMonth(year, month)
-  const firstDay = getFirstDayOfMonth(year, month)
-
-  // Adjust for Sunday as first day (0 in JavaScript)
-  const adjustedFirstDay = firstDay === 0 ? 6 : firstDay - 1
-
-  const calendarDays = []
-
-  // Add empty cells for days before the first day of the month
-  for (let i = 0; i < adjustedFirstDay; i++) {
-    calendarDays.push(null)
-  }
-
-  // Add days of the month
-  for (let day = 1; day <= daysInMonth; day++) {
-    calendarDays.push(day)
-  }
-
-
-  // 1. Add a function to filter events for the current month
-  const getEventsForCurrentMonth = () => {
-    const year = currentMonth.getFullYear()
-    const month = currentMonth.getMonth()
-
-    return events.filter((event) => {
-      const eventStartDate = new Date(event.startDate)
-      const eventEndDate = event.endDate ? new Date(event.endDate) : eventStartDate
-
-      // Check if the event overlaps with the current month
-      return (
-        (eventStartDate.getFullYear() === year && eventStartDate.getMonth() === month) ||
-        (eventEndDate.getFullYear() === year && eventEndDate.getMonth() === month) ||
-        (eventStartDate < new Date(year, month, 1) && eventEndDate > new Date(year, month + 1, 0))
-      )
-    })
-  }
+ 
 
   return (
     <div className={`min-h-screen  relative`}>
@@ -442,8 +189,6 @@ const ProfilePage = () => {
           {/* Reviews Section */}
           <ReviewSection
             reviews={tutorData.feedback || []}
-            showMoreReviews={showMoreReviews}
-            setShowMoreReviews={setShowMoreReviews}
             styles={styles}
           />
 
@@ -452,12 +197,7 @@ const ProfilePage = () => {
             tutors={similarTutors}
             styles={styles}
             courseType={courseType}
-            showMoreTutors={showMoreTutors}
-            setShowMoreTutors={setShowMoreTutors}
-            handlePrevTutor={handlePrevTutor}
-            handleNextTutor={handleNextTutor}
-            isTransitioning={isTransitioning}
-            slideDirection={slideDirection}></SimilarTutors>
+          ></SimilarTutors>
 
             
           {/* Email Section */}
