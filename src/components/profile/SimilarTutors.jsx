@@ -7,12 +7,18 @@ const TutorComponent = ({ tutors, styles }) => {
   const [visibleCount, setVisibleCount] = useState(3)
   const carouselRef = useRef(null)
 
+  const isTouchDevice = typeof window !== 'undefined' &&
+    (navigator.maxTouchPoints > 0 || 'ontouchstart' in window)
+
   useEffect(() => {
-    const update = () => setVisibleCount(window.innerWidth < 768 ? 1 : 3)
+    const update = () => {
+      const useSingle = window.innerWidth < 768 || isTouchDevice
+      setVisibleCount(useSingle ? 1 : 3)
+    }
     update()
     window.addEventListener("resize", update)
     return () => window.removeEventListener("resize", update)
-  }, [])
+  }, [isTouchDevice])
 
   const isMobile = visibleCount === 1
 
@@ -83,7 +89,7 @@ const TutorComponent = ({ tutors, styles }) => {
             <div
               key={tutor.id}
               className="tutor-card snap-start flex-shrink-0 
-                         w-4/5 h-full sm:w-[18rem] 
+                         w-4/5 sm:w-[18rem] 
                          bg-white rounded-lg shadow-md p-6 
                          relative flex flex-col hover:shadow-lg transition-all"
             >
