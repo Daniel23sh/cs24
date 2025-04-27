@@ -193,12 +193,13 @@ const ProfilePage = () => {
           />
 
           {/* Similar Tutors Section - Only shown if there are similar tutors */}
+          {similarTutors.length > 0 && (
           <SimilarTutors
             tutors={similarTutors}
             styles={styles}
             courseType={courseType}
           ></SimilarTutors>
-
+          )}
             
           {/* Email Section */}
           <section
