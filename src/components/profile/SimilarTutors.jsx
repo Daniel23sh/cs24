@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { ChevronLeft, ChevronRight, Users } from "lucide-react"
 import { Link } from "react-router-dom"
-
+import image from "../../config/user-profile.png"
 const TutorComponent = ({ tutors, styles }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [visibleCount, setVisibleCount] = useState(3)
@@ -96,7 +96,7 @@ const TutorComponent = ({ tutors, styles }) => {
               {/* profile image */}
               <div className="absolute top-4 right-4 w-14 h-14 rounded-full overflow-hidden border-4 border-white shadow-lg">
                 <img
-                  src={tutor.image || "/placeholder.svg"}
+                  src={tutor.image || image}
                   alt={tutor.name}
                   className="w-full h-full object-cover"
                 />

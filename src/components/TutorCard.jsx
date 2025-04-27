@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 import { Button } from './ui/button';
-import { Star, MessageCircle, Edit2, ThumbsUp, ChevronDown, ChevronUp, X } from 'lucide-react';
+import { Star, MessageCircle, Edit2, ThumbsUp, ChevronDown, ChevronUp, X, User } from 'lucide-react';
 import { format } from 'date-fns';
 import { supabase } from '../lib/supabase';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -118,22 +118,31 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
                   onMouseEnter={() => setIsHovering(true)}
                   onMouseLeave={() => setIsHovering(false)}
                 >
-                  <div
-                    className={`relative transition-transform duration-300 ${isHovering ? "transform scale-110" : ""}`}
-                  >
+                  <div className={`relative transition-transform duration-300 ${isHovering ? "transform scale-110" : ""}`}>
                     <div
-                      className={`absolute inset-0 rounded-full ${styles.bgLight} blur-md -z-10 scale-90 opacity-70 ${isHovering ? "opacity-100" : ""}`}
+                      className={`absolute inset-0 rounded-full ${styles.bgLight} blur-md -z-10 scale-90 opacity-70 ${
+                        isHovering ? "opacity-100" : ""
+                      }`}
                     ></div>
-                    <img
-                      src={
-                        tutor.profile_image_url ||
-                        `https://ui-avatars.com/api/?name=${encodeURIComponent(tutor.name)}&background=0D8ABC&color=fff`
-                      }
-                      alt={tutor.name}
-                      className={`w-12 h-12 rounded-xl object-cover border-2 border-white shadow-md z-10 transition-all ${isHovering ? `border-${styles.iconColor} shadow-lg` : ""}`}
-                    />
+
+                    {tutor.profile_image_url ? (
+                      <img
+                        src={tutor.profile_image_url}
+                        alt={tutor.name}
+                        className={`w-12 h-12 rounded-xl object-cover border-2 border-white shadow-md z-10 transition-all ${
+                          isHovering ? "shadow-lg" : ""
+                        }`}
+                      />
+                    ) : (
+                      <User
+                        className={`w-12 h-12 rounded-xl border-2 border-white shadow-md z-10 transition-all ${
+                          isHovering ? `${styles.iconColor} shadow-lg` : styles.starColor
+                        }`}
+                      />
+                    )}
                   </div>
                 </Link>
+
 
                 <div>
                   <h3 className={`text-lg font-semibold ${styles.textColor}`}>{tutor.name}</h3>
