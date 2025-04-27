@@ -1,5 +1,5 @@
 import { Star, Book, Building2, Phone, Linkedin, Github, Verified } from "lucide-react";
-import image from "../../config/dani1.png";
+import image from "../../config/user-profile.png";
 
 const ProfileCard = ({ tutorData, styles }) => {
   // Scroll to bottom of the page

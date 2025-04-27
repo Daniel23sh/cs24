@@ -15,7 +15,7 @@ import EducationProfileSection from "./profile/EducationCard"
 import ContactCard from "./profile/ContactCard"
 import UpcomingEvents from "./profile/EventsCard"
 // Add responsive layout style if overlapping occurs
-
+const isDevMode = process.env.REACT_APP_DEV
 const ProfilePage = () => {
   const { tutorName } = useParams()
   const location = useLocation()
@@ -214,7 +214,7 @@ const ProfilePage = () => {
       </div>
 
       {/* Edit Profile Modal using your EditPanel component */}
-      {showEditModal && (
+      {isDevMode === 'true' && showEditModal && (
         <EditPanel
           showEditModal={showEditModal}
           setShowEditModal={setShowEditModal}
