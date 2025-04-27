@@ -71,7 +71,7 @@ const TutorComponent = ({ tutors, styles }) => {
       {/* Cards container */}
       <div
         ref={carouselRef}
-        className={`flex gap-6 ${
+        className={`flex gap-6  ${
           isMobile
             ? "overflow-x-auto touch-pan-x scroll-snap-x snap-mandatory px-8"
             : "justify-center px-4 mt-12"
@@ -83,7 +83,7 @@ const TutorComponent = ({ tutors, styles }) => {
             <div
               key={tutor.id}
               className="tutor-card snap-start flex-shrink-0 
-                         w-4/5 sm:w-[18rem] 
+                         w-4/5 h-full sm:w-[18rem] 
                          bg-white rounded-lg shadow-md p-6 
                          relative flex flex-col hover:shadow-lg transition-all"
             >
