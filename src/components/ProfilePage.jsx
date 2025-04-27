@@ -143,7 +143,7 @@ const ProfilePage = () => {
  
 
   return (
-    <div className={`min-h-screen  relative`}>
+    <div className={`min-h-screen relative`}>
     <svg
       className={`fixed inset-0 w-full h-full z-0 ${styles.bgLight}`}
       viewBox="0 0 600 600"
