@@ -8,6 +8,10 @@
       "linkedin" : "",
       "github" : "",
       "youtube" : "",
+      "fieldOfStudy": "מדעי המחשב",
+      "institution": "המכון הטכנולוגי חולון",
+      "startDate": "אפר 2019",
+      "endDate": "אוג 2023",
       "feedback": [
         { "rating": 5, "comment": "מעולה ממש!", "created_at": "2025-11-01" },
         { "rating": 5, "comment": "ברור מאוד", "created_at": "2025-11-04" },
@@ -20,10 +24,10 @@
       "group_price": 120,
       "mail" : "",
       "grades": [
-        { "subject": "תכנות מונחה עצמים", "grade": "95", "year" : "2023" },
-        { "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year" : "2022"},
-        { "subject": "מבני נתונים", "grade": "85", "year" : "2021"},
-        { "subject": "מבוא למדעי המחשב", "grade": "88", "year" : "2021" }
+        { "id" : 1, "subject": "תכנות מונחה עצמים", "grade": "95", "year" : "2023" },
+        { "id" : 2, "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year" : "2022"},
+        { "id" : 3, "subject": "מבני נתונים", "grade": "85", "year" : "2021"},
+        { "id" : 4, "subject": "מבוא למדעי המחשב", "grade": "88", "year" : "2021" }
       ],
       "events": [
         { "id": 1, "startDate": "2025-04-01", "endDate": "2025-04-03", "startTime" : "10:00" , "endTime" : "11:00", "title": "הסבר על תכנות מונחה עצמים", "description": "הסבר מעמיק על עקרונות התכנות המונחה עצמים." },
@@ -40,6 +44,10 @@
       "linkedin" : "https://www.linkedin.com/in/daniel-shatzov/",
       "github" : "",
       "youtube" : "",
+      "fieldOfStudy": "מדעי המחשב",
+      "institution": "המכון הטכנולוגי חולון",
+      "startDate": "אפר 2019",
+      "endDate": "אוג 2023",
       "feedback": [
         { "rating": 3, "comment": "בסדר, אבל לא מספיק ברור", "created_at": "2025-10-22" },
         { "rating": 4, "comment": "סביר", "created_at": "2025-11-01" }
@@ -51,10 +59,10 @@
       "group_price": 100,
       "mail" : "",
       "grades": [
-        { "subject": "תכנות מונחה עצמים", "grade": "95", "year" : "2023" },
-        { "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year" : "2022"},
-        { "subject": "מבני נתונים", "grade": "85", "year" : "2021"},
-        { "subject": "מבוא למדעי המחשב", "grade": "88", "year" : "2021" }
+        { "id" : 1, "subject": "תכנות מונחה עצמים", "grade": "95", "year" : "2023" },
+        { "id" : 2, "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year" : "2022"},
+        { "id" : 3, "subject": "מבני נתונים", "grade": "85", "year" : "2021"},
+        { "id" : 4, "subject": "מבוא למדעי המחשב", "grade": "88", "year" : "2021" }
       ],
      "events": [
         { "id": 1, "startDate": "2025-04-01", "endDate": "2025-04-03", "startTime" : "10:00" , "endTime" : "11:00", "title": "הסבר על תכנות מונחה עצמים", "description": "הסבר מעמיק על עקרונות התכנות המונחה עצמים." },
@@ -65,28 +73,34 @@
     },
     {
       "name": "אליעד גבריאל",
-      "subjects": ["מבוא למדמח", "סדנה מתקדמת", "מונחה עצמים"],
+      "subjects": ["מבוא למדעי המחשב", "סדנה מתקדמת", "מונחה עצמים"],
       "phone": "0542542199",
       "linkedin" : "",
       "github" : "",
       "youtube" : "",
+      "fieldOfStudy": "מדעי המחשב",
+      "institution": "המכון הטכנולוגי חולון",
+      "startDate": "אפר 2019",
+      "endDate": "אוג 2023",
       "feedback": [
         { "rating": 5, "comment": "פשוט גאון", "created_at": "2025-10-11" },
         { "rating": 5, "comment": "ממש סבלני", "created_at": "2025-10-20" },
         { "rating": 5, "comment": "הכי טוב שלמדתי איתו", "created_at": "2025-04-03" },
-        { "rating": 4, "comment": "מעולה, אבל קפץ קצת מהר", "created_at": "2025-11-08" }
+        { "rating": 4, "comment": "מעולה, אבל קפץ קצת מהר", "created_at": "2025-11-08" },
+        { "rating": 4, "comment": "מעולה1, אבל קפץ קצת מהר", "created_at": "2025-11-10" },
+        { "rating": 4, "comment": "מעול2, אבל קפץ קצת מהר", "created_at": "2025-11-09" }
       ],
       "average_rating": 4.75,
-      "feedback_count": 4,
+      "feedback_count": 6,
       "status": "זמין",
       "private_price": 150,
       "group_price": 100,
       "mail" : "",
       "grades": [
-        { "subject": "תכנות מונחה עצמים", "grade": "95", "year" : "2023" },
-        { "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year" : "2022"},
-        { "subject": "מבני נתונים", "grade": "85", "year" : "2021"},
-        { "subject": "מבוא למדעי המחשב", "grade": "88", "year" : "2021" }
+        { "id" : 1, "subject": "תכנות מונחה עצמים", "grade": "95", "year" : "2023" },
+        { "id" : 2, "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year" : "2022"},
+        { "id" : 3, "subject": "מבני נתונים", "grade": "85", "year" : "2021"},
+        { "id" : 4, "subject": "מבוא למדעי המחשב", "grade": "88", "year" : "2021" }
       ],
       "events": [
         { "id": 1, "startDate": "2025-04-01", "endDate": "2025-04-03", "startTime" : "10:00" , "endTime" : "11:00", "title": "הסבר על תכנות מונחה עצמים", "description": "הסבר מעמיק על עקרונות התכנות המונחה עצמים." },
@@ -109,10 +123,10 @@
       "group_price": 100,
       "mail" : "",
       "grades": [
-        { "subject": "תכנות מונחה עצמים", "grade": "95", "year" : "2023" },
-        { "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year" : "2022"},
-        { "subject": "מבני נתונים", "grade": "85", "year" : "2021"},
-        { "subject": "מבוא למדעי המחשב", "grade": "88", "year" : "2021" }
+        { "id" : 1, "subject": "תכנות מונחה עצמים", "grade": "95", "year" : "2023" },
+        { "id" : 2, "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year" : "2022"},
+        { "id" : 3, "subject": "מבני נתונים", "grade": "85", "year" : "2021"},
+        { "id" : 4, "subject": "מבוא למדעי המחשב", "grade": "88", "year" : "2021" }
       ],
       "events": [
         { "id": 1, "startDate": "2025-04-01", "endDate": "2025-04-03", "startTime" : "10:00" , "endTime" : "11:00", "title": "הסבר על תכנות מונחה עצמים", "description": "הסבר מעמיק על עקרונות התכנות המונחה עצמים." },
@@ -128,6 +142,10 @@
       "linkedin" : "",
       "github" : "",
       "youtube" : "",
+      "fieldOfStudy": "מדעי המחשב",
+      "institution": "המכון הטכנולוגי חולון",
+      "startDate": "אפר 2019",
+      "endDate": "אוג 2023",
       "feedback": [
         { "rating": 4, "comment": "היה טוב, אבל קצת מהיר", "created_at": "2025-11-01" },
         { "rating": 4, "comment": "הסביר טוב", "created_at": "2025-11-07" },
@@ -140,10 +158,10 @@
       "group_price": 100,
       "mail" : "",
       "grades": [
-        { "subject": "תכנות מונחה עצמים", "grade": "95", "year" : "2023" },
-        { "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year" : "2022"},
-        { "subject": "מבני נתונים", "grade": "85", "year" : "2021"},
-        { "subject": "מבוא למדעי המחשב", "grade": "88", "year" : "2021" }
+        { "id" : 1, "subject": "תכנות מונחה עצמים", "grade": "95", "year" : "2023" },
+        { "id" : 2, "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year" : "2022"},
+        { "id" : 3, "subject": "מבני נתונים", "grade": "85", "year" : "2021"},
+        { "id" : 4, "subject": "מבוא למדעי המחשב", "grade": "88", "year" : "2021" }
       ],
       "events": [
         { "id": 1, "startDate": "2025-04-01", "endDate": "2025-04-03", "startTime" : "10:00" , "endTime" : "11:00", "title": "הסבר על תכנות מונחה עצמים", "description": "הסבר מעמיק על עקרונות התכנות המונחה עצמים." },
@@ -159,6 +177,10 @@
       "linkedin" : "",
       "github" : "",
       "youtube" : "",
+      "fieldOfStudy": "מדעי המחשב",
+      "institution": "המכון הטכנולוגי חולון",
+      "startDate": "אפר 2019",
+      "endDate": "אוג 2023",
       "feedback": [
         { "rating": 5, "comment": "הסברים מעולים!", "created_at": "2025-11-06" },
         { "rating": 5, "comment": "הציל אותי לפני המבחן", "created_at": "2025-11-09" }
@@ -170,10 +192,10 @@
       "group_price": 100,
       "mail" : "",
       "grades": [
-        { "subject": "תכנות מונחה עצמים", "grade": "95", "year" : "2023" },
-        { "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year" : "2022"},
-        { "subject": "מבני נתונים", "grade": "85", "year" : "2021"},
-        { "subject": "מבוא למדעי המחשב", "grade": "88", "year" : "2021" }
+        { "id" : 1, "subject": "תכנות מונחה עצמים", "grade": "95", "year" : "2023" },
+        { "id" : 2, "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year" : "2022"},
+        { "id" : 3, "subject": "מבני נתונים", "grade": "85", "year" : "2021"},
+        { "id" : 4, "subject": "מבוא למדעי המחשב", "grade": "88", "year" : "2021" }
       ],
       "events": [
         { "id": 1, "startDate": "2025-04-01", "endDate": "2025-04-03", "startTime" : "10:00" , "endTime" : "11:00", "title": "הסבר על תכנות מונחה עצמים", "description": "הסבר מעמיק על עקרונות התכנות המונחה עצמים." },
@@ -191,6 +213,10 @@
       "linkedin" : "",
       "github" : "",
       "youtube" : "",
+      "fieldOfStudy": "מדעי המחשב",
+      "institution": "המכון הטכנולוגי חולון",
+      "startDate": "אפר 2019",
+      "endDate": "אוג 2023",
       "feedback": [
         { "rating": 5, "comment": "פשוט מסביר מדהים", "created_at": "2025-10-09" },
         { "rating": 4, "comment": "לפעמים רץ קדימה מדי", "created_at": "2025-10-17" },
@@ -203,10 +229,10 @@
       "group_price": 100,
       "mail" : "",
       "grades": [
-        { "subject": "תכנות מונחה עצמים", "grade": "95", "year" : "2023" },
-        { "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year" : "2022"},
-        { "subject": "מבני נתונים", "grade": "85", "year" : "2021"},
-        { "subject": "מבוא למדעי המחשב", "grade": "88", "year" : "2021" }
+        { "id" : 1, "subject": "תכנות מונחה עצמים", "grade": "95", "year" : "2023" },
+        { "id" : 2, "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year" : "2022"},
+        { "id" : 3, "subject": "מבני נתונים", "grade": "85", "year" : "2021"},
+        { "id" : 4, "subject": "מבוא למדעי המחשב", "grade": "88", "year" : "2021" }
       ],
       "events": [
         { "id": 1, "startDate": "2025-04-01", "endDate": "2025-04-03", "startTime" : "10:00" , "endTime" : "11:00", "title": "הסבר על תכנות מונחה עצמים", "description": "הסבר מעמיק על עקרונות התכנות המונחה עצמים." },
@@ -222,6 +248,10 @@
       "linkedin" : "",
       "github" : "",
       "youtube" : "",
+      "fieldOfStudy": "מדעי המחשב",
+      "institution": "המכון הטכנולוגי חולון",
+      "startDate": "אפר 2019",
+      "endDate": "אוג 2023",
       "feedback": [
         { "rating": 5, "comment": "עזרה לי להבין נושאים שהיו נראים לי סינית", "created_at": "2025-11-06" }
       ],
@@ -232,10 +262,10 @@
       "group_price": 100,
       "mail" : "",
       "grades": [
-        { "subject": "תכנות מונחה עצמים", "grade": "95", "year" : "2023" },
-        { "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year" : "2022"},
-        { "subject": "מבני נתונים", "grade": "85", "year" : "2021"},
-        { "subject": "מבוא למדעי המחשב", "grade": "88", "year" : "2021" }
+        { "id" : 1, "subject": "תכנות מונחה עצמים", "grade": "95", "year" : "2023" },
+        { "id" : 2, "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year" : "2022"},
+        { "id" : 3, "subject": "מבני נתונים", "grade": "85", "year" : "2021"},
+        { "id" : 4, "subject": "מבוא למדעי המחשב", "grade": "88", "year" : "2021" }
       ],
       "events": [
         { "id": 1, "startDate": "2025-04-01", "endDate": "2025-04-03", "startTime" : "10:00" , "endTime" : "11:00", "title": "הסבר על תכנות מונחה עצמים", "description": "הסבר מעמיק על עקרונות התכנות המונחה עצמים." },
@@ -251,6 +281,10 @@
       "linkedin" : "",
       "github" : "",
       "youtube" : "",
+      "fieldOfStudy": "מדעי המחשב",
+      "institution": "המכון הטכנולוגי חולון",
+      "startDate": "אפר 2019",
+      "endDate": "אוג 2023",
       "feedback": [
         { "rating": 5, "comment": "שולט בטירוף בחומר", "created_at": "2025-09-22" },
         { "rating": 4, "comment": "הסברים טובים אבל קצת יבשים", "created_at": "2025-10-02" },
@@ -265,10 +299,10 @@
       "group_price": 100,
       "mail" : "",
       "grades": [
-        { "subject": "תכנות מונחה עצמים", "grade": "95", "year" : "2023" },
-        { "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year" : "2022"},
-        { "subject": "מבני נתונים", "grade": "85", "year" : "2021"},
-        { "subject": "מבוא למדעי המחשב", "grade": "88", "year" : "2021" }
+        { "id" : 1, "subject": "תכנות מונחה עצמים", "grade": "95", "year" : "2023" },
+        { "id" : 2, "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year" : "2022"},
+        { "id" : 3, "subject": "מבני נתונים", "grade": "85", "year" : "2021"},
+        { "id" : 4, "subject": "מבוא למדעי המחשב", "grade": "88", "year" : "2021" }
       ],
       "events": [
         { "id": 1, "startDate": "2025-04-01", "endDate": "2025-04-03", "startTime" : "10:00" , "endTime" : "11:00", "title": "הסבר על תכנות מונחה עצמים", "description": "הסבר מעמיק על עקרונות התכנות המונחה עצמים." },
@@ -284,6 +318,10 @@
       "linkedin" : "",
       "github" : "",
       "youtube" : "",
+      "fieldOfStudy": "מדעי המחשב",
+      "institution": "המכון הטכנולוגי חולון",
+      "startDate": "אפר 2019",
+      "endDate": "אוג 2023",
       "feedback": [
         { "rating": 5, "comment": "פיזיקה אף פעם לא נראתה כל כך פשוטה", "created_at": "2025-11-15" },
         { "rating": 5, "comment": "הסביר לי הכול מאפס, מושלם", "created_at": "2025-11-27" }
@@ -295,10 +333,10 @@
       "group_price": 100,
       "mail" : "",
       "grades": [
-        { "subject": "תכנות מונחה עצמים", "grade": "95", "year" : "2023" },
-        { "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year" : "2022"},
-        { "subject": "מבני נתונים", "grade": "85", "year" : "2021"},
-        { "subject": "מבוא למדעי המחשב", "grade": "88", "year" : "2021" }
+        { "id" : 1, "subject": "תכנות מונחה עצמים", "grade": "95", "year" : "2023" },
+        { "id" : 2, "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year" : "2022"},
+        { "id" : 3, "subject": "מבני נתונים", "grade": "85", "year" : "2021"},
+        { "id" : 4, "subject": "מבוא למדעי המחשב", "grade": "88", "year" : "2021" }
       ],
       "events": [
         { "id": 1, "startDate": "2025-04-01", "endDate": "2025-04-03", "startTime" : "10:00" , "endTime" : "11:00", "title": "הסבר על תכנות מונחה עצמים", "description": "הסבר מעמיק על עקרונות התכנות המונחה עצמים." },
@@ -316,6 +354,10 @@
       "linkedin" : "",
       "github" : "",
       "youtube" : "",
+      "fieldOfStudy": "מדעי המחשב",
+      "institution": "המכון הטכנולוגי חולון",
+      "startDate": "אפר 2019",
+      "endDate": "אוג 2023",
       "feedback": [
         { "rating": 4, "comment": "היה בסדר", "created_at": "2025-11-01" },
         { "rating": 5, "comment": "הסביר טוב", "created_at": "2025-11-05" }
@@ -327,10 +369,10 @@
       "group_price": 100,
       "mail" : "",
       "grades": [
-        { "subject": "תכנות מונחה עצמים", "grade": "95", "year" : "2023" },
-        { "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year" : "2022"},
-        { "subject": "מבני נתונים", "grade": "85", "year" : "2021"},
-        { "subject": "מבוא למדעי המחשב", "grade": "88", "year" : "2021" }
+        { "id" : 1, "subject": "תכנות מונחה עצמים", "grade": "95", "year" : "2023" },
+        { "id" : 2, "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year" : "2022"},
+        { "id" : 3, "subject": "מבני נתונים", "grade": "85", "year" : "2021"},
+        { "id" : 4, "subject": "מבוא למדעי המחשב", "grade": "88", "year" : "2021" }
       ],
       "events": [
         { "id": 1, "startDate": "2025-04-01", "endDate": "2025-04-03", "startTime" : "10:00" , "endTime" : "11:00", "title": "הסבר על תכנות מונחה עצמים", "description": "הסבר מעמיק על עקרונות התכנות המונחה עצמים." },
