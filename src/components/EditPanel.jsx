@@ -208,7 +208,7 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
         </div>
 
         {/* Tabs */}
-        <div className="sticky top-16 z-50 flex border-b">
+        <div className="sticky bg-white top-16 z-50 flex border-b">
           <button
             className={`flex-1 py-3 px-4 text-center font-medium ${
               activeTab === "personal" ? `${styles.textColor} border-b-2 ${styles.cardBorder}` : "text-gray-500"
