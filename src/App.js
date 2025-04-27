@@ -1,31 +1,18 @@
-import {Mail, Laptop, FileText, GraduationCap, Linkedin, ChevronDown, Copy, Check} from 'lucide-react'
-import { Button } from './components/ui/button'
-import { Card, CardHeader, CardTitle, CardContent, CardDescription } from './components/ui/card'
-import CourseList from './components/CoursesList'
-import HelpfulLinksSection from './components/HelpfulLinks'
-import { useState, useEffect } from 'react'
-import JobPostingsCard from './components/JobPostingCard'
-import { supabase } from './lib/supabase'
-import AuthButton from './components/AuthButton'
-import TutorCard from './components/TutorCard'
-import AdminPanel from './components/AdminPanel'
-import { yearOneCourses, yearTwoCourses, yearThreeCourses, eeYearOneCourses, eeYearTwoCourses, eeYearThreeCourses, eeYearFourCourses } from './components/CoursesList'
-import { NotificationProvider, showNotification } from './components/ui/notification'
-
-const csTutors = [
-    {name: "דוד עזרן ", subjects: ["תכנות מונחה עצמים", "סדנה מתקדמת בתכנות", "מבני נתונים", "מבוא למדעי המחשב"] , contact: "0508121999"},
-    {name: "עידן מרמור" , subjects: ["אלגוריתמים 1", "מבני נתונים", "מבוא למדעי המחשב", "אלגוריתמים 2" ] , contact:"0537204416"},
-    {name: "אליעד גבריאל" , subjects: ["מבוא למדמח, סדנה מתקדמת, מונחה עצמים"], contact: "0542542199"},
-    {name: "טל זכריה" , subjects: ["מבוא למדעי המחשב","סדנה מתקדמת בתכנות", "אוטומטים ושפות פורמליות", "חישוביות וסיבוכיות"], contact: "0542075966"},
-    {name: "עמית אוחנה" , subjects: ["מבוא למדעי המחשב", "סדנה מתקדמת בתכנות","מבני נתונים","אלגו 1 + 2"], contact: "0537005288"},
-    {name: "עדי (הדקדוקטטור) צלניקר" , subjects: ["1+2 אינפי ","ליניארית 1+2"], contact: "0507304007"}
-];
-const eeTutors = [
-  { name: "עומר יצחקי", subjects: ["מכינה בפיזיקה", "פיזיקה 1"], contact: "0542488426" },
-  { name: "איזבל קריכלי", subjects: ["מבוא לחשמל"], contact: "0545736399" },
-  { name: "מיכאל קלנדריוב", subjects: ["פיזיקה 1", "פיזיקה 2", "פיזיקה 3", "אינפי 2", "הסתברות", "יסודות מלמ", "מעגלים אלקטרונים ליניאריים"], contact: "0526330911" },
-  { name: "עידן לוי", subjects: ["טורים והתמרות","פיזיקה 1"], contact: "0544413827" }
-];
+import { Mail, Laptop, FileText, GraduationCap, Linkedin, ChevronDown, Copy, Check } from 'lucide-react';
+import { Button } from './components/ui/button';
+import { Card, CardHeader, CardTitle, CardContent, CardDescription } from './components/ui/card';
+import CoursesDropdown from './components/CoursesDropdown';
+import HelpfulLinksSection from './components/HelpfulLinks';
+import { useState, useEffect } from 'react';
+import JobPostingsCard from './components/JobPostingCard';
+import { supabase } from './lib/supabase';
+import AuthButton from './components/AuthButton';
+import TutorCard from './components/TutorCard';
+import AdminPanel from './components/AdminPanel';
+import { NotificationProvider, showNotification } from './components/ui/notification';
+import mockData from './config/mockData.json';
+import { courseStyles, courseTypeOptions } from './config/courseStyles';
+import { courseMappings, specializationsMappings, tutorMappings } from './config/courseMappings';
 
 const App = () => {
   const [courseType, setCourseType] = useState('cs');
@@ -99,6 +86,43 @@ const App = () => {
     };
   }, []);
 
+  const calculateWilsonScore = (avg, count, maxRating = 5, z = 1.96) => {
+    if (count === 0) return 0;
+    const phat = avg; // already normalized!
+    const n = count;
+    // Prevent math errors on exact 0 or 1
+    const safePhat = Math.min(Math.max(phat, 0.0001), 0.9999);
+    const numerator =
+      safePhat +
+      (z ** 2) / (2 * n) -
+      (z * Math.sqrt((safePhat * (1 - safePhat) + (z ** 2) / (4 * n)) / n));
+    const denominator = 1 + (z ** 2) / n;
+    return numerator / denominator;
+  };
+
+  const scoreAndSortTutors = (tutors) => {
+    const tutorsWithStats = tutors.map((tutor) => {
+      const validRatings = tutor.feedback?.filter((f) => f.rating) || [];
+      const count = validRatings.length;
+      const sum = validRatings.reduce((acc, f) => acc + f.rating, 0);
+      const average_rating = count > 0 ? sum / count : null;
+      const wilson_score = count > 0
+        ? calculateWilsonScore(average_rating / 5, count)
+        : 0;
+
+      return {
+        ...tutor,
+        average_rating,
+        feedback_count: count,
+        wilson_score,
+      };
+    });
+
+    // Sort by Wilson score descending
+    const sorted = tutorsWithStats.sort((a, b) => b.wilson_score - a.wilson_score);
+    return sorted;
+  };
+
   // Tutor data loading
   const loadTutorsWithFeedback = async () => {
     setIsLoadingTutors(true);
@@ -123,54 +147,17 @@ const App = () => {
 
     try {
       const { data: tutors, error } = await supabase
-        .from('tutors')
-        .select(`
-          *,
-          feedback (
-            id,
-            user_id,
-            email,
-            rating,
-            comment,
-            created_at
-          )
-        `)
-        .eq('degree', courseType);
-
-      if (error) {
-        // Removed console.error
-        // Fallback to local data if there's an error
-        const fallbackTutors = courseType === 'cs' ? csTutors : eeTutors;
-        setTutorsWithFeedback(fallbackTutors.map(tutor => ({...tutor, feedback: []})));
-        return;
-      }
-      
-      if (tutors && tutors.length > 0) {
-        // Calculate average rating and feedback count for each tutor
-        const tutorsWithStats = tutors.map(tutor => {
-          const validRatings = tutor.feedback.filter(f => f.rating);
-          const average_rating = validRatings.length > 0
-            ? validRatings.reduce((sum, f) => sum + f.rating, 0) / validRatings.length
-            : null;
-          
-          return {
-            ...tutor,
-            average_rating,
-            feedback_count: tutor.feedback.length
-          };
+        .rpc('get_tutors_with_feedback', {
+          degree_type: courseType,
         });
-        
-        setTutorsWithFeedback(tutorsWithStats);
-      } else {
-        // Fallback to local data if no tutors in Supabase
-        const fallbackTutors = courseType === 'cs' ? csTutors : eeTutors;
-        setTutorsWithFeedback(fallbackTutors.map(tutor => ({...tutor, feedback: []})));
+
+      if (error) return handleError("אין חיבור לשרת. נסה שוב מאוחר יותר.");
+      if (!tutors) {
+        return handleError("אין מורים להצגה כרגע.");
       }
-    } catch (error) {
-      // Removed console.error
-      // Fallback to local data on any error
-      const fallbackTutors = courseType === 'cs' ? csTutors : eeTutors;
-      setTutorsWithFeedback(fallbackTutors.map(tutor => ({...tutor, feedback: []})));
+      setTutorsWithFeedback(scoreAndSortTutors(tutors));
+    } catch {
+      handleError("שגיאה בטעינת נתונים מהשרת.");
     } finally {
       setIsLoadingTutors(false);
     }
@@ -301,63 +288,47 @@ const App = () => {
     return true;
   });
 
-  const sortTutorsByRating = (tutors) => {
-    return [...tutors].sort((a, b) => {
-      const ratingA = a.average_rating || 0;
-      const ratingB = b.average_rating || 0;
-      return ratingB - ratingA;
-    });
-  };
-          
-          return (
-            <NotificationProvider>
-            <div className={`min-h-screen bg-gradient-to-b ${bgGradient}`}>
-              <main className="container mx-auto px-4 py-8">
-                  <AdminPanel user={user} />
-                <div className="flex flex-col items-center mb-4">
-                  <h1 className={`text-5xl font-bold mb-4 text-center ${textColor}`}>CS24</h1>
-                  <p className={`text-xl ${textColor} text-center`}>
-                  ברוכים הבאים למאגר המידע המקיף ביותר שהיה במכון הטכנולוגי חולון
-                  </p>
-                  <div className="flex items-center gap-3 group cursor-pointer">
-                    <a 
-                      href="https://www.linkedin.com/in/daniel-ziv/" 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="flex items-center transition-transform duration-300 hover:scale-110"
-                      title="בואו נתחבר"
-                    >
-                    <h2 className={`text-xl ${textColor}`}> פותח ע״י דניאל זיו  </h2>
-                      <p> - </p>
-                      <Linkedin strokeWidth={1} className="h-6 w-6" color="#0077B5"  />
-                    </a>
-                  </div>
-                </div>
+  return (
+    <NotificationProvider>
+      <div className={`min-h-screen bg-gradient-to-b ${styles.bgGradient}`}>
+        <main className="container mx-auto px-4 py-8">
+          <AdminPanel user={user} />
+          <div className="flex flex-col items-center mb-4">
+            <h1 className={`text-5xl font-bold mb-4 text-center ${styles.textColor}`}>CS24</h1>
+            <p className={`text-xl ${styles.textColor} text-center`}>
+              ברוכים הבאים למאגר המידע המקיף ביותר שהיה במכון הטכנולוגי חולון
+            </p>
+            <div className="flex items-center gap-3 group cursor-pointer">
+              <a
+                href="https://www.linkedin.com/in/daniel-ziv/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center transition-transform duration-300 hover:scale-110"
+                title="בואו נתחבר"
+              >
+                <h2 className={`text-xl ${styles.textColor}`}> פותח ע״י דניאל זיו  </h2>
+                <p> - </p>
+                <Linkedin strokeWidth={1} className="h-6 w-6" color="#0077B5" />
+              </a>
+            </div>
+          </div>
+          {/* Course Type Selection Buttons */}
+          <div className="flex flex-row flex-wrap gap-3 mt-4 justify-center mb-5">
+            {courseTypeOptions
+              .filter((option) => option.type)
+              .map((option) => (
+                <Button
+                  key={option.type}
+                  className={`px-6 py-2 text-lg font-medium rounded-md shadow-md transition-colors ${
+                    courseType === option.type ? styles.buttonPrimary : styles.buttonSecondary
+                  }`}
+                  onClick={() => handleCourseSwitch(option.type)}
+                >
+                  {option.label}
+                </Button>
+              ))}
+          </div>
 
-                {/* Course Type Selection Buttons */}
-                <div className="flex flex-row gap-3 mt-4 justify-center mb-5">
-                    <Button 
-                      className={`px-6 py-2 text-lg font-medium rounded-md shadow-md transition-colors ${
-                        courseType === 'cs' 
-                          ? `${buttonBg} text-white`
-                          : `bg-white hover:bg-${theme}-50 text-${theme}-700 ${buttonBorder}`
-                      }`}
-                      onClick={() => handleCourseSwitch('cs')}
-                    >
-                      מדעי המחשב
-                    </Button>
-                    <Button 
-                      className={`px-6 py-2 text-lg font-medium rounded-md shadow-md transition-colors ${
-                        courseType === 'ee' 
-                          ? `${buttonBg} text-white`
-                          : `bg-white hover:bg-${theme}-50 text-${theme}-700 ${buttonBorder}`
-                      }`}
-                      onClick={() => handleCourseSwitch('ee')}
-                    >
-                      הנדסת חשמל
-                    </Button>
-                </div>
-              
           {/* Top Mobile Section - Jobs and Laptop */}
           <div className="block lg:hidden mb-4">
             {/* Job Postings Card */}
@@ -534,50 +505,54 @@ const App = () => {
                   ))}
                 </div>
               )}
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
-                {isLoadingTutors ? (
-                  // Loading skeleton
-                  <>
-                    {[...Array(4)].map((_, index) => (
-                      <div key={index} className="animate-pulse">
-                        <div className="bg-gray-200 h-40 rounded-lg mb-4"></div>
-                      </div>
-                    ))}
-                  </>
-                ) : (
-                  sortTutorsByRating(filteredTutors)
-                    .slice(0, showAllTutors ? undefined : TUTORS_PER_PAGE)
-                    .map((tutor) => (
-                      <TutorCard
-                        key={tutor.id}
-                        tutor={tutor}
-                        courseType={courseType}
-                        user={user}
-                        onSubmitFeedback={handleSubmitFeedback}
-                      />
-                ))
+            </CardHeader>
+            <CardContent>
+              {tutorsError ? (
+                <div className={`p-4 rounded-md text-center ${styles.cardBg} ${styles.cardBorder}`}>
+                  {tutorsError}
+                </div>
+              ) : (
+                <>
+                  <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+                    {isLoadingTutors ? (
+                      // Loading skeleton
+                      <>
+                        {[...Array(4)].map((_, index) => (
+                          <div key={index} className="animate-pulse">
+                            <div className="bg-gray-200 h-40 rounded-lg mb-4"></div>
+                          </div>
+                        ))}
+                      </>
+                    ) : (
+                      filteredTutors
+                        .slice(0, showAllTutors ? undefined : TUTORS_PER_PAGE)
+                        .map((tutor) => (
+                          <TutorCard
+                            key={tutor.id}
+                            tutor={tutor}
+                            courseType={courseType}
+                            user={user}
+                            onSubmitFeedback={handleSubmitFeedback}
+                            loadTutorsWithFeedback={loadTutorsWithFeedback}
+                          />
+                        ))
+                    )}
+                  </div>
+                  {filteredTutors.length > TUTORS_PER_PAGE && !showAllTutors && (
+                    <div className="flex justify-center mt-4">
+                      <Button
+                        onClick={() => setShowAllTutors(true)}
+                        variant="outline"
+                        className={`${styles.buttonThird}`}
+                      >
+                        הצג עוד {filteredTutors.length - TUTORS_PER_PAGE} מתרגלים
+                      </Button>
+                    </div>
+                  )}
+                </>
               )}
-          </div>
-
-                {filteredTutors.length > TUTORS_PER_PAGE && !showAllTutors && (
-                  <div className="flex justify-center mt-4">
-                    <Button
-                      onClick={() => setShowAllTutors(true)}
-                      variant="outline"
-                      className={`${
-                        courseType === 'cs'
-                          ? 'text-sky-600 hover:bg-sky-100'
-                          : 'text-purple-600 hover:bg-purple-100'
-                      }`}
-                    >
-                      הצג עוד {filteredTutors.length - TUTORS_PER_PAGE} מתרגלים
-                    </Button>
-              </div>
-                )}
-          </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
 
           {/* Missing Tests Banner */}
           <Card

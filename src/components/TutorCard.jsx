@@ -67,25 +67,22 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
 
   const handleWhatsAppClick = async (e) => {
     try {
-      // Insert click record into tutor_clicks table
       const { error } = await supabase
         .from('tutor_clicks')
         .insert([{
           p_tutor_id: tutor.id,
           clicked_at: new Date().toISOString()
         }]);
-
+  
       if (error) {
         e.preventDefault();
         console.error('Error tracking click:', error);
-        // Optionally show a toast or do something else
       }
-    } catch (error) {
-      // Silently fail - don't block the user from contacting the tutor
-      console.error('Error tracking click:', error);
+    } catch (err) {
+      e.preventDefault();
+      console.error('Error tracking click:', err);
     }
   };
-  
 
   const handleDeleteFeedback = async () => {
     try {
@@ -123,6 +120,8 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
     setComment(newComment);
   };
 
+  const phoneWithoutZero = tutor.phone?.substring(1) || ""; 
+
   return (
     <>
       <Card className={`bg-white border ${styles.cardBorder}`}>
@@ -138,7 +137,7 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
                 </div>
               </div>
               <a
-                href={`https://wa.me/972${tutor.phone.substring(1)}`}
+                href={`https://wa.me/972${phoneWithoutZero}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`w-10 h-10 flex items-center justify-center rounded-md shadow-md ${styles.iconColorReverse} transition-colors hover:bg-gray-100`}
