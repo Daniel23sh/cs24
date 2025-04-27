@@ -81,7 +81,6 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
       if (error) {
         e.preventDefault();
         console.error('Error tracking click:', error);
-        // Optionally show a toast or do something else
       }
     } catch (err) {
       e.preventDefault();
