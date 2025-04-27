@@ -71,7 +71,11 @@ const courseStyles = {
     starColor: 'text-orange-400',
     TLBg: 'from-orange-600 via-orange-700 to-orange-600',
     shadowGlow: 'rgba(234, 88, 12, 0.3)',
-    shadowGlowHover: 'rgba(234, 88, 12, 0.5)'
+    shadowGlowHover: 'rgba(234, 88, 12, 0.5)',
+    eventBg: 'bg-orange-500', // Added for event background
+    editBg: 'bg-orange-300',
+    background: "#ffb3b8",
+    contactBg: 'bg-orange-300 text-white hover:bg-orange-400',
   },
 };
 
