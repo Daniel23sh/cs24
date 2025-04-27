@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 import { Button } from './ui/button';
+import { Star, MessageCircle, Edit2, ThumbsUp, ChevronDown, ChevronUp, X, User } from 'lucide-react';
 import { Star, ThumbsUp, ChevronDown, ChevronUp, X, User } from 'lucide-react';
 import { format } from 'date-fns';
 import { supabase } from '../lib/supabase';
@@ -132,6 +133,48 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
         <CardHeader className="pb-3">
           <div className="flex flex-col space-y-1.5">
             <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                {/* New circular profile photo that links to tutor profile */}
+                <Link
+                  to={`/tutors/${formatTutorNameForRoute(tutor.name)}`}
+                  state={{ tutor, courseType }}
+                  className="relative"
+                  onMouseEnter={() => setIsHovering(true)}
+                  onMouseLeave={() => setIsHovering(false)}
+                >
+                  <div className={`relative transition-transform duration-300 ${isHovering ? "transform scale-110" : ""}`}>
+                    <div
+                      className={`absolute inset-0 rounded-full ${styles.bgLight} blur-md -z-10 scale-90 opacity-70 ${
+                        isHovering ? "opacity-100" : ""
+                      }`}
+                    ></div>
+
+                    {tutor.profile_image_url ? (
+                      <img
+                        src={tutor.profile_image_url}
+                        alt={tutor.name}
+                        className={`w-12 h-12 rounded-xl object-cover border-2 border-white shadow-md z-10 transition-all ${
+                          isHovering ? "shadow-lg" : ""
+                        }`}
+                      />
+                    ) : (
+                      <User
+                        className={`w-12 h-12 rounded-xl border-2 border-white shadow-md z-10 transition-all ${
+                          isHovering ? `${styles.iconColor} shadow-lg` : styles.starColor
+                        }`}
+                      />
+                    )}
+                  </div>
+                </Link>
+
+
+                <div>
+                  <h3 className={`text-lg font-semibold ${styles.textColor}`}>{tutor.name}</h3>
+                  <div className="flex items-center gap-1">
+                    <Star className={`h-4 w-4 ${styles.starColor} ${tutor.average_rating ? "fill-current" : ""}`} />
+                    <span className="text-sm font-medium">{tutor.average_rating?.toFixed(1) || "אין"}</span>
+                    <span className="text-sm text-gray-500">({tutor.feedback?.length || 0})</span>
+                  </div>
               <div className="flex items-center gap-2">
                 {isDevMode && (
               <Link
