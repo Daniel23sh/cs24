@@ -12,8 +12,8 @@ export default function EducationProfileSection({ tutor, styles }) {
       : "N/A";
   return (
     <section className="py-8 -mb-12" dir="rtl">
-      <div className="w-full py-8 ">
-        <div className="flex items-center gap-3 border-b pb-6 mb-6">
+      <div className="w-full py-8">
+        <div className="flex items-center gap-3 border-b pb-6 mb-8">
           <GraduationCap className={`h-6 w-6 ${styles.iconColor}`} />
           <h2 className={`text-2xl font-bold ${styles.textColor}`}>השכלה</h2>
         </div>
