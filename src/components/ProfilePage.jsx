@@ -163,21 +163,37 @@ const ProfilePage = () => {
         <div className={`bg-white rounded-xl border mb-6 w-full ${styles.cardBorder} max-w-[73rem] mx-auto space-y-8 mt-4 px-4 pb-12`}>
           {/* About Me Section */}
           <section
-            className={`bg-white  -mb-12 md:max-w-[65rem] max-w-3xl mx-auto py-8`}
+            className={`bg-white -mb-12 md:max-w-[65rem] max-w-3xl mx-auto py-8 text-center`}
           >
-            
-            <div className="bg-white p-6 flex items-center gap-3 mb-6 border-b pb-6 ">
-              <User className={`h-6 w-6 ${styles.iconColor}`} />
-              <h2 className={`text-2xl font-bold  ${styles.textColor}`}>מי אני?</h2>
+            <div className="bg-white p-6 flex items-center justify-center gap-3 mb-6 border-b pb-6">
+              <h2 className={`text-2xl font-bold ${styles.textColor}`}>מי אני?</h2>
             </div>
-            <p className={` ${styles.textColor} mr-4 whitespace-pre-line leading-relaxed font-bold `}>
+            <p className={`${styles.textColor} mx-auto whitespace-pre-line leading-relaxed font-bold`}>
               {tutorData.about_me ||
-                "היי אני דניאל שצוב,\n בניתי את הדף פרופיל הזה כדי שתוכלו להתרשם מהמורים הפרטיים ולתת לכם אופציית בחירה טובה יותר. "}
+                "היי אני דניאל שצוב,\nבננתי את הדף פרופיל הזה כדי שתוכלו להתרשם מהמורים הפרטיים ולתת לכם אופציית בחירה טובה יותר."}
             </p>
           </section>
-                    
+          {/* Header */}
+          <section className={`bg-white -mb-12 md:max-w-[65rem] max-w-3xl mx-auto py-8 text-center`}>
+
+            <div className="flex items-center gap-3 border-b pb-4 mb-4 justify-center">
+              <h2 className={`text-2xl font-bold ${styles.textColor}`}>מה אני מלמד?</h2>
+            </div>
+
+            {/* Subjects badges */}
+            <div className="flex justify-center flex-wrap gap-4">
+              {tutorData?.subjects?.map((subject, i) => (
+                <span
+                  key={i}
+                  className={`text-md px-4 py-2 rounded-full ${styles.subjectBg} ${styles.textSecondary}`}
+                >
+                  {subject}
+                </span>
+              ))}
+            </div> 
+          </section>     
           {/* Desktop: 2-column, Mobile: stacked */}
-          <div className="flex  flex-col md:flex-row gap-8 md:max-w-[65rem] max-w-3xl mx-auto py-8">
+          <div className="flex  flex-col md:flex-row gap-8 md:max-w-[65rem] max-w-3xl mx-auto ">
             <div className="w-full md:w-1/2">
               <UpcomingEvents styles={styles} events={tutorData.events} />
             </div>
@@ -186,11 +202,12 @@ const ProfilePage = () => {
             </div>
           </div>
 
+          
           {/* Reviews Section */}
           <ReviewSection
             reviews={tutorData.feedback || []}
             styles={styles}
-          />
+          ></ReviewSection>
 
           {/* Similar Tutors Section - Only shown if there are similar tutors */}
           {similarTutors.length > 0 && (
@@ -202,14 +219,10 @@ const ProfilePage = () => {
           )}
             
           {/* Email Section */}
-          <section
-            className={`bg-white ${styles.cardBorder} p-4 md:p-6 `}
-          >
             <ContactCard
               tutor={tutorData}
-              styles={styles}></ContactCard>
-          </section>
-
+              styles={styles}>
+            </ContactCard>
 
         </div>
       </div>

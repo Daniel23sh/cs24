@@ -10,6 +10,13 @@ const ProfileCard = ({ tutorData, styles }) => {
   const linke = "https://www.linkedin.com/in/daniel-shatzov/";
   const githu = "https://github.com/Daniel23sh";
 
+  const formatPhoneNumber = (num = "") => {
+    // strip non-digits
+    const cleaned = num.replace(/\D/g, "");
+    // match Israeli mobile 0XX-XXXX-XXX (10 digits)
+    const match = cleaned.match(/^(0\d{2})(\d{4})(\d{3})$/);
+    return match ? `${match[1]}-${match[2]}-${match[3]}` : num;
+  };
   return (
     <div className="block p-4 relative z-20">
       <div className="max-w-6xl mx-auto -mb-8">
@@ -41,7 +48,7 @@ const ProfileCard = ({ tutorData, styles }) => {
               <div className="flex items-center">
                 <Star className="h-5 w-5 text-yellow-400 fill-current ml-1" />
                 <span className="ml-1 font-semibold text-gray-900">
-                  {tutorData.average_rating?.toFixed(2) || "N/A"}
+                  {tutorData.average_rating?.toFixed(1) || "N/A"}
                 </span>
                 <span className="ml-1 text-gray-500">
                   ({tutorData.feedback?.length || 0} reviews)
@@ -92,7 +99,7 @@ const ProfileCard = ({ tutorData, styles }) => {
                 <div className={`p-1.5 rounded-full -mt-2 md:mt-2 ${styles.linksIconBg} mr-2`}>
                   <Phone className={`h-5 w-5 ${styles.iconColor}`} />
                 </div>
-                <p className="text-base mr-2">{tutorData.phone}</p>
+                <p className="text-base mr-2">{formatPhoneNumber(tutorData.phone)}</p>
               </div>
             )}
           </div>
