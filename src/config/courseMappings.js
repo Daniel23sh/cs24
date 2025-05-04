@@ -55,10 +55,15 @@ export const tutorMappings = {
 };
 
 export const csHelpfulLinks = [
-  { 
+  /*{ 
     title: "דרייב האגודה",
     description: "מערכת הקורסים של המכון",
     url: "https://drive.google.com/drive/folders/1ITwPTm_Jv3w-nVT7PpE2HViDn56W_VWN"
+  },*/
+  {
+    title: "noodles simulator",
+    description: "ללמוד למונחה עצמים דרך משחק שפותח במכון",
+    url: "https://noodles-simulator.onrender.com"
   },
   { 
     title: "האתר של קנציפר",
@@ -123,5 +128,38 @@ export const eeHelpfulLinks = [
     title: "הדרייב המטורף של יצחקי",
     description: "דרייב מוכר ומומלץ",
     url: "https://drive.google.com/drive/folders/1k1v7NmfMWPUfA39JKskv0ID6X9udL7xT"
+  },
+]
+
+export const ieHelpfulLinks = [
+  { 
+    title: "הדרייב של אייל מינץ",
+    description: "דרייב מעודכן עם חומרים",
+    url: "https://drive.google.com/drive/folders/139VzNUpXE75iWwpq0s-eYknmBb3zfXzP"
+  },
+  { 
+    title: "דרייב חומרים נוסף",
+    description: "דרייב ישן יותר",
+    url: "https://drive.google.com/drive/folders/1VYz8oV4QFztYPGJs76ECViqmcMOoBEAN"
+  },
+  { 
+    title: "דרייב האגודה",
+    description: "מערכת הקורסים של המכון",
+    url: "https://drive.google.com/drive/folders/1yjlCYen4dK4uO_ohkkV3Vr7gv6zFRxxG"
+  },
+  {
+    title: "הטלגרם של תעשייה וניהול",
+    description: "חומרים מפוזרים מפעם",
+    url: "https://t.me/NihulHIT"
+  },
+  {
+    title: "הדרייב של ליז",
+    description: "מומלץ להעזר בה, המון המון שיטות וחומרים",
+    url: "https://drive.google.com/drive/folders/1amxc9ZpT5xzNFdFeYSndfhn32GlebnvG"
+  },
+  {
+    title: "הדרייב של נועה ארליכמן",
+    description: "סיכומים ברמה בינלאומית",
+    url: "https://drive.google.com/drive/folders/1s1BBsq2UwPZDvdnMSgYlNuuzXpRThx2m"
   },
 ]

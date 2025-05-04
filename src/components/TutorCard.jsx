@@ -10,12 +10,6 @@ import { showNotification } from './ui/notification';
 import { isAdmin } from '../config/admin';
 import GoogleLoginButton from './GoogleLoginButton';
 import { courseStyles } from '../config/courseStyles';
-import { Link } from "react-router-dom";
-
-// Helper function to format tutor name by replacing spaces with dashes
-const formatTutorNameForRoute = (name) => {
-  return name.trim().replace(/\s+/g, "-")
-}
 
 const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFeedback }) => {
 
@@ -183,7 +177,7 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
                   key={index}
                   className={`text-xs px-2 py-1 rounded-full whitespace-nowrap ${styles.subjectBg} ${styles.textSecondary}`}
                 >
-                  {subject}
+                  {subject.course_name}
                 </span>
               ))}
             </div>
@@ -361,12 +355,18 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
             <h2 className="text-xl font-bold mb-4 text-center">התחברות</h2>
             <p className="mb-4 text-center">
-              לא אוהבים רובוטים 😉<br />
+              לא אוהבים רובוטים 😉
+              <br />
               כדי למנוע ספאם ולהבטיח קהילה נעימה באתר,
               <br />
               אנחנו משתמשים בהתחברות פשוטה עם גוגל.
             </p>
-            <GoogleLoginButton onSuccess={handleLoginSuccess} onError={handleLoginError} />
+            
+            <GoogleLoginButton 
+              onSuccess={handleLoginSuccess} 
+              onError={handleLoginError} 
+            />
+            
             <button
               onClick={() => setShowLoginModal(false)}
               className="w-full mt-4 px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-100 focus:outline-none"

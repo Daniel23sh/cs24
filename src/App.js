@@ -6,16 +6,18 @@ import HelpfulLinksSection from './components/HelpfulLinks';
 import { useState, useEffect } from 'react';
 import JobPostingsCard from './components/JobPostingCard';
 import { supabase } from './lib/supabase';
-import AuthButton from './components/AuthButton';
 import TutorCard from './components/TutorCard';
 import AdminPanel from './components/AdminPanel';
 import { NotificationProvider, showNotification } from './components/ui/notification';
-import mockData from './config/mockData.json';
 import { courseStyles, courseTypeOptions } from './config/courseStyles';
 import { courseMappings, specializationsMappings, tutorMappings } from './config/courseMappings';
+import Navbar from './components/Navbar';
+import AuthButton from './components/AuthButton';
 
 const App = () => {
-  const [courseType, setCourseType] = useState('cs');
+  const [courseType, setCourseType] = useState(() => {
+    return localStorage.getItem('courseType') || 'cs';
+  });
   const styles = courseStyles[courseType] || courseStyles.cs;
 
   const [selectedTag, setSelectedTag] = useState('בחר');
@@ -30,13 +32,20 @@ const App = () => {
   const [showFixedButton, setShowFixedButton] = useState(false);
   const [isLoadingTutors, setIsLoadingTutors] = useState(true);
   const [tutorsError, setTutorsError] = useState(null);
+  const [degreeId, setDegreeId] = useState(null);
   const TUTORS_PER_PAGE = 6;
+  const isDevMode = process.env.REACT_APP_DEV?.toLowerCase() === 'true';
 
   // Get specializations for current course type
   const currentSpecializations = specializationsMappings[courseType] || [];
+  const DEGREE_NAMES = Object.fromEntries(
+    courseTypeOptions.map(option => [option.type, option.label])
+  );
   
   const handleCourseSwitch = (type) => {
     setCourseType(type);
+    // Save courseType as a cookie
+    localStorage.setItem('courseType', type);
     // Reset selected tag based on whether the course type has specializations
     setSelectedTag(specializationsMappings[type]?.length > 0 ? 'בחר' : null);
     // Reset other relevant states
@@ -127,7 +136,6 @@ const App = () => {
   const loadTutorsWithFeedback = async () => {
     setIsLoadingTutors(true);
     setTutorsError(null); // Clear any previous error
-    const isDevMode = process.env.REACT_APP_DEV?.toLowerCase() === 'true';
 
     // Helper for fallback tutors
     const fallback = () => {
@@ -146,9 +154,20 @@ const App = () => {
     };
 
     try {
+      const { data: newDegreeId, error: degreeError } = await supabase.rpc(
+        'get_degree_id_by_details',
+        {
+          p_degree_name: DEGREE_NAMES[courseType],
+          p_academy_id: 1
+        }
+      );
+
+     
+      setDegreeId(newDegreeId);
+
       const { data: tutors, error } = await supabase
-        .rpc('get_tutors_with_feedback', {
-          degree_type: courseType,
+        .rpc('new_get_tutors_with_feedback', {
+          p_degree_id: newDegreeId
         });
 
       if (error) return handleError("אין חיבור לשרת. נסה שוב מאוחר יותר.");
@@ -206,10 +225,12 @@ const App = () => {
 
       // Insert or update feedback using the server-side function
       ({ error } = await supabase
-        .rpc('upsert_feedback', {
+        .rpc('new_upsert_feedback', {
           tutor_id: tutorId,
           rating: rating,
           comment: comment,
+          degree_id: degreeId,
+          academy_id: 1
         }));
 
       if (error) {
@@ -283,7 +304,9 @@ const App = () => {
   const filteredTutors = tutorsWithFeedback.filter((tutor) => {
     if (!selectedYear && !selectedCourse) return true;
     if (selectedCourse) {
-      return tutor.subjects?.some((subject) => subject.includes(selectedCourse));
+      return tutor.subjects?.some(subject => 
+        subject.course_name === selectedCourse
+      );
     }
     return true;
   });
@@ -291,7 +314,8 @@ const App = () => {
   return (
     <NotificationProvider>
       <div className={`min-h-screen bg-gradient-to-b ${styles.bgGradient}`}>
-        <main className="container mx-auto px-4 py-8">
+        { isDevMode && <Navbar courseType={courseType} /> }
+        <main className={`container mx-auto px-4 py-8 ${ isDevMode && 'pt-24' }`}>
           <AdminPanel user={user} />
           <div className="flex flex-col items-center mb-4">
             <h1 className={`text-5xl font-bold mb-4 text-center ${styles.textColor}`}>CS24</h1>
@@ -306,8 +330,8 @@ const App = () => {
                 className="flex items-center transition-transform duration-300 hover:scale-110"
                 title="בואו נתחבר"
               >
-                <h2 className={`text-xl ${styles.textColor}`}> פותח ע״י דניאל זיו  </h2>
-                <p> - </p>
+                <h2 className={`text-xl ${styles.textColor}`}>פותח ע״י דניאל זיו&nbsp;</h2>
+                
                 <Linkedin strokeWidth={1} className="h-6 w-6" color="#0077B5" />
               </a>
             </div>
@@ -434,10 +458,10 @@ const App = () => {
                 <div className="flex-shrink-0">
                   {tutorsError ? (
                     <div className="opacity-50 cursor-not-allowed pointer-events-none">
-                      <AuthButton user={user} courseType={courseType} disabled />
+                      <AuthButton courseType={courseType} disabled />
                     </div>
                   ) : (
-                    <AuthButton user={user} courseType={courseType} />
+                    <AuthButton courseType={courseType} />
                   )}
                 </div>
               </div>
@@ -534,7 +558,18 @@ const App = () => {
                             user={user}
                             onSubmitFeedback={handleSubmitFeedback}
                             loadTutorsWithFeedback={loadTutorsWithFeedback}
-                          />
+                          >
+                            <div className="flex flex-wrap gap-1.5 -mx-0.5">
+                              {tutor.subjects?.map((subject, index) => (
+                                <span
+                                  key={index}
+                                  className={`text-xs px-2 py-1 rounded-full whitespace-nowrap ${styles.subjectBg} ${styles.textSecondary}`}
+                                >
+                                  {subject.course_name}
+                                </span>
+                              ))}
+                            </div>
+                          </TutorCard>
                         ))
                     )}
                   </div>
