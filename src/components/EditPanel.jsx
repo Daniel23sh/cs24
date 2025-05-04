@@ -29,6 +29,10 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
         endDate: tutorData.endDate || "",
         institution: tutorData.institution || "",
         fieldOfStudy: tutorData.fieldOfStudy || "",
+        startDate: tutorData.startDate || "",
+        endDate: tutorData.endDate || "",
+        institution: tutorData.institution || "",
+        fieldOfStudy: tutorData.fieldOfStudy || "",
         subjects: tutorData.subjects ? [...tutorData.subjects] : [],
         phone: tutorData.phone || "",
         linkedin: tutorData.linkedin || "",
@@ -60,6 +64,20 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
   }
 
   // Handle subjects input (comma-separated)
+   const handleSubjectsChange = (e) => {
+       const subjectsText = e.target.value
+       // split into names, trim and drop empties
+       const names = subjectsText
+         .split(",")
+         .map((s) => s.trim())
+         .filter(Boolean)
+       // map them back into objects
+       const subjectsObjs = names.map((name) => ({ course_name: name }))
+       setEditedData((prev) => ({
+         ...prev,
+         subjects: subjectsObjs,
+       }))
+     }
    const handleSubjectsChange = (e) => {
        const subjectsText = e.target.value
        // split into names, trim and drop empties
@@ -230,6 +248,7 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
             onClick={() => setActiveTab("grades")}
           >
             השכלה
+            השכלה
           </button>
           <button
             className={`flex-1 py-3 px-4 text-center font-medium ${
@@ -322,10 +341,15 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
                     <select
                       name="status"
                       value={editedData.status || "זום"}
+                      value={editedData.status || "זום"}
                       onChange={handleEditInputChange}
                       className={`w-full p-3 border ${styles.cardBorder} rounded-lg`}
                       dir="rtl"
                     >
+                      <option value="זום">זום</option>
+                      <option value="פרונטלי">פרונטלי</option>
+                      <option value="פרונטלי + זום">פרונטלי + זום</option>
+
                       <option value="זום">זום</option>
                       <option value="פרונטלי">פרונטלי</option>
                       <option value="פרונטלי + זום">פרונטלי + זום</option>
@@ -342,6 +366,9 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
                   <label className="block text-sm font-medium mb-1">תחומים (מופרדים בפסיקים)</label>
                   <input
                     type="text"
+                    value={(editedData.subjects || [])
+                      .map((s) => s.course_name)
+                      .join(", ")}                    
                     value={(editedData.subjects || [])
                       .map((s) => s.course_name)
                       .join(", ")}                    
@@ -428,35 +455,30 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
               <div>
                 <label className="block text-sm font-medium mb-1">שנת התחלה</label>
                 <input
-                  type="number"
-                  name="startDate"
+                  type="text"
+                  name="startYear"
                   value={editedData.startDate || ""}
                   onChange={handleEditInputChange}
                   className={`w-full p-2 border ${styles.cardBorder} rounded-lg`}
                   dir="rtl"
-                  min="1900"
-                  max="2099"
-                  placeholder="שנה לדוגמה: 2021"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1">שנת סיום</label>
                 <input
-                  type="number"
-                  name="endDate"
+                  type="text"
+                  name="endYear"
                   value={editedData.endDate || ""}
                   onChange={handleEditInputChange}
                   className={`w-full p-2 border ${styles.cardBorder} rounded-lg`}
                   dir="rtl"
-                  min="1900"
-                  max="2099"
-                  placeholder="שנה לדוגמה: 2021"
                 />
               </div>
             </div>
 
               <div className="space-y-3">
               <h3 className={`text-lg font-bold mb-3 ${styles.textColor}`}>ציונים</h3>
+
 
                 {editedGrades.map((grade, index) => (
                   <div key={index} className="flex items-center gap-2 p-3 border rounded-lg">

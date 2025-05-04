@@ -211,6 +211,7 @@ const ProfilePage = () => {
                 >
                   {subject.course_name}
                 </span>
+                
               ))}
             </div>
           </section>

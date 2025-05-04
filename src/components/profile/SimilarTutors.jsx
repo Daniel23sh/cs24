@@ -102,33 +102,29 @@ const TutorComponent = ({ tutors, styles }) => {
             <ChevronLeft className={isMobile ? "hidden w-4 h-4" : "w-6 h-6 "} />
           </button>
 
-      {/* Cards container */}
-      <div
-        ref={carouselRef}
-        className={`flex gap-6  ${
-          isMobile
-            ? "overflow-x-auto touch-pan-x scroll-snap-x snap-mandatory px-8"
-            : "justify-center px-4 mt-12"
-        }`}
-      >
-        {display.map((tutor) => {
-          const extra = Math.max(0, tutor.subjects.length - 2)
-          return (
-            <div
-              key={tutor.id}
-              className="tutor-card snap-start flex-shrink-0 
-                         w-4/5 sm:w-[18rem] 
-                         bg-white rounded-lg shadow-md p-6 
-                         relative flex flex-col hover:shadow-lg transition-all"
-            >
-              {/* profile image */}
-              <div className="absolute top-4 right-4 w-14 h-14 rounded-full overflow-hidden border-4 border-white shadow-lg">
-                <img
-                  src={tutor.image || image}
-                  alt={tutor.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
+          {/* Cards container */}
+          <div
+            ref={carouselRef}
+            className={`flex gap-6  ${
+              isMobile
+                ? "overflow-x-auto touch-pan-x scroll-snap-x snap-mandatory px-4 pb-4"
+                : "justify-center px-4 mt-12"
+            }`}
+          >
+            {display.map((tutor) => {
+              const extra = Math.max(0, tutor.subjects.length - 2)
+              return (
+                <div
+                  key={tutor.id}
+                  className="tutor-card snap-start flex-shrink-0 
+             w-[calc(100%-2rem)] sm:w-[18rem] 
+             bg-white rounded-lg shadow-md p-6 pb-8 
+             relative flex flex-col hover:shadow-lg transition-all"
+                >
+                  {/* profile image */}
+                  <div className="absolute top-4 right-4 w-14 h-14 rounded-full overflow-hidden border-4 border-white shadow-lg">
+                    <img src={tutor.image || image} alt={tutor.name} className="w-full h-full object-cover" />
+                  </div>
 
                   {/* name & rating */}
                   <div className="flex flex-col mr-16 items-center mb-4">
