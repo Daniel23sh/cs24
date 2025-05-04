@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Mail, Phone, MessageCircle } from "lucide-react";
 import { supabase } from "../../lib/supabase";
 
+
 const ContactCard = ({ tutor, styles }) => {
   const [selectedSubject, setSelectedSubject] = useState("");
 
@@ -24,7 +25,13 @@ const ContactCard = ({ tutor, styles }) => {
       console.error("Error tracking click:", err);
     }
   };
-
+  const formatPhoneNumber = (num = "") => {
+    // strip non-digits
+    const cleaned = num.replace(/\D/g, "");
+    // match Israeli mobile 0XX-XXXX-XXX (10 digits)
+    const match = cleaned.match(/^(0\d{2})(\d{3})(\d{4})$/);
+    return match ? `${match[1]}-${match[2]}-${match[3]}` : num;
+  };
   return (
     <section
             className={`bg-white ${styles.cardBorder} p-2 md:p-6 `}
@@ -48,7 +55,7 @@ const ContactCard = ({ tutor, styles }) => {
           </div>
           <div className="flex items-center mb-4 text-gray-700">
             <Phone className="ml-2" size={18} />
-            <span className="ml-2">{tutor.phone}</span>
+            <span className="ml-2">{formatPhoneNumber(tutor.phone)}</span>
           </div>
           <p className="text-sm text-gray-500">
             ניתן לפנות בנוגע לשיעורים, זמינות או מקצועות. תגובה לרוב תוך 24
@@ -70,7 +77,7 @@ const ContactCard = ({ tutor, styles }) => {
             <option value="">בחר מקצוע</option>
             {tutor.subjects?.map((subject, idx) => (
               <option key={idx} value={subject}>
-                {subject}
+                {subject.course_name}
               </option>
             ))}
           </select>

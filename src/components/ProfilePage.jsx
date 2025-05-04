@@ -1,10 +1,7 @@
-
 import { useState, useEffect } from "react"
 import { useParams, useLocation } from "react-router-dom"
-import { User } from 'lucide-react'
 import { supabase } from "../lib/supabase"
 import { courseStyles } from "../config/courseStyles" // Import the course styles
-import EditPanel from "./EditPanel"
 import mockData from "../config/mockData.json" // adjust path if needed
 import { backgroundPath } from "../config/backgroundPath"
 import NotFoundPage from "./NotFoundPage"
@@ -15,7 +12,7 @@ import EducationProfileSection from "./profile/EducationCard"
 import ContactCard from "./profile/ContactCard"
 import UpcomingEvents from "./profile/EventsCard"
 // Add responsive layout style if overlapping occurs
-const isDevMode = process.env.REACT_APP_DEV
+
 const ProfilePage = () => {
   const { tutorName } = useParams()
   const location = useLocation()
@@ -29,9 +26,6 @@ const ProfilePage = () => {
   const [loading, setLoading] = useState(!passedTutor)
   const [error, setError] = useState(null)
   const [reviews, setReviews] = useState([])
- 
-  const [showEditModal, setShowEditModal] = useState(false)
-  const [events, setEvents] = useState([])
 
 
 
@@ -46,26 +40,22 @@ const ProfilePage = () => {
   const sectionTutors = mockData[sectionKey] || []
   const similarTutors = tutorData
   ? sectionTutors
-      .filter((t) => t.name !== tutorData.name && t.subjects?.some((s) => tutorData.subjects?.includes(s)))
-      .map((t) => ({
-        ...t,
+      .filter((tutor) =>
+        tutor.name !== tutorData.name &&
+        // check if any subject names overlap
+        tutor.subjects?.some(sub =>
+          tutorData.subjects.some(mySub => mySub.course_name === sub.course_name)
+        )
+      )
+      .map((tutor) => ({
+        ...tutor,
       }))
-  : []
-
-    useEffect(() => {
-      if (tutorData) {
-        setEvents(tutorData.events || [])
-      }
-    }, [tutorData])
+  : [];
 
 
 
-  const handleProfileSave = (updatedData, updatedEvents, updatedGrades) => {
-    setTutorData({ ...updatedData, grades: updatedGrades, events: updatedEvents });
-    setEvents(updatedEvents);
-    setShowEditModal(false);
-  }
-  
+
+
 
 
   useEffect(() => {
@@ -185,10 +175,11 @@ const ProfilePage = () => {
               {tutorData?.subjects?.map((subject, i) => (
                 <span
                   key={i}
-                  className={`text-md px-4 py-2 rounded-full ${styles.subjectBg} ${styles.textSecondary}`}
+                  className={`md:text-md md:px-4 md:py-2 text-sm px-3 py-1 rounded-xl ${styles.subjectBg} ${styles.textSecondary}`}
                 >
-                  {subject}
+                  {subject.course_name}
                 </span>
+                
               ))}
             </div> 
           </section>     
@@ -225,22 +216,7 @@ const ProfilePage = () => {
             </ContactCard>
 
         </div>
-      </div>
-
-      {/* Edit Profile Modal using your EditPanel component */}
-      {isDevMode === 'true' && showEditModal && (
-        <EditPanel
-          showEditModal={showEditModal}
-          setShowEditModal={setShowEditModal}
-          tutorData={tutorData}
-          styles={styles}
-          grades={tutorData.grades}
-          events={tutorData.events}
-          onSave={handleProfileSave}
-        />
-      )}
-
-     
+      </div>     
     </div>
   )
 }

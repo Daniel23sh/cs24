@@ -36,8 +36,8 @@ export default function EducationProfileSection({ tutor, styles }) {
           </div>
 
           <div className="mb-4 flex items-center gap-2">
-            <h4 className={`text-lg font-medium ${styles.textColor}`}>הישגים אקדמיים</h4>
             <Award className={`h-5 w-5 ${styles.iconColor}`} />
+            <h4 className={`text-lg font-medium ${styles.textColor}`}>הישגים אקדמיים</h4>
           </div>
 
           <div className="overflow-x-auto">

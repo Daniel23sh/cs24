@@ -1,4 +1,4 @@
-import { ChevronRight, ChevronLeft, Clock, Calendar } from "lucide-react";
+import { Calendar } from "lucide-react";
 const UpcomingEvents = ({
   styles,
   events,
@@ -33,7 +33,6 @@ const UpcomingEvents = ({
         key={event.id}
         className="flex items-stretch bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all"
       >
-        {/* Right-side date section */}
         <div className={`${styles.eventBg} text-white flex flex-col items-center justify-center w-20 px-2`}>
           <div className="text-2xl font-bold">{day}</div>
           <div className="text-sm">{month}</div>
@@ -51,7 +50,7 @@ const UpcomingEvents = ({
           {event.description && (
             <p className="text-sm text-gray-700">{event.description}</p>
           )}
-              <div className="text-sm text-gray-600 flex items-center justify-end gap-1 mb-1 mt-2">
+              <div className="text-sm font-semibold text-gray-600 flex items-center justify-end gap-1 mb-1 mt-2">
             <Calendar className="h-4 w-4" />
             <span>
               {event.startTime} - {event.endTime || event.startTime}

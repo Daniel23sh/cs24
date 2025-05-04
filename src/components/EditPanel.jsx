@@ -26,6 +26,10 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
         name: tutorData.name || "",
         location: tutorData.location || "",
         role: tutorData.role || "",
+        startDate: tutorData.startDate || "",
+        endDate: tutorData.endDate || "",
+        institution: tutorData.institution || "",
+        fieldOfStudy: tutorData.fieldOfStudy || "",
         subjects: tutorData.subjects ? [...tutorData.subjects] : [],
         phone: tutorData.phone || "",
         linkedin: tutorData.linkedin || "",
@@ -57,17 +61,20 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
   }
 
   // Handle subjects input (comma-separated)
-  const handleSubjectsChange = (e) => {
-    const subjectsText = e.target.value
-    const subjectsArray = subjectsText
-      .split(",")
-      .map((subject) => subject.trim())
-      .filter((subject) => subject)
-    setEditedData((prev) => ({
-      ...prev,
-      subjects: subjectsArray,
-    }))
-  }
+   const handleSubjectsChange = (e) => {
+       const subjectsText = e.target.value
+       // split into names, trim and drop empties
+       const names = subjectsText
+         .split(",")
+         .map((s) => s.trim())
+         .filter(Boolean)
+       // map them back into objects
+       const subjectsObjs = names.map((name) => ({ course_name: name }))
+       setEditedData((prev) => ({
+         ...prev,
+         subjects: subjectsObjs,
+       }))
+     }
 
   // Handle grade changes
   const handleGradeChange = (index, field, value) => {
@@ -223,7 +230,7 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
             }`}
             onClick={() => setActiveTab("grades")}
           >
-            ציונים
+            השכלה
           </button>
           <button
             className={`flex-1 py-3 px-4 text-center font-medium ${
@@ -315,13 +322,15 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
                     <label className="block text-sm font-medium mb-1">זמינות</label>
                     <select
                       name="status"
-                      value={editedData.role || "זמין"}
+                      value={editedData.status || "זום"}
                       onChange={handleEditInputChange}
                       className={`w-full p-3 border ${styles.cardBorder} rounded-lg`}
                       dir="rtl"
                     >
-                      <option value="זמין">זמין</option>
-                      <option value="לא זמין">לא זמין</option>
+                      <option value="זום">זום</option>
+                      <option value="פרונטלי">פרונטלי</option>
+                      <option value="פרונטלי + זום">פרונטלי + זום</option>
+
                     </select>
                   </div>
                 </div>
@@ -334,7 +343,9 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
                   <label className="block text-sm font-medium mb-1">תחומים (מופרדים בפסיקים)</label>
                   <input
                     type="text"
-                    value={(editedData.subjects || []).join(", ")}
+                    value={(editedData.subjects || [])
+                      .map((s) => s.course_name)
+                      .join(", ")}                    
                     onChange={handleSubjectsChange}
                     className={`w-full p-3 border ${styles.cardBorder} rounded-lg`}
                     dir="rtl"
@@ -392,8 +403,56 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
           {/* Grades Tab */}
           {activeTab === "grades" && (
             <div>
-              <h3 className={`text-lg font-bold mb-3 ${styles.textColor}`}>ציונים</h3>
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+              <div>
+                <label className="block text-sm font-medium mb-1">תואר</label>
+                <input
+                  type="text"
+                  name="degree"
+                  value={editedData.fieldOfStudy || ""}
+                  onChange={handleEditInputChange}
+                  className={`w-full p-2 border ${styles.cardBorder} rounded-lg`}
+                  dir="rtl"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">מוסד לימודים</label>
+                <input
+                  type="text"
+                  name="institution"
+                  value={editedData.institution || ""}
+                  onChange={handleEditInputChange}
+                  className={`w-full p-2 border ${styles.cardBorder} rounded-lg`}
+                  dir="rtl"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">שנת התחלה</label>
+                <input
+                  type="text"
+                  name="startYear"
+                  value={editedData.startDate || ""}
+                  onChange={handleEditInputChange}
+                  className={`w-full p-2 border ${styles.cardBorder} rounded-lg`}
+                  dir="rtl"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">שנת סיום</label>
+                <input
+                  type="text"
+                  name="endYear"
+                  value={editedData.endDate || ""}
+                  onChange={handleEditInputChange}
+                  className={`w-full p-2 border ${styles.cardBorder} rounded-lg`}
+                  dir="rtl"
+                />
+              </div>
+            </div>
+
               <div className="space-y-3">
+              <h3 className={`text-lg font-bold mb-3 ${styles.textColor}`}>ציונים</h3>
+
                 {editedGrades.map((grade, index) => (
                   <div key={index} className="flex items-center gap-2 p-3 border rounded-lg">
                     <div className="flex-1">
@@ -665,22 +724,6 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
                     <span className="mr-2">₪ / שעה</span>
                   </div>
                   <p className="text-sm text-gray-500 mt-1">מחיר לשיעור פרטי אישי</p>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-1">מחיר שיעור קבוצתי (₪)</label>
-                  <div className="flex items-center">
-                    <input
-                      type="number"
-                      name="group_price"
-                      value={editedData.group_price || ""}
-                      onChange={handleEditInputChange}
-                      className={`w-full p-3 border ${styles.cardBorder} rounded-lg`}
-                      dir="rtl"
-                    />
-                    <span className="mr-2">₪ / שעה</span>
-                  </div>
-                  <p className="text-sm text-gray-500 mt-1">מחיר לשיעור קבוצתי (2-5 תלמידים)</p>
                 </div>
               </div>
             </div>

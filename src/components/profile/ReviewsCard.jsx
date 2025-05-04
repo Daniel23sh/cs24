@@ -188,7 +188,7 @@ export default function ReviewsSection({ reviews, styles }) {
                 <Star key={i} className={`h-7 w-7 ${i < ratingStats.average ? "fill-current" : "stroke-current"}`} />
               ))}
             </div>
-            <span className="text-gray-600">{ratingStats.total} reviews</span>
+            <span className="text-gray-600" dir="ltr">{ratingStats.total} reviews</span>
           </div>
         </div>
       </div>
@@ -199,14 +199,14 @@ export default function ReviewsSection({ reviews, styles }) {
             <div className="flex items-start gap-3">
               {/* Avatar with initials */}
               <div className={`w-10 h-10 rounded-full ${styles.eventBg} bg-blue-500 text-white flex items-center justify-center flex-shrink-0 ml-4`}>
-                {getInitials("דני שצוב")}
+                {getInitials("אנונימי")}
               </div>
 
               <div className="flex-1">
                 {/* If no content, stars are aligned with title */}
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="font-bold text-lg text-gray-800">anonymus</h3>
+                    <h3 className="font-bold text-lg text-gray-800">אנונימי</h3>
                     <p className="text-gray-600 text-md mt-1">{review.comment}</p>
                   </div>
                   <div>{renderStars(review.rating)}</div>
