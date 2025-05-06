@@ -71,7 +71,13 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
   const handleLoginError = (error) => {
     setShowLoginModal(false);
   };
-
+  const formatPhoneNumber = (num = "") => {
+    // strip non-digits
+    const cleaned = num.replace(/\D/g, "");
+    // match Israeli mobile 0XX-XXXX-XXX (10 digits)
+    const match = cleaned.match(/^(0\d{2})(\d{3})(\d{4})$/);
+    return match ? `${match[1]}-${match[2]}-${match[3]}` : num;
+  };
   const handleWhatsAppClick = async (e) => {
     try {
       const { error } = await supabase
@@ -131,14 +137,14 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
 
   return (
     <>
-      <Card className={`bg-white border ${styles.cardBorder}`}>
+      <Card className={`bg-white border ${styles.cardBorder} `}>
         <CardHeader className="pb-3">
           <div className="flex flex-col space-y-1.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
               <Link
                 to={`/tutors/${formatTutorNameForRoute(tutor.name)}`}
-                state={{ tutor, courseType }}
+                state={{ tutor, courseType,  }}
                 className="relative"
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}
@@ -187,7 +193,7 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <p className="text-sm text-gray-600">{tutor.phone || 'לא זמין'}</p>
+                <p className="text-sm text-gray-600">{formatPhoneNumber(tutor.phone) || 'לא זמין'}</p>
                 <Button
                   className={styles.textSecondary}
                   onClick={handleFeedbackClick}

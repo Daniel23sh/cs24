@@ -24,20 +24,15 @@ export default function EducationProfileSection({ tutor, styles }) {
               <h3 className="text-xl font-bold text-gray-900">{tutor.fieldOfStudy}</h3>
               <div className="flex items-center mt-1 text-gray-600">
                 <BookOpen className="h-4 w-4 mr-2 ml-2" />
-                <span>{tutor.institution}</span>
+                <span className="mb-1">{tutor.institution}</span>
               </div>
             </div>
-            <div className="flex items-center text-sm text-gray-500 mt-2 ml-16 sm:mt-0">
+            <div className="flex items-center text-sm text-gray-500 mt-2 ml-8 sm:mt-0">
               <Calendar className={`h-4 w-4 mr-2 ml-2 ${styles.iconColor}`} />
               <span>
-                {tutor.startDate} — {tutor.endDate}
+              {tutor.endDate} — {tutor.startDate} 
               </span>
             </div>
-          </div>
-
-          <div className="mb-4 flex items-center gap-2">
-            <Award className={`h-5 w-5 ${styles.iconColor}`} />
-            <h4 className={`text-lg font-medium ${styles.textColor}`}>הישגים אקדמיים</h4>
           </div>
 
           <div className="overflow-x-auto">
