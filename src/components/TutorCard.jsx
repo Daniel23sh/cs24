@@ -35,6 +35,7 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
   const hasUserFeedback = tutor.has_user_feedback;
 
   const reviewsWithComments = tutor.feedback?.filter(fb => fb.comment?.trim()) || [];
+  const isDevMode = process.env.REACT_APP_DEV?.toLowerCase() === 'true';
 
   const sortedReviews = [...reviewsWithComments].sort((a, b) => {
     return new Date(b.created_at) - new Date(a.created_at);
@@ -142,6 +143,7 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
           <div className="flex flex-col space-y-1.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
+                {isDevMode && (
               <Link
                 to={`/tutors/${formatTutorNameForRoute(tutor.name)}`}
                 state={{ tutor, courseType,  }}
@@ -173,6 +175,7 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
                   )}
                 </div>
               </Link>
+                )}
                 <h3 className={`md:text-lg text-md font-semibold ${styles.textColor}`}>{tutor.name}</h3>
                 <div className="flex items-center gap-1">
                   <Star className={`h-4 w-4 ${styles.starColor} ${tutor.average_rating ? 'fill-current' : ''}`} />
@@ -232,7 +235,7 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
               <Link
                 to={`/tutors/${tutor.name.replace(/\s+/g, "-").toLowerCase()}`}
                 state={{ tutor }}
-                className={`${styles.buttonSecondary} px-3 py-1 rounded-full text-sm`}
+                className={`${styles.buttonSecondary} ${isDevMode ? "": "hidden"} px-3 py-1 rounded-full text-sm`}
               >
                 צפייה בפרופיל
               </Link>

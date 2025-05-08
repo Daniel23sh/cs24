@@ -8,7 +8,8 @@ const ProfileCard = ({ tutorData, styles }) => {
   const scrollToBottom = () => {
     window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
   };
-  
+  const isDevMode = process.env.REACT_APP_DEV?.toLowerCase() === 'true';
+
   const linke = tutorData.linkedin || "" //"https://www.linkedin.com/in/daniel-shatzov/";
   const githu = tutorData.github || "" //"https://github.com/Daniel23sh";
   const other = tutorData.other || "" 
@@ -39,7 +40,7 @@ const ProfileCard = ({ tutorData, styles }) => {
     return match ? `${match[1]}-${match[2]}-${match[3]}` : num;
   };
   return (
-    <div className="block p-4 relative z-20">
+    <div className={`block p-4 relative z-20 ${ isDevMode && 'pt-24' }`}>
       <div className="max-w-6xl mx-auto -mb-8">
       <div className={`relative bg-white border ${styles.cardBorder} rounded-xl shadow-md overflow-hidden flex flex-col md:flex-row mx-auto`}>
 
@@ -108,7 +109,7 @@ const ProfileCard = ({ tutorData, styles }) => {
                 <MapPin className={`h-5 w-5 ${styles.iconColor}`} />
               </div>
               <span className="break-words text-right mr-2">
-                {tutorData.status}
+                מועבר ב{tutorData.status}
               </span>
             </div>
           </div>

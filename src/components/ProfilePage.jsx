@@ -11,7 +11,7 @@ import SimilarTutors from "./profile/SimilarTutors"
 import EducationProfileSection from "./profile/EducationCard"
 import ContactCard from "./profile/ContactCard"
 import UpcomingEvents from "./profile/EventsCard"
-
+import Navbar from "./Navbar"
 const normalizeTutorData = (tutor) => {
   return {
     ...tutor,
@@ -36,6 +36,7 @@ const ProfilePage = () => {
   const stateCourseType = location.state?.courseType
   const courseType = tutorData?.course_type || stateCourseType || "cs"
   const styles = courseStyles[courseType]
+  const isDevMode = process.env.REACT_APP_DEV?.toLowerCase() === 'true';
 
   const sectionKey = courseType + "Tutors"
   const sectionTutors = mockData[sectionKey] || []
@@ -124,10 +125,11 @@ const ProfilePage = () => {
       >
         <path fill={styles.background} fillOpacity="0.49" d={backgroundPath} />
       </svg>
+      { isDevMode && <Navbar courseType={courseType} /> }
 
       <ProfileCard styles={styles} tutorData={tutorData} />
 
-      <div className={`relative z-10 p-4 mx-auto w-full max-w-screen-xl`}>
+      <div className={`relative z-10 p-4 mx-auto w-full max-w-screen-xl `}>
         <div
           className={`bg-white rounded-xl border mb-6 w-full ${styles.cardBorder} max-w-[73rem] mx-auto space-y-8 mt-4 px-4 pb-12`}
         >
