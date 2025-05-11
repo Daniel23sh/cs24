@@ -145,8 +145,8 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
               <div className="flex items-center gap-2">
                 {isDevMode && (
               <Link
-                to={`/tutors/${formatTutorNameForRoute(tutor.name)}`}
-                state={{ tutor, courseType,  }}
+                to={`/tutors/${courseType}/${tutor.id}/${formatTutorNameForRoute(tutor.name)}`}
+                //state={{ tutor, courseType,  }}
                 className="relative"
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}
@@ -233,9 +233,9 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
                   : `ראה תגובות (${reviewsWithComments.length})`}
               </Button>
               <Link
-                to={`/tutors/${tutor.name.replace(/\s+/g, "-").toLowerCase()}`}
-                state={{ tutor }}
-                className={`${styles.buttonSecondary} ${isDevMode ? "": "hidden"} px-3 py-1 rounded-full text-sm`}
+                to={`/tutors/${courseType}/${tutor.id}/${formatTutorNameForRoute(tutor.name)}`}
+                //state={{ tutor }}
+                className={`${styles.iconColorReverse} ${isDevMode ? "": "hidden"} px-3 py-1 rounded-full text-sm`}
               >
                 צפייה בפרופיל
               </Link>
