@@ -18,18 +18,14 @@ import { courseTypeOptions } from "../config/courseStyles";
 
 const ProfilePage = () => {
   const { id, tutorName, courseType } = useParams()
-  const location = useLocation()
   const DEGREE_NAMES = Object.fromEntries(
     courseTypeOptions.map(option => [option.type, option.label])
   );
   
   const displayName = decodeURIComponent(tutorName.replace(/-/g, " "))
-  const passedTutor = location.state?.tutor
-
-  const [tutorData, setTutorData] = useState(passedTutor)
-  const [loading, setLoading] = useState(!passedTutor)
+  const [tutorData, setTutorData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null)
-  const [tutorsError, setTutorsError] = useState(null);
   const [tutorsWithFeedback, setTutorsWithFeedback] = useState([]);
 
 
@@ -104,7 +100,6 @@ const ProfilePage = () => {
   };
 
   const loadTutorsWithFeedback = async () => {
-    setTutorsError(null); // Clear any previous error
     setLoading(true);
 
     const sectionKey = courseType + "Tutors";
@@ -157,11 +152,8 @@ const ProfilePage = () => {
   };
 
   useEffect(() => {
-    if (!passedTutor) {
       loadTutorsWithFeedback();
-
-    }
-  }, [passedTutor, displayName, id]);
+  },  [displayName, id, courseType]);
 
   if (loading)
     return (
