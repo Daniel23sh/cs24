@@ -32,7 +32,7 @@ export default function NotFoundPage() {
               <Button
                 variant="default"
                 onClick={() => navigate("/")}
-                className="my-5 bg-green-600 hover:bg-green-700 "
+                className="text-white my-5 bg-blue-600 hover:bg-blue-700 "
               >
                 Go to Home
               </Button>
