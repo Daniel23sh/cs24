@@ -62,16 +62,6 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
     }
   };
 
-  const handleLoginSuccess = (data) => {
-    setShowLoginModal(false);
-    setTimeout(() => {
-      setShowFeedbackForm(true);
-    }, 1000);
-  };
-
-  const handleLoginError = (error) => {
-    setShowLoginModal(false);
-  };
   const formatPhoneNumber = (num = "") => {
     // strip non-digits
     const cleaned = num.replace(/\D/g, "");
