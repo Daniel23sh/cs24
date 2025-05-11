@@ -14,7 +14,7 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
-        <Route path="/tutors/:tutorName" element={<ProfilePage />} />
+        <Route path="/tutors/:courseType/:id/:tutorName" element={<ProfilePage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
