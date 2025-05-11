@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
 import AuthCallback from './components/AuthCallback';
 import ProfilePage from './components/ProfilePage';
