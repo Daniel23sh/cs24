@@ -47,7 +47,7 @@ const ProfileCard = ({ tutorData, styles }) => {
           {/* edit button top-left */}
           <button
             onClick={() => setShowEditModal(true)}
-            className="absolute top-4 left-4 p-2 rounded-full bg-white hover:bg-gray-100 shadow-sm"
+            className={`absolute top-4 left-4 p-2 rounded-full bg-white hover:bg-gray-100 shadow-sm ${isDevMode ? "": 'hidden'}`}
             aria-label="Edit profile"
           >
             <Edit className="h-5 w-5 text-gray-500" />
