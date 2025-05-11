@@ -12,93 +12,156 @@ import EducationProfileSection from "./profile/EducationCard"
 import ContactCard from "./profile/ContactCard"
 import UpcomingEvents from "./profile/EventsCard"
 import Navbar from "./Navbar"
-const normalizeTutorData = (tutor) => {
-  return {
-    ...tutor,
-    subjects: tutor.subjects?.map((sub) =>
-      typeof sub === "string" ? { course_name: sub } : sub
-    ) || []
-  }
-}
+import { courseTypeOptions } from "../config/courseStyles";
+
+
 
 const ProfilePage = () => {
-  const { tutorName } = useParams()
+  const { id, tutorName, courseType } = useParams()
   const location = useLocation()
-
+  const DEGREE_NAMES = Object.fromEntries(
+    courseTypeOptions.map(option => [option.type, option.label])
+  );
+  
   const displayName = decodeURIComponent(tutorName.replace(/-/g, " "))
   const passedTutor = location.state?.tutor
 
-  const [tutorData, setTutorData] = useState(passedTutor ? normalizeTutorData(passedTutor) : null)
+  const [tutorData, setTutorData] = useState(passedTutor)
   const [loading, setLoading] = useState(!passedTutor)
   const [error, setError] = useState(null)
-  const [reviews, setReviews] = useState([])
+  const [tutorsError, setTutorsError] = useState(null);
+  const [tutorsWithFeedback, setTutorsWithFeedback] = useState([]);
 
-  const stateCourseType = location.state?.courseType
-  const courseType = tutorData?.course_type || stateCourseType || "cs"
+
+
   const styles = courseStyles[courseType]
   const isDevMode = process.env.REACT_APP_DEV?.toLowerCase() === 'true';
 
-  const sectionKey = courseType + "Tutors"
-  const sectionTutors = mockData[sectionKey] || []
-  const similarTutors = tutorData
-    ? sectionTutors
-        .filter((tutor) =>
-          tutor.name !== tutorData.name &&
-          tutor.subjects?.some((sub) =>
-            tutorData.subjects.some((mySub) => mySub.course_name === sub.course_name)
-          )
-        )
-        .map((tutor) => ({ ...tutor }))
-    : []
+  const similarTutors = tutorData && tutorsWithFeedback.length > 0
+    ? (() => {
+        // Sort all tutors by wilson_score (or average_rating as fallback)
+        const sortedTutors = [...tutorsWithFeedback]
+          .filter(tutor => tutor.name !== tutorData.name)
+          .sort((a, b) => {
+            const scoreA = a.wilson_score ?? a.average_rating ?? 0;
+            const scoreB = b.wilson_score ?? b.average_rating ?? 0;
+            return scoreB - scoreA;
+          });
+
+        // Tutors with at least one matching subject
+        const matchingTutors = sortedTutors.filter(tutor =>
+          tutorData.subjects.some(mySub => mySub.course_name === tutor.course_name)
+        );
+
+        // Take up to 6 matching tutors
+        const selected = matchingTutors.slice(0, 6);
+
+        // If not enough, fill with the next highest scoring tutors (excluding already selected)
+        if (selected.length < 6) {
+          const selectedNames = new Set(selected.map(t => t.name));
+          const fillers = sortedTutors.filter(tutor => !selectedNames.has(tutor.name)).slice(0, 6 - selected.length);
+          return [...selected, ...fillers];
+        }
+        return selected;
+      })()
+    : [];
+
+  const calculateWilsonScore = (avg, count, maxRating = 5, z = 1.96) => {
+    if (count === 0) return 0;
+    const phat = avg; // already normalized!
+    const n = count;
+    // Prevent math errors on exact 0 or 1
+    const safePhat = Math.min(Math.max(phat, 0.0001), 0.9999);
+    const numerator =
+      safePhat +
+      (z ** 2) / (2 * n) -
+      (z * Math.sqrt((safePhat * (1 - safePhat) + (z ** 2) / (4 * n)) / n));
+    const denominator = 1 + (z ** 2) / n;
+    return numerator / denominator;
+  };
+
+  const scoreAndSortTutors = (tutors) => {
+    const tutorsWithStats = tutors.map((tutor) => {
+      const validRatings = tutor.feedback?.filter((f) => f.rating) || [];
+      const count = validRatings.length;
+      const sum = validRatings.reduce((acc, f) => acc + f.rating, 0);
+      const average_rating = count > 0 ? sum / count : null;
+      const wilson_score = count > 0
+        ? calculateWilsonScore(average_rating / 5, count)
+        : 0;
+
+      return {
+        ...tutor,
+        average_rating,
+        feedback_count: count,
+        wilson_score,
+      };
+    });
+
+    // Sort by Wilson score descending
+    const sorted = tutorsWithStats.sort((a, b) => b.wilson_score - a.wilson_score);
+    return sorted;
+  };
+
+  const loadTutorsWithFeedback = async () => {
+    setTutorsError(null); // Clear any previous error
+    setLoading(true);
+
+    const sectionKey = courseType + "Tutors";
+    const sectionTutors = mockData[sectionKey] || [];
+
+    // Helper for fallback tutors (mock data)
+    const fallback = () => {
+      setTutorsWithFeedback(scoreAndSortTutors(sectionTutors));
+      // Find the specific tutor in mock data
+      const specificTutor = sectionTutors.find(tutor => String(tutor.id) === String(id) && tutor.name === displayName);
+      if (specificTutor) {
+        setTutorData(specificTutor);
+      } else {
+        setError("המורה המבוקש לא נמצא.");
+      }
+
+    };
+
+    try {
+      const { data: newDegreeId, error: degreeError } = await supabase.rpc(
+        'get_degree_id_by_details',
+        {
+          p_degree_name: DEGREE_NAMES[courseType],
+          p_academy_id: 1
+        }
+      );
+
+      const { data: tutors, error } = await supabase
+        .rpc('new_get_tutors_with_feedback', {
+          p_degree_id: newDegreeId
+        });
+      if (error || !tutors) {
+        fallback();
+        return;
+      }
+      setTutorsWithFeedback(scoreAndSortTutors(tutors));
+      // Filter to find the specific tutor by id and displayName
+      const specificTutor = tutors.find(tutor => String(tutor.id) === String(id) && tutor.name === displayName);
+
+      if (specificTutor) {
+        setTutorData((specificTutor));
+      } else {
+        setError("המורה המבוקש לא נמצא.");
+      }
+    } catch {
+      fallback();
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (!passedTutor) {
-      const fetchTutor = async () => {
-        const { data, error } = await supabase
-          .from("tutors")
-          .select("*, feedback(*), subjects")
-          .eq("name", displayName)
-          .maybeSingle()
+      loadTutorsWithFeedback();
 
-        if (error) {
-          setError(error.message)
-        } else {
-          console.log("Tutor data fetched from Supabase:", data)
-          setTutorData(normalizeTutorData(data))
-        }
-        setLoading(false)
-      }
-      fetchTutor()
     }
-  }, [passedTutor, displayName])
-
-  useEffect(() => {
-    if (tutorData) {
-      if (tutorData.feedback && tutorData.feedback.length > 0) {
-        const reviewsWithComments = tutorData.feedback.filter((fb) => fb.comment?.trim())
-        const sortedReviews = [...reviewsWithComments].sort(
-          (a, b) => new Date(b.created_at) - new Date(a.created_at)
-        )
-        setReviews(sortedReviews)
-      } else {
-        const fetchReviews = async () => {
-          const { data, error } = await supabase
-            .from("feedback")
-            .select("*")
-            .eq("tutor_id", tutorData.id)
-            .order("created_at", { ascending: false })
-
-          if (error) {
-            console.error("Error fetching reviews: ", error)
-          } else {
-            const reviewsWithComments = data?.filter((fb) => fb.comment?.trim()) || []
-            setReviews(reviewsWithComments)
-          }
-        }
-        fetchReviews()
-      }
-    }
-  }, [tutorData])
+  }, [passedTutor, displayName, id]);
 
   if (loading)
     return (
