@@ -1,13 +1,20 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import { useParams } from "react-router-dom"
 import { ChevronLeft, ChevronRight, Users, Star } from "lucide-react"
 import { Link } from "react-router-dom"
 import image from "../../config/user-profile.png"
-const TutorComponent = ({ tutors, styles }) => {
+
+const TutorComponent = ({ tutors, styles, courseType }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [visibleCount, setVisibleCount] = useState(3)
   const carouselRef = useRef(null)
+  const { id, tutorName } = useParams()
+  const displayName = decodeURIComponent(tutorName.replace(/-/g, " "))
+  const sectionKey = courseType + "Tutors"
+  const sectionTutors = tutors[sectionKey] || []
+  const [tutorData, setTutorData] = useState(null)
 
   const isTouchDevice = typeof window !== "undefined" && (navigator.maxTouchPoints > 0 || "ontouchstart" in window)
   const StarRating = ({ rating, max = 5, size = 14 }) => {
@@ -45,6 +52,13 @@ const TutorComponent = ({ tutors, styles }) => {
     window.addEventListener("resize", update)
     return () => window.removeEventListener("resize", update)
   }, [isTouchDevice])
+
+  useEffect(() => {
+    const foundTutor = sectionTutors.find(
+      tutor => tutor.id === Number(id) && tutor.name === displayName
+    )
+    setTutorData(foundTutor || null)
+  }, [id, tutorName, courseType, sectionTutors, displayName]);
 
   const isMobile = visibleCount === 1
 
@@ -143,8 +157,7 @@ const TutorComponent = ({ tutors, styles }) => {
 
                   {/* view profile btn */}
                   <Link
-                    to={`/tutors/${tutor.name.replace(/\s+/g, "-").toLowerCase()}`}
-                    state={{ tutor }}
+                    to={`/tutors/${courseType}/${tutor.id}/${tutor.name.replace(/\s+/g, "-").toLowerCase()}`}
                     className={`${styles.buttonSecondary} mt-auto mx-auto px-4 py-1.5 rounded-full text-sm block `}
                   >
                     צפייה בפרופיל
