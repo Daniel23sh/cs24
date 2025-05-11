@@ -14,6 +14,7 @@ const Router = isDev ? HashRouter : BrowserRouter;
 const AppRoutes = () => {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
