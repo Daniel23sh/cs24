@@ -35,6 +35,7 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
   const hasUserFeedback = tutor.has_user_feedback;
 
   const reviewsWithComments = tutor.feedback?.filter(fb => fb.comment?.trim()) || [];
+  const isDevMode = process.env.REACT_APP_DEV?.toLowerCase() === 'true';
 
   const sortedReviews = [...reviewsWithComments].sort((a, b) => {
     return new Date(b.created_at) - new Date(a.created_at);
@@ -61,17 +62,13 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
     }
   };
 
-  const handleLoginSuccess = (data) => {
-    setShowLoginModal(false);
-    setTimeout(() => {
-      setShowFeedbackForm(true);
-    }, 1000);
+  const formatPhoneNumber = (num = "") => {
+    // strip non-digits
+    const cleaned = num.replace(/\D/g, "");
+    // match Israeli mobile 0XX-XXXX-XXX (10 digits)
+    const match = cleaned.match(/^(0\d{2})(\d{3})(\d{4})$/);
+    return match ? `${match[1]}-${match[2]}-${match[3]}` : num;
   };
-
-  const handleLoginError = (error) => {
-    setShowLoginModal(false);
-  };
-
   const handleWhatsAppClick = async (e) => {
     try {
       const { error } = await supabase
@@ -136,9 +133,10 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
           <div className="flex flex-col space-y-1.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
+                {isDevMode && (
               <Link
-                to={`/tutors/${formatTutorNameForRoute(tutor.name)}`}
-                state={{ tutor, courseType }}
+                to={`/tutors/${courseType}/${tutor.id}/${formatTutorNameForRoute(tutor.name)}`}
+                //state={{ tutor, courseType,  }}
                 className="relative"
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}
@@ -167,6 +165,7 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
                   )}
                 </div>
               </Link>
+                )}
                 <h3 className={`md:text-lg text-md font-semibold ${styles.textColor}`}>{tutor.name}</h3>
                 <div className="flex items-center gap-1">
                   <Star className={`h-4 w-4 ${styles.starColor} ${tutor.average_rating ? 'fill-current' : ''}`} />
@@ -187,7 +186,7 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <p className="text-sm text-gray-600">{tutor.phone || 'לא זמין'}</p>
+                <p className="text-sm text-gray-600">{formatPhoneNumber(tutor.phone) || 'לא זמין'}</p>
                 <Button
                   className={styles.textSecondary}
                   onClick={handleFeedbackClick}
@@ -224,9 +223,9 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
                   : `ראה תגובות (${reviewsWithComments.length})`}
               </Button>
               <Link
-                to={`/tutors/${tutor.name.replace(/\s+/g, "-").toLowerCase()}`}
-                state={{ tutor }}
-                className={`${styles.buttonSecondary} px-3 py-1 rounded-full text-sm`}
+                to={`/tutors/${courseType}/${tutor.id}/${formatTutorNameForRoute(tutor.name)}`}
+                //state={{ tutor }}
+                className={`${styles.iconColorReverse} ${isDevMode ? "": "hidden"} px-3 py-1 rounded-full text-sm`}
               >
                 צפייה בפרופיל
               </Link>

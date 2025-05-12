@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react"
-import { Star, MessagesSquare } from "lucide-react"
+import {  Star, MessagesSquare } from "lucide-react"
+import { format } from 'date-fns';
 
 export default function ReviewsSection({ reviews, styles }) {
   // Sample review data matching the image
@@ -36,8 +37,13 @@ export default function ReviewsSection({ reviews, styles }) {
   // Get current page reviews
   const indexOfLastReview = currentPage * reviewsPerPage
   const indexOfFirstReview = indexOfLastReview - reviewsPerPage
-  const currentReviews = reviews?.slice(indexOfFirstReview, indexOfLastReview) || []
-
+  const currentReviews = useMemo(() => {
+    const sorted = [...(reviews || [])].sort(
+      (a, b) => new Date(b.created_at) - new Date(a.created_at)
+    )
+    return sorted.slice(indexOfFirstReview, indexOfLastReview)
+  }, [reviews, indexOfFirstReview, indexOfLastReview])
+  
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber)
 
@@ -46,7 +52,33 @@ export default function ReviewsSection({ reviews, styles }) {
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i)
   }
-
+  const StarRating = ({ rating, max = 5, size = 28 }) => {
+    return (
+      <div className="flex gap-1">
+        {[...Array(max)].map((_, i) => {
+          const fillPercent = Math.min(Math.max(rating - i, 0), 1) * 100 // between 0% and 100%
+  
+          return (
+            <div key={i} className="relative" style={{ width: size, height: size }}>
+              {/* Gray base star */}
+              <Star className="absolute text-yellow-400 w-full h-full"  />
+  
+              {/* Filled overlay star */}
+              <Star
+                className="absolute text-yellow-400 w-full h-full" 
+                style={{
+                  clipPath: `inset(0 0 0 ${100 - fillPercent}% )`,
+                  stroke: "none",     // removes gray outline
+                  fill: "currentColor" // fills with yellow
+                }}
+              />
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
+  
   // Handle pagination display logic
   const renderPageNumbers = () => {
     if (totalPages <= 5) {
@@ -132,17 +164,6 @@ export default function ReviewsSection({ reviews, styles }) {
     }
   }
 
-  // Render stars for rating (showing all 5 stars, with the appropriate number filled)
-  const renderStars = (rating) => {
-    return (
-      <div className="flex text-yellow-400">
-        {[...Array(5)].map((_, i) => (
-          <Star key={i} className={`h-5 w-5 ${i < rating ? "fill-current" : "stroke-current"}`} />
-        ))}
-      </div>
-    )
-  }
-
   // Generate initials from name
   const getInitials = (name) => {
     return name
@@ -184,9 +205,7 @@ export default function ReviewsSection({ reviews, styles }) {
           <div className="flex flex-col items-center mt-10 mr-4 md:mr-40 ">
             <span className="text-7xl md:text-8xl font-bold text-yellow-400">{ratingStats.average}</span>
             <div className="flex text-yellow-400 my-1">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className={`h-7 w-7 ${i < ratingStats.average ? "fill-current" : "stroke-current"}`} />
-              ))}
+            <StarRating rating={ 4.7 } />
             </div>
             <span className="text-gray-600" dir="ltr">{ratingStats.total} reviews</span>
           </div>
@@ -209,12 +228,12 @@ export default function ReviewsSection({ reviews, styles }) {
                     <h3 className="font-bold text-lg text-gray-800">אנונימי</h3>
                     <p className="text-gray-600 text-md mt-1">{review.comment}</p>
                   </div>
-                  <div>{renderStars(review.rating)}</div>
+                  <div><StarRating rating={review.rating} size={20} /></div>
                 </div>
 
                 {/* Date stamp in the lower left (RTL: lower right) */}
                 <div className="flex justify-start mt-2">
-                  <span className="text-gray-400 text-sm">{review.created_at}</span>
+                  <span className="text-gray-400 text-sm"> {format(new Date(review.created_at), 'dd/MM/yyyy')}</span>
                 </div>
               </div>
             </div>

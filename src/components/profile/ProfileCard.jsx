@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Star, Book, Phone, Linkedin, Github, Verified, MapPin, Edit  } from "lucide-react";
+import { Star, Book, Phone, Linkedin, Github, Verified, MapPin, Edit, Paperclip  } from "lucide-react";
 import image from "../../config/user-profile.png";
 import EditPanel from "../EditPanel"
 
@@ -8,12 +8,13 @@ const ProfileCard = ({ tutorData, styles }) => {
   const scrollToBottom = () => {
     window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
   };
-  
-  const linke = "https://www.linkedin.com/in/daniel-shatzov/";
-  const githu = "https://github.com/Daniel23sh";
+  const isDevMode = process.env.REACT_APP_DEV?.toLowerCase() === 'true';
+
+  const linke = tutorData.linkedin || "" //"https://www.linkedin.com/in/daniel-shatzov/";
+  const githu = tutorData.github || "" //"https://github.com/Daniel23sh";
+  const other = tutorData.other || "" 
   const [localData, setLocalData] = useState(tutorData)
   const [showEditModal, setShowEditModal] = useState(false)
-
   // keep in sync when parent prop changes
   useEffect(() => {
     setLocalData(tutorData)
@@ -24,6 +25,12 @@ const ProfileCard = ({ tutorData, styles }) => {
     setLocalData({ ...updatedData, events: updatedEvents, grades: updatedGrades })
     setShowEditModal(false)
   }
+  const calcAverageRating = (feedbackArray) => {
+    if (!feedbackArray || feedbackArray.length === 0) return null
+    const sum = feedbackArray.reduce((acc, cur) => acc + (cur.rating || 0), 0)
+    return sum / feedbackArray.length
+  }
+  const rating = tutorData.average_rating ?? calcAverageRating(tutorData.feedback)
 
   const formatPhoneNumber = (num = "") => {
     // strip non-digits
@@ -33,14 +40,14 @@ const ProfileCard = ({ tutorData, styles }) => {
     return match ? `${match[1]}-${match[2]}-${match[3]}` : num;
   };
   return (
-    <div className="block p-4 relative z-20">
+    <div className={`block p-4 relative z-20 ${ isDevMode && 'pt-24' }`}>
       <div className="max-w-6xl mx-auto -mb-8">
       <div className={`relative bg-white border ${styles.cardBorder} rounded-xl shadow-md overflow-hidden flex flex-col md:flex-row mx-auto`}>
 
           {/* edit button top-left */}
           <button
             onClick={() => setShowEditModal(true)}
-            className="absolute top-4 left-4 p-2 rounded-full bg-white hover:bg-gray-100 shadow-sm"
+            className={`absolute top-4 left-4 p-2 rounded-full bg-white hover:bg-gray-100 shadow-sm ${isDevMode ? "": 'hidden'}`}
             aria-label="Edit profile"
           >
             <Edit className="h-5 w-5 text-gray-500" />
@@ -72,7 +79,7 @@ const ProfileCard = ({ tutorData, styles }) => {
               <div className="flex items-center">
                 <Star className="h-5 w-5 text-yellow-400 fill-current ml-1" />
                 <span className="ml-1 font-semibold text-gray-900">
-                  {tutorData.average_rating?.toFixed(1) || "N/A"}
+                {rating ? rating.toFixed(1) : "N/A"}
                 </span>
                 <span className="ml-1 text-gray-500"  dir="ltr">
                   ({tutorData.feedback?.length || 0} reviews)
@@ -102,7 +109,7 @@ const ProfileCard = ({ tutorData, styles }) => {
                 <MapPin className={`h-5 w-5 ${styles.iconColor}`} />
               </div>
               <span className="break-words text-right mr-2">
-                {tutorData.status}
+                מועבר ב{tutorData.status}
               </span>
             </div>
           </div>
@@ -131,26 +138,78 @@ const ProfileCard = ({ tutorData, styles }) => {
           </div>
 
 
-            {/* Social Links (Mobile) */}
-            <div className="flex gap-4 mt-3 items-center justify-center md:hidden">
-              <a href={linke} className={`${styles.iconColorReverse} p-2 rounded-full hover:shadow-md transition-all`}>
-                <Linkedin className="h-4 w-4" />
-              </a>
-              <a href={githu} className={`${styles.iconColorReverse} p-2 rounded-full hover:shadow-md transition-all`}>
-                <Github className="h-4 w-4" />
-              </a>
-            </div>
-
-            {/* Actions */}
-            <div className="flex flex-col md:flex-row items-center md:justify-between mt-4 gap-4 w-full">
-              <div className="hidden md:flex gap-4 items-center">
-                <a href={linke} className={`${styles.iconColorReverse} p-2 rounded-full hover:shadow-md transition-all`}>
-                  <Linkedin className="h-4 w-4" />
-                </a>
-                <a href={githu} className={`${styles.iconColorReverse} p-2 rounded-full hover:shadow-md transition-all`}>
-                  <Github className="h-4 w-4" />
-                </a>
+           {/* Social Links (Mobile) */}
+            {(linke || githu || other) && (
+              <div className="flex gap-4 mt-3 items-center justify-center md:hidden">
+                {linke && (
+                  <a
+                    href={linke}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${styles.iconColorReverse} p-2 rounded-full hover:shadow-md transition-all`}
+                  >
+                    <Linkedin className="h-4 w-4" />
+                  </a>
+                )}
+                {githu && (
+                  <a
+                    href={githu}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${styles.iconColorReverse} p-2 rounded-full hover:shadow-md transition-all`}
+                  >
+                    <Github className="h-4 w-4" />
+                  </a>
+                )}
+                {other && (
+                  <a
+                    href={other}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${styles.iconColorReverse} p-2 rounded-full hover:shadow-md transition-all`}
+                  >
+                    <Paperclip  className="h-4 w-4" />
+                  </a>
+                )}
               </div>
+            )}
+
+            <div className="flex flex-col md:flex-row items-center md:justify-between mt-4 gap-4 w-full">
+              {/* קישורים (בצד שמאל בדסקטופ) */}
+              <div className="hidden md:flex gap-4 items-center">
+                {linke && (
+                  <a
+                    href={linke}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${styles.iconColorReverse} p-2 rounded-full hover:shadow-md transition-all`}
+                  >
+                    <Linkedin className="h-4 w-4" />
+                  </a>
+                )}
+                {githu && (
+                  <a
+                    href={githu}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${styles.iconColorReverse} p-2 rounded-full hover:shadow-md transition-all`}
+                  >
+                    <Github className="h-4 w-4" />
+                  </a>
+                )}
+                {other && (
+                  <a
+                    href={other}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${styles.iconColorReverse} p-2 rounded-full hover:shadow-md transition-all`}
+                  >
+                    <Paperclip className="h-4 w-4" />
+                  </a>
+                )}
+              </div>
+
+              {/* כפתור – תמיד מוצג */}
               <button
                 onClick={scrollToBottom}
                 className={`${styles.buttonPrimary} text-white rounded-lg font-medium w-full md:w-64 py-2 px-4 md:mt-4`}
@@ -158,6 +217,8 @@ const ProfileCard = ({ tutorData, styles }) => {
                 הזמן שיעור
               </button>
             </div>
+
+
           </div>
         </div>
       </div>

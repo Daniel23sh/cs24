@@ -1,16 +1,48 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { ChevronLeft, ChevronRight, Users } from "lucide-react"
+import { useParams } from "react-router-dom"
+import { ChevronLeft, ChevronRight, Users, Star } from "lucide-react"
 import { Link } from "react-router-dom"
 import image from "../../config/user-profile.png"
-const TutorComponent = ({ tutors, styles }) => {
+
+const TutorComponent = ({ tutors, styles, courseType }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [visibleCount, setVisibleCount] = useState(3)
   const carouselRef = useRef(null)
+  const { id, tutorName } = useParams()
+  const displayName = decodeURIComponent(tutorName.replace(/-/g, " "))
+  const sectionKey = courseType + "Tutors"
+  const sectionTutors = tutors[sectionKey] || []
+  const [tutorData, setTutorData] = useState(null)
 
   const isTouchDevice = typeof window !== "undefined" && (navigator.maxTouchPoints > 0 || "ontouchstart" in window)
-
+  const StarRating = ({ rating, max = 5, size = 14 }) => {
+    return (
+      <div className="flex gap-1">
+        {[...Array(max)].map((_, i) => {
+          const fillPercent = Math.min(Math.max(rating - i, 0), 1) * 100 // between 0% and 100%
+  
+          return (
+            <div key={i} className="relative" style={{ width: size, height: size }}>
+              {/* Gray base star */}
+              <Star className="absolute text-yellow-400 w-full h-full"  />
+  
+              {/* Filled overlay star */}
+              <Star
+                className="absolute text-yellow-400 w-full h-full" 
+                style={{
+                  clipPath: `inset(0 0 0 ${100 - fillPercent}% )`,
+                  stroke: "none",     // removes gray outline
+                  fill: "currentColor" // fills with yellow
+                }}
+              />
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
   useEffect(() => {
     const update = () => {
       const useSingle = window.innerWidth < 768 || isTouchDevice
@@ -20,6 +52,13 @@ const TutorComponent = ({ tutors, styles }) => {
     window.addEventListener("resize", update)
     return () => window.removeEventListener("resize", update)
   }, [isTouchDevice])
+
+  useEffect(() => {
+    const foundTutor = sectionTutors.find(
+      tutor => tutor.id === Number(id) && tutor.name === displayName
+    )
+    setTutorData(foundTutor || null)
+  }, [id, tutorName, courseType, sectionTutors, displayName]);
 
   const isMobile = visibleCount === 1
 
@@ -94,16 +133,7 @@ const TutorComponent = ({ tutors, styles }) => {
                     <div className="flex items-center mt-1">
                       <span className={`text-sm ml-2 ${styles.textColor}`}>{tutor.average_rating?.toFixed(1)}</span>
                       <div className="flex">
-                        {[...Array(5)].map((_, i) => (
-                          <svg
-                            key={i}
-                            className={`w-4 h-4 ${i < tutor.average_rating ? "text-yellow-400" : "text-gray-300"}`}
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.810l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.540 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.720c-.783-.570-.380-1.810.588-1.810h3.461a1 1 0 00.951-.690l1.07-3.292z" />
-                          </svg>
-                        ))}
+                        <StarRating rating={tutor.average_rating} />
                       </div>
                     </div>
                   </div>
@@ -127,8 +157,7 @@ const TutorComponent = ({ tutors, styles }) => {
 
                   {/* view profile btn */}
                   <Link
-                    to={`/tutors/${tutor.name.replace(/\s+/g, "-").toLowerCase()}`}
-                    state={{ tutor }}
+                    to={`/tutors/${courseType}/${tutor.id}/${tutor.name.replace(/\s+/g, "-").toLowerCase()}`}
                     className={`${styles.buttonSecondary} mt-auto mx-auto px-4 py-1.5 rounded-full text-sm block `}
                   >
                     צפייה בפרופיל

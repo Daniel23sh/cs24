@@ -16,11 +16,10 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
     description: "",
   })
   const fileInputRef = useRef(null)
-
+  
   // Initialize edited data when modal opens
   useEffect(() => {
     if (showEditModal) {
-      console.log("tutorData.events on open:", tutorData.events);
 
       setEditedData({
         name: tutorData.name || "",
@@ -429,23 +428,29 @@ const EditPanel = ({ showEditModal, setShowEditModal, tutorData, styles, grades,
               <div>
                 <label className="block text-sm font-medium mb-1">שנת התחלה</label>
                 <input
-                  type="text"
-                  name="startYear"
+                  type="number"
+                  name="startDate"
                   value={editedData.startDate || ""}
                   onChange={handleEditInputChange}
                   className={`w-full p-2 border ${styles.cardBorder} rounded-lg`}
                   dir="rtl"
+                  min="1900"
+                  max="2099"
+                  placeholder="שנה לדוגמה: 2021"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1">שנת סיום</label>
                 <input
-                  type="text"
-                  name="endYear"
+                  type="number"
+                  name="endDate"
                   value={editedData.endDate || ""}
                   onChange={handleEditInputChange}
                   className={`w-full p-2 border ${styles.cardBorder} rounded-lg`}
                   dir="rtl"
+                  min="1900"
+                  max="2099"
+                  placeholder="שנה לדוגמה: 2021"
                 />
               </div>
             </div>
