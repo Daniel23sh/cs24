@@ -177,7 +177,7 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
                 href={`https://wa.me/972${phoneWithoutZero}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`w-10 h-10 flex items-center justify-center rounded-md shadow-md ${styles.iconColorReverse} transition-colors hover:bg-gray-100`}
+                className={`w-10 h-10 flex items-center justify-center rounded-md shadow-md ${styles.buttonPrimary} transition-colors hover:bg-gray-100`}
                 title="WhatsApp"
                 onClick={handleWhatsAppClick}
               >
@@ -225,7 +225,7 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
               <Link
                 to={`/tutors/${courseType}/${tutor.id}/${formatTutorNameForRoute(tutor.name)}`}
                 //state={{ tutor }}
-                className={`${styles.iconColorReverse} ${isDevMode ? "": "hidden"} px-3 py-1 rounded-full text-sm`}
+                className={`${styles.buttonPrimary} ${isDevMode ? "": "hidden"} px-3 py-1 rounded-full text-sm`}
               >
                 צפייה בפרופיל
               </Link>

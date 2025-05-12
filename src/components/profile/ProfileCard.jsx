@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Star, Book, Phone, Linkedin, Github, Verified, MapPin, Edit, Paperclip  } from "lucide-react";
+import { Star, Book, Phone, Linkedin, Github, Verified, MapPin, Edit, Paperclip, Share2 } from "lucide-react";
 import image from "../../config/user-profile.png";
 import EditPanel from "../EditPanel"
 
@@ -47,11 +47,22 @@ const ProfileCard = ({ tutorData, styles }) => {
           {/* edit button top-left */}
           <button
             onClick={() => setShowEditModal(true)}
-            className={`absolute top-4 left-4 p-2 rounded-full bg-white hover:bg-gray-100 shadow-sm ${isDevMode ? "": 'hidden'}`}
+            className={`absolute top-4 left-4 p-2 rounded-full bg-white hover:bg-gray-100 shadow-sm ${isDevMode ? "" : 'hidden'}`}
             aria-label="Edit profile"
           >
             <Edit className="h-5 w-5 text-gray-500" />
           </button>
+
+          {/* share button */}
+          <a
+            href={`https://wa.me/?text=${encodeURIComponent(`הנה הפרופיל של ${tutorData.name} - מורה פרטי${tutorData.subjects ? ` ל${tutorData.subjects.map(s => s.course_name).join(', ')}` : ''}\n\n${window.location.origin}/#/tutors/cs/${tutorData.id}/${tutorData.name.replace(/\s+/g, '-')}`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute top-4 md:left-16 left-7 mt-2 md:mt-0 p-2 rounded-full bg-white hover:bg-gray-100 shadow-sm z-50"
+            aria-label="Share profile"
+          >
+            <Share2 className="h-5 w-5 text-gray-500" />
+          </a>
 
           {/* Profile Photo */}
           <div className="relative w-80 h-72 mx-auto mt-4 md:w-64 md:h-60 md:m-4 md:mt-6">
@@ -70,8 +81,8 @@ const ProfileCard = ({ tutorData, styles }) => {
           <div className="p-5 space-y-4 text-center flex flex-col items-center md:items-start md:flex-1 md:p-6">
             {/* Name and Verification */}
              <div className="flex items-center justify-center md:justify-start space-x-2">
-              <h2 className="text-2xl font-bold text-gray-900">{tutorData.name}</h2>
-              <Verified className="h-6 w-6 text-white fill-blue-500" />
+              <h2 className="text-2xl ml-1 font-bold text-gray-900">{tutorData.name}</h2>
+              <Verified className="h-6 w-6 md:mt-1 text-white fill-blue-500" />
             </div>
            
             {/* Rating & Mobile Price */}
@@ -86,7 +97,7 @@ const ProfileCard = ({ tutorData, styles }) => {
                 </span>
               </div>
               <div className={` px-3 py-1 rounded-full text-sm font-bold flex items-center justify-center ${styles.textColor} ${styles.bgLight} md:hidden`}>
-                {tutorData.private_price}₪ / שעה
+                {tutorData.private_price}₪ / שעה
               </div>
             </div>
 
