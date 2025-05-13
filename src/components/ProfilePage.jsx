@@ -117,10 +117,17 @@ const ProfilePage = () => {
       } else {
         setError("המורה המבוקש לא נמצא.");
       }
-
     };
 
     try {
+      // Get specific tutor profile
+      const { data: tutorProfile, error: tutorError } = await supabase
+        .rpc('get_tutor_profile', {
+          p_tutor_id: id
+        });
+
+
+      // Continue with existing code...
       const { data: newDegreeId, error: degreeError } = await supabase.rpc(
         'get_degree_id_by_details',
         {
@@ -139,10 +146,8 @@ const ProfilePage = () => {
       }
       setTutorsWithFeedback(scoreAndSortTutors(tutors));
       // Filter to find the specific tutor by id and displayName
-      const specificTutor = tutors.find(tutor => String(tutor.id) === String(id) && tutor.name === displayName);
-
-      if (specificTutor) {
-        setTutorData((specificTutor));
+      if (tutorProfile[0]) {
+        setTutorData((tutorProfile[0]));
       } else {
         setError("המורה המבוקש לא נמצא.");
       }
