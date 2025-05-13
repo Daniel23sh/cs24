@@ -61,7 +61,6 @@ const courseStyles = {
     editBg: 'bg-purple-300',
     background: "#ca99ff",
     contactBg: 'bg-purple-300 text-white hover:bg-purple-400',
-
     ringColor: 'ring-purple-600'
   },
   ie: {

@@ -64,14 +64,14 @@ useEffect(() => {
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i)
   }
-  const StarRating = ({ rating, max = 5, size = 28  }) => {
+  const StarRating = ({ rating, max = 5, size = 28 }) => {
     return (
       <div className="flex gap-1">
         {[...Array(max)].map((_, i) => {
           const fillPercent = Math.min(Math.max(rating - i, 0), 1) * 100 // between 0% and 100%
   
           return (
-            <div key={i} className="relative" style={{ width: size  , height: size }}>
+            <div key={i} className="relative" style={{ width: size , height: size }}>
               {/* Gray base star */}
               <Star className="absolute text-yellow-400 w-full h-full"  />
   
