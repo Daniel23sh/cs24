@@ -10,7 +10,7 @@ const ScrollUpButton = ({ styles }) => {
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const scrolled = docHeight > 0 ? scrollTop / docHeight : 0;
       setScroll(scrolled);
-      setShow(window.scrollY > 100);
+      setShow(window.scrollY > 200);
     };
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);

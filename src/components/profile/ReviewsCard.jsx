@@ -188,7 +188,7 @@ useEffect(() => {
 
   return (
     <section className="md:max-w-[65rem] max-w-3xl mx-auto py-8" dir="rtl">
-      <div className="flex items-center gap-3 border-b pb-6 mb-6 -mt-16">
+      <div className="flex items-center gap-3 border-b pb-6 mb-6">
         <MessagesSquare className={`h-6 w-6 ${styles.iconColor}`} />
         <h2 className={`text-2xl font-bold ${styles.textColor}`}>ביקורות</h2>
       </div>
@@ -238,9 +238,9 @@ useEffect(() => {
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="font-bold text-lg text-gray-800">אנונימי</h3>
-                    <p className="text-gray-600 text-md mt-1">{review.comment}</p>
+                    <p className="text-gray-600 text-md mt-1 ml-2">{review.comment}</p>
                   </div>
-                  <div><StarRating rating={review.rating} size={20} /></div>
+                  <div><StarRating rating={review.rating} size={16} /></div>
                 </div>
 
                 {/* Date stamp in the lower left (RTL: lower left) */}

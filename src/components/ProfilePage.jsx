@@ -189,8 +189,9 @@ const ProfilePage = () => {
         transition={{ duration: 0.4, delay: 0.1 }}
       >
         <ProfileCard styles={styles} tutorData={tutorData} />
+        
       </motion.div>
-
+      
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -262,16 +263,25 @@ const ProfilePage = () => {
               <EducationProfileSection styles={styles} tutor={tutorData} />
             </div>
           </motion.div>
+        </motion.div>
 
-          {/* Reviews Section */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.005 }}
-            transition={{ duration: 0.4, delay: 0.3 }}
-          >
-            <ReviewSection reviews={tutorData.feedback || []} styles={styles} />
-          </motion.div>
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.35 }}
+          className={`bg-white rounded-xl border mb-6 w-full ${styles.cardBorder} max-w-[73rem] mx-auto space-y-8 mt-4 px-4 pb-12`}
+        >
+          {/* Reviews Section */}
+          {tutorData.feedback?.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.005 }}
+              transition={{ duration: 0.4, delay: 0.3 }}
+            >
+              <ReviewSection reviews={tutorData.feedback || []} styles={styles} />
+            </motion.div>
+          )}
 
           {/* Similar Tutors Section */}
           {similarTutors.length > 0 && (
