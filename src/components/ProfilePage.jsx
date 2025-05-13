@@ -12,6 +12,7 @@ import EducationProfileSection from "./profile/EducationCard"
 import ContactCard from "./profile/ContactCard"
 import UpcomingEvents from "./profile/EventsCard"
 import Navbar from "./Navbar"
+import Footer from "./Footer";
 import { courseTypeOptions } from "../config/courseStyles";
 import { motion } from 'framer-motion';
 import ScrollUpButton from "./ScrollUpButton";
@@ -305,6 +306,9 @@ const ProfilePage = () => {
             <ContactCard tutor={tutorData} styles={styles} />
           </motion.div>
         </motion.div>
+        <div className="mt-12">
+        { isDevMode && <Footer /> }
+        </div>
       </motion.div>
       <ScrollUpButton styles={styles} />
     </div>

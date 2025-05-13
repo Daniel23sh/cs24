@@ -209,8 +209,18 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
                   {subject.course_name}
                 </span>
               ))}
-              
+             
             </div>
+            {!tutor.feedback?.length && (
+              <div className="flex justify-end mt-2">
+                <Link
+                  to={`/tutors/${courseType}/${tutor.id}/${formatTutorNameForRoute(tutor.name)}`}
+                  className={`${styles.buttonPrimary} px-3 py-1 rounded-full text-sm`}
+                >
+                  צפייה בפרופיל
+                </Link>
+              </div>
+            )}
             {tutor.feedback?.length > 0 && (
               <div>
              <div className="flex justify-between items-center">
