@@ -40,14 +40,14 @@ const ProfileCard = ({ tutorData, styles }) => {
     return match ? `${match[1]}-${match[2]}-${match[3]}` : num;
   };
   return (
-    <div className={`block p-2 relative z-20 ${ isDevMode && 'pt-24' }`}>
+    <div className={`block p-4 relative z-20 ${ isDevMode && 'pt-24' }`}>
       <div className=" mx-auto -mb-8 max-w-[73rem] p-2 md:p-0 pb-4 md:pb-4">
       <div className={`relative bg-white border ${styles.cardBorder} rounded-xl shadow-md overflow-hidden flex flex-col md:flex-row mx-auto`}>
 
           {/* edit button top-left */}
           <button
             onClick={() => setShowEditModal(true)}
-            className={`absolute top-2 left-2 p-2 rounded-full bg-white hover:bg-gray-100 shadow-sm hidden md:block ${isDevMode ? "" : 'hidden'}`}
+            className={`absolute top-2 left-2 p-2 rounded-full bg-white hover:bg-gray-100 shadow-sm hidden`}
             aria-label="Edit profile"
           >
             <Edit className="h-5 w-5 text-gray-500" />
@@ -58,7 +58,7 @@ const ProfileCard = ({ tutorData, styles }) => {
             href={`https://wa.me/?text=${encodeURIComponent(`הנה הפרופיל של ${tutorData.name} - מורה פרטי${tutorData.subjects ? ` ל${tutorData.subjects.map(s => s.course_name).join(', ')}` : ''}\n\n${window.location.origin}/#/tutors/cs/${tutorData.id}/${tutorData.name.replace(/\s+/g, '-')}`)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className={`absolute top-2 left-12 p-2 rounded-full bg-white hover:bg-gray-100 shadow-sm hidden md:block ${isDevMode ? "" : 'hidden'}`}
+            className={`absolute top-2 left-2 p-2 rounded-full bg-white hover:bg-gray-100  hidden md:block ${isDevMode ? "" : 'hidden'}`}
             aria-label="Share profile"
           >
             <Share2 className="h-5 w-5 text-gray-500" />

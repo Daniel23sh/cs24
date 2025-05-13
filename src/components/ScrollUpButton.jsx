@@ -43,7 +43,7 @@ const ScrollUpButton = ({ styles }) => {
             height: `${fillHeight}px`,
             background: styles.background ,// Tailwind blue-200
             borderRadius: borderRadius,
-            transition: 'height 0.2s linear',
+            transition: 'height 0.01s linear',
             zIndex: 1,
             pointerEvents: 'none',
           }}

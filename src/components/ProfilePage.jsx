@@ -126,8 +126,6 @@ const ProfilePage = () => {
           p_tutor_id: id
         });
 
-
-      // Continue with existing code...
       const { data: newDegreeId, error: degreeError } = await supabase.rpc(
         'get_degree_id_by_details',
         {
