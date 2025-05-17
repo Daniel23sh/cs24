@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useEffect, useRef } from "react"
 import { useParams } from "react-router-dom"
 import { ChevronLeft, ChevronRight, Users, Star } from "lucide-react"
@@ -10,8 +8,7 @@ const TutorComponent = ({ tutors, styles, courseType }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [visibleCount, setVisibleCount] = useState(3)
   const carouselRef = useRef(null)
-  const { id, tutorName } = useParams()
-  const displayName = decodeURIComponent(tutorName.replace(/-/g, " "))
+  const { id } = useParams()
   const sectionKey = courseType + "Tutors"
   const sectionTutors = tutors[sectionKey] || []
   const [tutorData, setTutorData] = useState(null)
@@ -55,10 +52,10 @@ const TutorComponent = ({ tutors, styles, courseType }) => {
 
   useEffect(() => {
     const foundTutor = sectionTutors.find(
-      tutor => tutor.id === Number(id) && tutor.name === displayName
+      tutor => tutor.id === Number(id)
     )
     setTutorData(foundTutor || null)
-  }, [id, tutorName, courseType, sectionTutors, displayName]);
+  }, [id, courseType, sectionTutors]);
 
   const isMobile = visibleCount === 1
 

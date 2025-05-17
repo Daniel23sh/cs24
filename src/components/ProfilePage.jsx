@@ -19,12 +19,12 @@ import ScrollUpButton from "./ScrollUpButton";
 
 
 const ProfilePage = () => {
-  const { id, tutorName, courseType } = useParams()
+  const { id, courseType } = useParams()
   const DEGREE_NAMES = Object.fromEntries(
     courseTypeOptions.map(option => [option.type, option.label])
   );
   
-  const displayName = decodeURIComponent(tutorName.replace(/-/g, " "))
+  //const displayName = decodeURIComponent(tutorName.replace(/-/g, " "))
   const [tutorData, setTutorData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null)
@@ -39,7 +39,7 @@ const ProfilePage = () => {
     ? (() => {
         // Sort all tutors by wilson_score (or average_rating as fallback)
         const sortedTutors = [...tutorsWithFeedback]
-          .filter(tutor => tutor.name !== tutorData.name)
+          .filter(tutor => tutor.id !== tutorData.id) // Filter out current tutor by ID instead of name
           .sort((a, b) => {
             const scoreA = a.wilson_score ?? a.average_rating ?? 0;
             const scoreB = b.wilson_score ?? b.average_rating ?? 0;
@@ -48,7 +48,9 @@ const ProfilePage = () => {
 
         // Tutors with at least one matching subject
         const matchingTutors = sortedTutors.filter(tutor =>
-          tutorData.subjects.some(mySub => mySub.course_name === tutor.course_name)
+          tutorData.subjects.some(mySub => 
+            tutor.subjects?.some(tutorSub => tutorSub.course_name === mySub.course_name)
+          )
         );
 
         // Take up to 6 matching tutors
@@ -56,8 +58,10 @@ const ProfilePage = () => {
 
         // If not enough, fill with the next highest scoring tutors (excluding already selected)
         if (selected.length < 6) {
-          const selectedNames = new Set(selected.map(t => t.name));
-          const fillers = sortedTutors.filter(tutor => !selectedNames.has(tutor.name)).slice(0, 6 - selected.length);
+          const selectedIds = new Set(selected.map(t => t.id)); // Use IDs instead of names
+          const fillers = sortedTutors
+            .filter(tutor => !selectedIds.has(tutor.id))
+            .slice(0, 6 - selected.length);
           return [...selected, ...fillers];
         }
         return selected;
@@ -111,7 +115,7 @@ const ProfilePage = () => {
     const fallback = () => {
       setTutorsWithFeedback(scoreAndSortTutors(sectionTutors));
       // Find the specific tutor in mock data
-      const specificTutor = sectionTutors.find(tutor => String(tutor.id) === String(id) && tutor.name === displayName);
+      const specificTutor = sectionTutors.find(tutor => String(tutor.id) === String(id));
       if (specificTutor) {
         setTutorData(specificTutor);
       } else {
@@ -158,7 +162,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
       loadTutorsWithFeedback();
-  },  [displayName, id, courseType]);
+  },  [id, courseType]);
 
   if (loading)
     return (

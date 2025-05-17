@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
-import { Star, Book, Phone, Linkedin, Github, Verified, MapPin, Edit, Paperclip, Share2 } from "lucide-react";
+import { Star, Phone, Linkedin, Github, Verified, MapPin, Paperclip, Share2, PhoneCallIcon } from "lucide-react";
 import image from "../../config/user-profile.png";
-import EditPanel from "../EditPanel"
+
 
 const ProfileCard = ({ tutorData, styles }) => {
   // Scroll to bottom of the page
@@ -14,17 +14,11 @@ const ProfileCard = ({ tutorData, styles }) => {
   const githu = tutorData.github || "" //"https://github.com/Daniel23sh";
   const other = tutorData.other || "" 
   const [localData, setLocalData] = useState(tutorData)
-  const [showEditModal, setShowEditModal] = useState(false)
   // keep in sync when parent prop changes
   useEffect(() => {
     setLocalData(tutorData)
   }, [tutorData])
 
-  // called by EditPanel
-  const handleProfileSave = (updatedData, updatedEvents, updatedGrades) => {
-    setLocalData({ ...updatedData, events: updatedEvents, grades: updatedGrades })
-    setShowEditModal(false)
-  }
   const calcAverageRating = (feedbackArray) => {
     if (!feedbackArray || feedbackArray.length === 0) return null
     const sum = feedbackArray.reduce((acc, cur) => acc + (cur.rating || 0), 0)
@@ -41,21 +35,11 @@ const ProfileCard = ({ tutorData, styles }) => {
   };
   return (
     <div className={`block p-4 relative z-20 ${ isDevMode && 'pt-24' }`}>
-      <div className=" mx-auto -mb-8 max-w-[73rem] p-2 md:p-0 pb-4 md:pb-4">
-      <div className={`relative bg-white border ${styles.cardBorder} rounded-xl shadow-md overflow-hidden flex flex-col md:flex-row mx-auto`}>
-
-          {/* edit button top-left */}
-          <button
-            onClick={() => setShowEditModal(true)}
-            className={`absolute top-2 left-2 p-2 rounded-full bg-white hover:bg-gray-100 shadow-sm hidden`}
-            aria-label="Edit profile"
-          >
-            <Edit className="h-5 w-5 text-gray-500" />
-          </button>
-
+      <div className=" mx-auto -mb-8 max-w-[73rem] md:p-0 pb-4 md:pb-4">
+        <div className={`relative bg-white border ${styles.cardBorder} rounded-xl shadow-md overflow-hidden flex flex-col md:flex-row mx-auto`}>
           {/* share button */}
           <a
-            href={`https://wa.me/?text=${encodeURIComponent(`הנה הפרופיל של ${tutorData.name} - מורה פרטי${tutorData.subjects ? ` ל${tutorData.subjects.map(s => s.course_name).join(', ')}` : ''}\n\n${window.location.origin}/#/tutors/cs/${tutorData.id}/${tutorData.name.replace(/\s+/g, '-')}`)}`}
+            href={`https://wa.me/?text=${encodeURIComponent(`הנה הפרופיל של ${tutorData.name} - מורה פרטי${tutorData.subjects ? ` ל${tutorData.subjects.map(s => s.course_name).join(', ')}` : ''}\n\n${window.location.origin}/#/tutors/cs/${tutorData.id}`)}`}
             target="_blank"
             rel="noopener noreferrer"
             className={`absolute top-2 left-2 p-2 rounded-full bg-white hover:bg-gray-100  hidden md:block ${isDevMode ? "" : 'hidden'}`}
@@ -113,11 +97,11 @@ const ProfileCard = ({ tutorData, styles }) => {
 
               {/* Availability */}
               <div className="flex mt-4 items-center text-gray-700">
-                <div className={`p-1.5 rounded-full ${styles.linksIconBg} mr-2`}>
+                <div className={`p-1.5 rounded-full ${styles.linksIconBg}`}>
                   <MapPin className={`h-5 w-5 ${styles.iconColor}`} />
                 </div>
                 <span className="break-words text-right mr-2">
-                  מועבר ב{tutorData.status}
+                  מועבר בזום
                 </span>
               </div>
 
@@ -214,27 +198,15 @@ const ProfileCard = ({ tutorData, styles }) => {
               {/* כפתור – תמיד מוצג */}
               <button
                 onClick={scrollToBottom}
-                className={`${styles.buttonPrimary} text-white rounded-lg font-medium w-full mt-4 md:w-64 py-2 px-4`}
+                className={`${styles.buttonPrimary} text-white rounded-lg font-medium w-full mt-4 md:w-64 py-2 px-4 flex items-center justify-center gap-2`}
               >
-                 צור קשר
+                <PhoneCallIcon size={17} />
+                <span>צור קשר</span>
               </button>
             </div>
-
           </div>
         </div>
       </div>
-       {/* EditPanel Modal */}
-       {showEditModal && (
-        <EditPanel
-          showEditModal={showEditModal}
-          setShowEditModal={setShowEditModal}
-          tutorData={localData}
-          styles={styles}
-          grades={localData.grades}
-          events={localData.events}
-          onSave={handleProfileSave}
-        />
-      )}
     </div>
   );
 };
