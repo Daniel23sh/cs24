@@ -29,7 +29,9 @@ const courseStyles = {
     editBg: 'bg-blue-300',
     background: "#9cc6fc",
     contactBg: 'bg-blue-300 text-white hover:bg-blue-400',
-    ringColor: 'ring-blue-600'
+    ringColor: 'ring-blue-600',
+    logoStart: '#2563eb',
+    logoEnd: '#1e3a8a'
   },
   ee: {
     buttonPrimary: 'bg-purple-800 text-white hover:bg-purple-700',
@@ -61,7 +63,9 @@ const courseStyles = {
     editBg: 'bg-purple-300',
     background: "#ca99ff",
     contactBg: 'bg-purple-300 text-white hover:bg-purple-400',
-    ringColor: 'ring-purple-600'
+    ringColor: 'ring-purple-600',
+    logoStart: '#9333ea',
+    logoEnd: '#581c87'
   },
   ie: {
     buttonPrimary: 'bg-rose-800 text-white hover:bg-rose-700',
@@ -93,7 +97,9 @@ const courseStyles = {
     editBg: 'bg-rose-300',
     background: "#ffb3b8",
     contactBg: 'bg-rose-300 text-white hover:bg-rose-400',
-    ringColor: 'ring-rose-600'
+    ringColor: 'ring-rose-600',
+    logoStart: '#e11d48',
+    logoEnd: '#881337'
   },
 };
 
