@@ -221,7 +221,7 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
               <div className="flex justify-end mt-2">
                 <Link
                   to={`/tutors/${courseType}/${tutor.id}`}
-                  className={`${styles.textSecondary} px-3 py-1 rounded-full text-sm`}
+                  className={`${styles.textSecondary} px-3 py-1 text-sm border-b border-current`}
                 >
                   צפייה בפרופיל
                 </Link>
@@ -229,7 +229,7 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
             )}
             {tutor.feedback?.length > 0 && (
               <div>
-             <div className="flex justify-between items-center">
+             <div className="flex md:justify-between justify-center items-center">
               <Button
                 className={styles.textSecondary}
                 onClick={() => setShowReviews(!showReviews)}
@@ -287,63 +287,46 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
 
                 {showReviews && reviewsWithComments.length > 0 && (
                   <div className="mt-2 space-y-2">
-                    {displayedReviews.map((fb, index) => {
-                      const isUserOwnFeedback = hasUserFeedback && index === 0;
-                      return (
-                        <div key={index} className={`${isUserOwnFeedback ? 'bg-blue-50' : 'bg-gray-50'} rounded-lg p-3 relative`}>
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-1">
-                            
-                              {[...Array(5)].map((_, i) => (
-                                <Star
-                                  key={i}
-                                  className={`h-3.5 w-3.5 ${i < fb.rating ? `${styles.starColor} fill-current` : 'text-gray-300'}`}
-                                />
-                              ))}
-                              {isUserOwnFeedback && (
-                                <span className="text-xs text-blue-600 ml-2">(הביקורת שלך)</span>
-                              )}
+                    <div className="max-h-[220px] overflow-y-auto pr-2 space-y-2">
+                      {reviewsWithComments.map((fb, index) => {
+                        const isUserOwnFeedback = hasUserFeedback && index === 0;
+                        return (
+                          <div key={index} className={`${isUserOwnFeedback ? 'bg-blue-50' : 'bg-gray-50'} rounded-lg p-3 relative`}>
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-1">
+                              
+                                {[...Array(5)].map((_, i) => (
+                                  <Star
+                                    key={i}
+                                    className={`h-3.5 w-3.5 ${i < fb.rating ? `${styles.starColor} fill-current` : 'text-gray-300'}`}
+                                  />
+                                ))}
+                                {isUserOwnFeedback && (
+                                  <span className="text-xs text-blue-600 ml-2">(הביקורת שלך)</span>
+                                )}
+                              </div>
+                              <div className="flex items-center gap-2">
+                                {fb.created_at && (
+                                  <span className="text-xs text-gray-500">
+                                    {format(new Date(fb.created_at), 'dd/MM/yyyy')}
+                                  </span>
+                                )}
+                                {(userIsAdmin || isUserOwnFeedback) && (
+                                  <button
+                                    onClick={handleDeleteFeedback}
+                                    className="text-gray-400 hover:text-red-500 transition-colors"
+                                    title="מחק ביקורת"
+                                  >
+                                    <X className="h-4 w-4" />
+                                  </button>
+                                )}
+                              </div>
                             </div>
-                            <div className="flex items-center gap-2">
-                              {fb.created_at && (
-                                <span className="text-xs text-gray-500">
-                                  {format(new Date(fb.created_at), 'dd/MM/yyyy')}
-                                </span>
-                              )}
-                              {(userIsAdmin || isUserOwnFeedback) && (
-                                <button
-                                  onClick={handleDeleteFeedback}
-                                  className="text-gray-400 hover:text-red-500 transition-colors"
-                                  title="מחק ביקורת"
-                                >
-                                  <X className="h-4 w-4" />
-                                </button>
-                              )}
-                            </div>
+                            {fb.comment && <p className="text-sm text-gray-700 mt-1">{fb.comment}</p>}
                           </div>
-                          {fb.comment && <p className="text-sm text-gray-700 mt-1">{fb.comment}</p>}
-                        </div>
-                      );
-                    })}
-                    
-                    {reviewsWithComments.length > 1 && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setShowAllReviews(!showAllReviews)}
-                        className={`w-full text-sm ${styles.textSecondary}`}
-                      >
-                        {showAllReviews ? (
-                          <>
-                            הצג פחות <ChevronUp className="h-4 w-4" />
-                          </>
-                        ) : (
-                          <>
-                            הצג עוד {reviewsWithComments.length - 1} ביקורות <ChevronDown className="h-4 w-4" />
-                          </>
-                        )}
-                      </Button>
-                    )}
+                        );
+                      })}
+                    </div>
                   </div>
                 )}
               </div>

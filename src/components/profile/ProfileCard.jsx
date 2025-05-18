@@ -49,7 +49,7 @@ const ProfileCard = ({ tutorData, styles }) => {
           </a>
 
           {/* Profile Photo */}
-          <div className="relative mx-auto w-64 h-64 md:w-52 md:h-48 md:mt-4 mt-6 md:m-2 md:m-4">
+          <div className="relative mx-auto w-40 h-40 md:w-52 md:h-48 md:mt-4 mt-6 md:m-2 md:m-4">
             <img
               src={image || "/placeholder.svg"}
               alt={tutorData.name}
@@ -67,7 +67,7 @@ const ProfileCard = ({ tutorData, styles }) => {
               className={`absolute top-2 left-2 p-2 rounded-full bg-white hover:bg-gray-100 md:hidden`}
               aria-label="Share profile"
             >
-              <Share2 className="h-5 w-5 text-gray-500" />
+              <Share2 className="h-4 w-4 text-gray-500" />
             </a>
           </div>
 
@@ -90,6 +90,13 @@ const ProfileCard = ({ tutorData, styles }) => {
                   ({tutorData.feedback?.length || 0} reviews)
                 </span>
               </div>
+            </div>
+
+            {/* About Me */}
+            <div className="text-center mt-4">
+              <p className={`${styles.textColor} whitespace-pre-line leading-relaxed`}>
+                {tutorData.about_me || <span><strong>"</strong>עוד לא הוספתי<strong>"</strong></span>}
+              </p>
             </div>
 
             {/* Container: column-flex/right-align on mobile, two-column grid on md+ */}
@@ -198,7 +205,7 @@ const ProfileCard = ({ tutorData, styles }) => {
               {/* כפתור – תמיד מוצג */}
               <button
                 onClick={scrollToBottom}
-                className={`${styles.buttonPrimary} text-white rounded-lg font-medium w-full mt-4 md:w-64 py-2 px-4 flex items-center justify-center gap-2`}
+                className={`${styles.buttonPrimary} text-white rounded-lg font-medium w-full md:mt-0 mt-4 md:w-64 py-2 px-4 flex items-center justify-center gap-2`}
               >
                 <PhoneCallIcon size={17} />
                 <span>צור קשר</span>

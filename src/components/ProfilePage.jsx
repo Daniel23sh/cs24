@@ -16,10 +16,18 @@ import Footer from "./Footer";
 import { courseTypeOptions } from "../config/courseStyles";
 import { motion } from 'framer-motion';
 import ScrollUpButton from "./ScrollUpButton";
+import useAuth from "../hooks/useAuth";
+import { showNotification } from "./ui/notification";
+import {
+  csYearOneCourses, csYearTwoCourses, csYearThreeCourses,
+  eeYearOneCourses, eeYearTwoCourses, eeYearThreeCourses, eeYearFourCourses,
+  ieYearOneCourses, ieYearTwoCourses, ieYearThreeCourses, ieYearFourCourses
+} from "../config/CoursesLinks";
 
 
 const ProfilePage = () => {
   const { id, courseType } = useParams()
+  const { user } = useAuth();
   const DEGREE_NAMES = Object.fromEntries(
     courseTypeOptions.map(option => [option.type, option.label])
   );
@@ -34,6 +42,31 @@ const ProfilePage = () => {
 
   const styles = courseStyles[courseType]
   const isDevMode = process.env.REACT_APP_DEV?.toLowerCase() === 'true';
+
+  const getCoursesByType = (type) => {
+    const courseMap = {
+      cs: {
+        yearOne: csYearOneCourses,
+        yearTwo: csYearTwoCourses,
+        yearThree: csYearThreeCourses,
+        yearFour: []
+      },
+      ee: {
+        yearOne: eeYearOneCourses,
+        yearTwo: eeYearTwoCourses,
+        yearThree: eeYearThreeCourses,
+        yearFour: eeYearFourCourses
+      },
+      ie: {
+        yearOne: ieYearOneCourses,
+        yearTwo: ieYearTwoCourses,
+        yearThree: ieYearThreeCourses,
+        yearFour: ieYearFourCourses
+      }
+    };
+
+    return courseMap[type] || courseMap.cs; // Default to CS if type is invalid
+  };
 
   const similarTutors = tutorData && tutorsWithFeedback.length > 0
     ? (() => {
@@ -129,7 +162,6 @@ const ProfilePage = () => {
         .rpc('get_tutor_profile', {
           p_tutor_id: id
         });
-
       const { data: newDegreeId, error: degreeError } = await supabase.rpc(
         'get_degree_id_by_details',
         {
@@ -163,6 +195,57 @@ const ProfilePage = () => {
   useEffect(() => {
       loadTutorsWithFeedback();
   },  [id, courseType]);
+
+  const renderCoursesByYear = (yearCourses, yearTitle) => {
+    if (!tutorData.subjects?.filter(subject => 
+      yearCourses.some(course => course.name === subject.course_name)
+    ).length > 0) return null;
+
+    return (
+      <div className="mb-6">
+        <h3 className={`text-lg font-semibold mb-3 ${styles.textColor}`}>{yearTitle}</h3>
+        <div className="flex justify-center flex-wrap gap-4">
+          {tutorData.subjects?.filter(subject => 
+            yearCourses.some(course => course.name === subject.course_name)
+          ).map((subject, i) => (
+            <span
+              key={i}
+              className={`md:text-md md:px-4 md:py-2 text-sm px-3 py-1 rounded-xl ${styles.subjectBg} ${styles.textSecondary}`}
+            >
+              {subject.course_name}
+            </span>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  const renderOtherCourses = (yearOneCourses, yearTwoCourses, yearThreeCourses, yearFourCourses) => {
+    const otherCourses = tutorData.subjects?.filter(subject => 
+      !yearOneCourses.some(course => course.name === subject.course_name) &&
+      !yearTwoCourses.some(course => course.name === subject.course_name) &&
+      !yearThreeCourses.some(course => course.name === subject.course_name) &&
+      !yearFourCourses.some(course => course.name === subject.course_name)
+    );
+
+    if (!otherCourses?.length) return null;
+
+    return (
+      <div>
+        <h3 className={`text-lg font-semibold mb-3 ${styles.textColor}`}>קורסים נוספים</h3>
+        <div className="flex justify-center flex-wrap gap-4">
+          {otherCourses.map((subject, i) => (
+            <span
+              key={i}
+              className={`md:text-md md:px-4 md:py-2 text-sm px-3 py-1 rounded-xl ${styles.subjectBg} ${styles.textSecondary}`}
+            >
+              {subject.course_name}
+            </span>
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   if (loading)
     return (
@@ -212,46 +295,35 @@ const ProfilePage = () => {
           transition={{ duration: 0.4, delay: 0.35 }}
           className={`bg-white rounded-xl border mb-6 w-full ${styles.cardBorder} max-w-[73rem] mx-auto space-y-8 mt-4 px-4 pb-12`}
         >
-          {/* About Me Section */}
-          <motion.section
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.005 }}
-            transition={{ duration: 0.4 }}
-            className={`bg-white -mb-12 md:max-w-[65rem] max-w-3xl mx-auto py-8 text-center`}
-          >
-            <div className="bg-white p-6 flex items-center justify-center gap-3 mb-6 border-b pb-6">
-              <h2 className={`text-2xl font-bold ${styles.textColor}`}>קצת עליי</h2>
-            </div>
-            <p className={`${styles.textColor} mx-auto whitespace-pre-line leading-relaxed font-bold`}>
-              {tutorData.about_me ||
-                "עוד לא הוספתי"}
-            </p>
-          </motion.section>
-
           {/* Subjects Section */}
-          <motion.section
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.005 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className={`bg-white -mb-12 md:max-w-[65rem] max-w-3xl mx-auto py-8 text-center`}
-          >
-            <div className="flex items-center gap-3 border-b pb-4 mb-4 justify-center">
-              <h2 className={`text-2xl font-bold ${styles.textColor}`}>תחומי לימוד</h2>
-            </div>
+          {tutorData.subjects?.length > 0 && (
+            <motion.section
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.005 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className={`bg-white -mb-12 md:max-w-[65rem] max-w-3xl mx-auto py-8 text-center`}
+            >
+              <div className="flex items-center gap-3 border-b pb-4 mb-4 justify-center">
+                <h2 className={`text-2xl font-bold ${styles.textColor}`}>תחומי לימוד</h2>
+              </div>
 
-            <div className="flex justify-center flex-wrap gap-4">
-              {tutorData.subjects?.map((subject, i) => (
-                <span
-                  key={i}
-                  className={`md:text-md md:px-4 md:py-2 text-sm px-3 py-1 rounded-xl ${styles.subjectBg} ${styles.textSecondary}`}
-                >
-                  {subject.course_name}
-                </span>
-              ))}
-            </div>
-          </motion.section>
+              {/* Get the appropriate course arrays based on courseType */}
+              {(() => {
+                const { yearOne, yearTwo, yearThree, yearFour } = getCoursesByType(courseType);
+
+                return (
+                  <>
+                    {renderCoursesByYear(yearOne, "שנה א'")}
+                    {renderCoursesByYear(yearTwo, "שנה ב'")}
+                    {yearThree.length > 0 && renderCoursesByYear(yearThree, "שנה ג'")}
+                    {yearFour.length > 0 && renderCoursesByYear(yearFour, "שנה ד'")}
+                    {renderOtherCourses(yearOne, yearTwo, yearThree, yearFour)}
+                  </>
+                );
+              })()}
+            </motion.section>
+          )}
           
           {/* Education & Events Section */}
           <motion.div
@@ -287,7 +359,14 @@ const ProfilePage = () => {
               viewport={{ once: true, amount: 0.005 }}
               transition={{ duration: 0.4, delay: 0.3 }}
             >
-              <ReviewSection reviews={tutorData.feedback || []} styles={styles} />
+              <ReviewSection 
+                reviews={tutorData.feedback || []} 
+                styles={styles} 
+                tutor={tutorData}
+                user={user}
+                loadTutorsWithFeedback={loadTutorsWithFeedback}
+                courseType={courseType}
+              />
             </motion.div>
           )}
 
@@ -304,6 +383,7 @@ const ProfilePage = () => {
           )}
 
           {/* Contact Section */}
+          
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
