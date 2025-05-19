@@ -8,7 +8,7 @@ import NotFoundPage from "./NotFoundPage"
 import ReviewSection from "./profile/ReviewsCard"
 import ProfileCard from "./profile/ProfileCard"
 import SimilarTutors from "./profile/SimilarTutors"
-import EducationProfileSection from "./profile/EducationCard"
+import EducationCard from "./profile/EducationCard"
 import ContactCard from "./profile/ContactCard"
 import UpcomingEvents from "./profile/EventsCard"
 import Navbar from "./Navbar"
@@ -340,7 +340,7 @@ const ProfilePage = () => {
             )}
 
             <div className={`w-full ${tutorData.events?.length > 0 ? "md:w-1/2 -mt-16 md:mt-0" : ""}`}>
-              <EducationProfileSection styles={styles} tutor={tutorData} />
+              <EducationCard styles={styles} tutor={tutorData} />
             </div>
           </motion.div>
         </motion.div>
