@@ -229,7 +229,7 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
             )}
             {tutor.feedback?.length > 0 && (
               <div>
-             <div className="flex md:justify-between justify-center items-center">
+             <div className="flex md:justify-between justify-center items-center gap-4 ">
               <Button
                 className={styles.textSecondary}
                 onClick={() => setShowReviews(!showReviews)}
@@ -242,7 +242,7 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
                 <Link
                   to={`/tutors/${courseType}/${tutor.id}`}
                   //state={{ tutor }}
-                  className={`${styles.textSecondary} ${isDevMode ? "": "hidden"} px-3 py-1 text-sm border-b border-current`}
+                  className={`${styles.textSecondary} ${isDevMode ? "": "hidden"} text-center px-3 py-1 text-sm border-b border-current pr-0.5 pl-0.5`}
                 >
                   צפייה בפרופיל
                 </Link>

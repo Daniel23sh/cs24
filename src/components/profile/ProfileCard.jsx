@@ -39,13 +39,13 @@ const ProfileCard = ({ tutorData, styles }) => {
         <div className={`relative bg-white border ${styles.cardBorder} rounded-xl shadow-md overflow-hidden flex flex-col md:flex-row mx-auto`}>
           {/* share button */}
           <a
-            href={`https://wa.me/?text=${encodeURIComponent(`הנה הפרופיל של ${tutorData.name} - מורה פרטי${tutorData.subjects ? ` ל${tutorData.subjects.map(s => s.course_name).join(', ')}` : ''}\n\n${window.location.origin}/#/tutors/cs/${tutorData.id}`)}`}
+            href={`https://wa.me/?text=${encodeURIComponent(`הנה הפרופיל של ${tutorData.name}👨‍🏫\n\nhttps://${window.location.host}/tutors/cs/${tutorData.id}`)}`}
             target="_blank"
             rel="noopener noreferrer"
             className={`absolute top-2 left-2 p-2 rounded-full bg-white hover:bg-gray-100  hidden md:block ${isDevMode ? "" : 'hidden'}`}
             aria-label="Share profile"
           >
-            <Share2 className="h-5 w-5 text-gray-500" />
+            <Share2 className={`h-5 w-5 bg-rounded ${styles.linksIconColor}`} />
           </a>
 
           {/* Profile Photo */}
@@ -61,13 +61,13 @@ const ProfileCard = ({ tutorData, styles }) => {
             />
             {/* share button */}
             <a
-              href={`https://wa.me/?text=${encodeURIComponent(`הנה הפרופיל של ${tutorData.name} - מורה פרטי${tutorData.subjects ? ` ל${tutorData.subjects.map(s => s.course_name).join(', ')}` : ''}\n\n${window.location.origin}/#/tutors/cs/${tutorData.id}/${tutorData.name.replace(/\s+/g, '-')}`)}`}
+              href={`https://api.whatsapp.com/send?text=${encodeURIComponent(` הנה הפרופיל של ${tutorData.name}👨‍🏫\n\n🔗 https://${window.location.host}/tutors/cs/${tutorData.id}`)}`}
               target="_blank"
               rel="noopener noreferrer"
               className={`absolute top-2 left-2 p-2 rounded-full bg-white hover:bg-gray-100 md:hidden`}
               aria-label="Share profile"
             >
-              <Share2 className="h-4 w-4 text-gray-500" />
+              <Share2 className={`h-4 w-4 ${styles.linksIconColor}`} />
             </a>
           </div>
 
@@ -93,9 +93,9 @@ const ProfileCard = ({ tutorData, styles }) => {
             </div>
 
             {/* About Me */}
-            <div className="text-center mt-4">
+            <div className="text-right mt-4 md:pr-2 pr-4 md:pl-6 pl-2">
               <p className={`${styles.textColor} whitespace-pre-line leading-relaxed`}>
-                {tutorData.about_me || <span><strong>"</strong>עוד לא הוספתי<strong>"</strong></span>}
+                {tutorData.about_me || <span><strong>"</strong>עוד לא הוספתיעוד לא הוספתיעוד לא הוספתיעוד לא הוספתיעוד לא הוספתיעוד לא הוספתיעוד לא הוספתיעוד לא הוספתיעוד לא הוספתיעוד לא הוספתיעוד לא הוספתיעוד לא הוספתיעוד לא הוספתיעוד לא הוספתי<strong>"</strong></span>}
               </p>
             </div>
 

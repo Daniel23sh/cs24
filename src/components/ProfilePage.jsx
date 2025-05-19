@@ -383,7 +383,14 @@ const ProfilePage = () => {
           )}
 
           {/* Contact Section */}
-          
+
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.35 }}
+          className={`bg-white rounded-xl border mb-6 w-full ${styles.cardBorder} max-w-[73rem] mx-auto space-y-8 mt-4 px-4 pb-12`}
+        >
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -392,7 +399,7 @@ const ProfilePage = () => {
           >
             <ContactCard tutor={tutorData} styles={styles} />
           </motion.div>
-        </motion.div>
+          </motion.div>
         <div className="mt-12">
         { isDevMode && <Footer /> }
         </div>

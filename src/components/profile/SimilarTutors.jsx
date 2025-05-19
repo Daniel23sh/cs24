@@ -154,7 +154,7 @@ const TutorComponent = ({ tutors, styles, courseType }) => {
 
                   {/* view profile btn */}
                   <Link
-                    to={`/tutors/${courseType}/${tutor.id}/${tutor.name.replace(/\s+/g, "-").toLowerCase()}`}
+                    to={`/tutors/${courseType}/${tutor.id}`}
                     className={`${styles.buttonSecondary} mt-auto mx-auto px-4 py-1.5 rounded-full text-sm block `}
                   >
                     צפייה בפרופיל
