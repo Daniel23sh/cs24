@@ -9,6 +9,7 @@ import Navbar from '../components/Navbar';
 import { courseStyles } from '../config/courseStyles';
 import { showNotification } from '../components/ui/notification';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '../components/ui/dialog';
+import { Link } from "react-router-dom"
 
 const UserDashboard = () => {
   const { user, session, loading, isAuthenticated } = useAuth();
@@ -1247,14 +1248,12 @@ const UserDashboard = () => {
                                 </td>
                                 <td className="py-2 px-4">
                                   {sale.video_id ? (
-                                    <a 
-                                      href={`/courses/${sale.video_id}`}
+                                    <Link 
+                                      to={`/courses/${sale.video_id}`}
                                       className="text-blue-600 hover:underline"
-                                      target="_blank"
-                                      rel="noopener noreferrer"
                                     >
                                       {sale.course}
-                                    </a>
+                                    </Link>
                                   ) : (
                                     sale.course
                                   )}
