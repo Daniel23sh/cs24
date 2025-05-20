@@ -1131,7 +1131,7 @@ const UserDashboard = () => {
                             </div>
                             <div className="flex items-center">
                               <Button
-                                onClick={() => navigate(`/course/${course.video_course_id}`)}
+                                onClick={() => navigate(`/courses/${course.video_course_id}`)}
                                 className="flex items-center bg-blue-600 hover:bg-blue-700 transition-colors"
                               >
                                 <span>צפייה בקורס</span>
@@ -1248,7 +1248,7 @@ const UserDashboard = () => {
                                 <td className="py-2 px-4">
                                   {sale.video_id ? (
                                     <a 
-                                      href={`/course/${sale.video_id}`}
+                                      href={`/courses/${sale.video_id}`}
                                       className="text-blue-600 hover:underline"
                                       target="_blank"
                                       rel="noopener noreferrer"
@@ -1526,7 +1526,7 @@ const UserDashboard = () => {
                                   {course.is_active ? 'הסתר' : 'הצג'}
                                 </Button>
                                 <Button
-                                  onClick={() => navigate(`/course/${course.video_id}`)}
+                                  onClick={() => navigate(`/courses/${course.video_id}`)}
                                   className="bg-blue-100 text-blue-800 hover:bg-blue-200"
                                   size="sm"
                                 >
@@ -2495,7 +2495,7 @@ const UserDashboard = () => {
                               
                               <div className="mt-4">
                                 <Button 
-                                  onClick={() => navigate(`/course/${course.id}`)}
+                                  onClick={() => navigate(`/courses/${course.id}`)}
                                   className="w-full bg-blue-600"
                                 >
                                   צפה בקורס
@@ -2700,7 +2700,7 @@ const UserDashboard = () => {
                                 <Button
                                   variant="outline"
                                   size="sm"
-                                  onClick={() => navigate(`/course/${course.id}`)}
+                                  onClick={() => navigate(`/courses/${course.id}`)}
                                 >
                                   המשך צפייה <ChevronRight size={16} />
                                 </Button>

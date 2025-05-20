@@ -30,7 +30,7 @@ const AppRoutes = () => {
         <Route path="/terms" element={<Terms />} />
         <Route path="/about" element={<About />} />
         <Route path="/courses" element={<Courses />} />
-        <Route path="/course/:courseId" element={<CourseDetails />} />
+        <Route path="/courses/:courseId" element={<CourseDetails />} />
         <Route path="/tutors/:courseType/:id" element={<ProfilePage />} />
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/create-course" element={<CourseCreationPage />} />
