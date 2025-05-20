@@ -135,9 +135,8 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
               <div className="flex items-center gap-2">
                 {isDevMode && (
               <Link
-                to={`/tutors/${courseType}/${tutor.id}`}
-                //state={{ tutor, courseType,  }}
-                className="relative"
+              to={`/tutors/${courseType}/${tutor.id}`}
+              className="relative"
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}
               >

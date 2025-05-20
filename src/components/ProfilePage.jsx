@@ -179,8 +179,8 @@ const ProfilePage = () => {
         return;
       }
       setTutorsWithFeedback(scoreAndSortTutors(tutors));
-      // Filter to find the specific tutor by id and displayName
-      if (tutorProfile[0]) {
+       // Filter to find the specific tutor by id and displayName
+       if (tutorProfile[0]) {
         setTutorData((tutorProfile[0]));
       } else {
         setError("המורה המבוקש לא נמצא.");
@@ -281,7 +281,7 @@ const ProfilePage = () => {
       >
         <ProfileCard styles={styles} tutorData={tutorData} />
         
-      </motion.div>
+        </motion.div>
       
       <motion.div
         initial={{ opacity: 0, y: 40 }}

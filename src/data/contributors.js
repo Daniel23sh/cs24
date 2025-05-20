@@ -47,7 +47,7 @@ const contributors = [
   {
     id: 8,
     name: 'דניאל שצוב',
-    imageUrl: 'https://media.licdn.com/dms/image/v2/D4D35AQG19zWK3ffFaQ/profile-framedphoto-shrink_800_800/B4DZakrXd5G8Ag-/0/1746519554232?e=1747508400&v=beta&t=gT6bazQkZz8_MqrUBaodqHJ87EtCuAjQ8ePfziUMG9o',
+    imageUrl: 'https://media.licdn.com/dms/image/v2/D4D35AQG19zWK3ffFaQ/profile-framedphoto-shrink_400_400/B4DZakrXd5G8Ac-/0/1746519554203?e=1748278800&v=beta&t=Zrsq7QYbDQGRRUfFSwdJlbP-XfTM4yKOD_p5laIpPi8',
     linkedinUrl: 'https://linkedin.com/in/daniel-shatzov',
   },
   {

@@ -95,7 +95,7 @@ const ProfileCard = ({ tutorData, styles }) => {
             {/* About Me */}
             <div className="text-right mt-4 md:pr-2 pr-4 md:pl-6 pl-2">
               <p className={`${styles.textColor} whitespace-pre-line leading-relaxed`}>
-                {tutorData.about_me || <span><strong>"</strong>עוד לא הוספתיעוד לא הוספתיעוד לא הוספתיעוד לא הוספתיעוד לא הוספתיעוד לא הוספתיעוד לא הוספתיעוד לא הוספתיעוד לא הוספתיעוד לא הוספתיעוד לא הוספתיעוד לא הוספתיעוד לא הוספתיעוד לא הוספתי<strong>"</strong></span>}
+                {tutorData.about_me || <span><strong>"</strong>עוד לא הוספתי<strong>"</strong></span>}
               </p>
             </div>
 
