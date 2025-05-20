@@ -1,4 +1,4 @@
-import { GraduationCap, Calendar, Award, BookOpen } from "lucide-react"
+import { GraduationCap, Calendar, BookOpen } from "lucide-react"
 
 export default function EducationCard({ tutor, styles }) {
   if (!tutor) return null;

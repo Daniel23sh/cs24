@@ -4,7 +4,7 @@ import App from '../App';
 import AuthCallback from '../components/AuthCallback';
 import GpaCalc from '../pages/GpaCalc';
 import Courses from '../pages/Courses';
-import ProfilePage from '../components/ProfilePage';
+import ProfilePage from '../pages/ProfilePage';
 import ScrollToTop from '../components/ScrollToTop'; 
 import NotFoundPage from '../components/NotFoundPage';
 import CourseDetails from '../pages/CourseDetails';
