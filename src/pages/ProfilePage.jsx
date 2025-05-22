@@ -14,7 +14,7 @@ import UpcomingEvents from "../components/profile/EventsCard"
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer";
 import { courseTypeOptions } from "../config/courseStyles";
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import ScrollUpButton from "../components/ScrollUpButton";
 import useAuth from "../hooks/useAuth";
 import {
@@ -36,8 +36,7 @@ const ProfilePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null)
   const [tutorsWithFeedback, setTutorsWithFeedback] = useState([]);
-
-
+  const [openSections, setOpenSections] = useState({});
 
   const styles = courseStyles[courseType]
   const isDevMode = process.env.REACT_APP_DEV?.toLowerCase() === 'true';
@@ -136,6 +135,26 @@ const ProfilePage = () => {
     const sorted = tutorsWithStats.sort((a, b) => b.wilson_score - a.wilson_score);
     return sorted;
   };
+const groupSubjectsByDegree = (subjects) => {
+  const allCourses = {
+    cs: [...csYearOneCourses, ...csYearTwoCourses, ...csYearThreeCourses],
+    ee: [...eeYearOneCourses, ...eeYearTwoCourses, ...eeYearThreeCourses, ...eeYearFourCourses],
+    ie: [...ieYearOneCourses, ...ieYearTwoCourses, ...ieYearThreeCourses, ...ieYearFourCourses],
+  };
+
+  const grouped = { cs: [], ee: [], ie: [] };
+
+  subjects.forEach(subject => {
+    const matchedType = Object.keys(allCourses).find(type =>
+      allCourses[type].some(course => course.name === subject.course_name)
+    );
+    if (matchedType) {
+      grouped[matchedType].push(subject);
+    }
+  });
+
+  return grouped;
+};
 
   const loadTutorsWithFeedback = async () => {
     setLoading(true);
@@ -201,39 +220,12 @@ const ProfilePage = () => {
     ).length > 0) return null;
 
     return (
-      <div className="mb-6">
+      <div className="mb-6 text-center">
         <h3 className={`text-lg font-semibold mb-3 ${styles.textColor}`}>{yearTitle}</h3>
         <div className="flex justify-center flex-wrap gap-4">
           {tutorData.subjects?.filter(subject => 
             yearCourses.some(course => course.name === subject.course_name)
           ).map((subject, i) => (
-            <span
-              key={i}
-              className={`md:text-md md:px-4 md:py-2 text-sm px-3 py-1 rounded-xl ${styles.subjectBg} ${styles.textSecondary}`}
-            >
-              {subject.course_name}
-            </span>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
-  const renderOtherCourses = (yearOneCourses, yearTwoCourses, yearThreeCourses, yearFourCourses) => {
-    const otherCourses = tutorData.subjects?.filter(subject => 
-      !yearOneCourses.some(course => course.name === subject.course_name) &&
-      !yearTwoCourses.some(course => course.name === subject.course_name) &&
-      !yearThreeCourses.some(course => course.name === subject.course_name) &&
-      !yearFourCourses.some(course => course.name === subject.course_name)
-    );
-
-    if (!otherCourses?.length) return null;
-
-    return (
-      <div>
-        <h3 className={`text-lg font-semibold mb-3 ${styles.textColor}`}>קורסים נוספים</h3>
-        <div className="flex justify-center flex-wrap gap-4">
-          {otherCourses.map((subject, i) => (
             <span
               key={i}
               className={`md:text-md md:px-4 md:py-2 text-sm px-3 py-1 rounded-xl ${styles.subjectBg} ${styles.textSecondary}`}
@@ -295,34 +287,83 @@ const ProfilePage = () => {
           className={`bg-white rounded-xl border mb-6 w-full ${styles.cardBorder} max-w-[73rem] mx-auto space-y-8 mt-4 px-4 pb-12`}
         >
           {/* Subjects Section */}
-          {tutorData.subjects?.length > 0 && (
-            <motion.section
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.005 }}
-              transition={{ duration: 0.4, delay: 0.1 }}
-              className={`bg-white -mb-12 md:max-w-[65rem] max-w-3xl mx-auto py-8 text-center`}
+{tutorData.subjects?.length > 0 && (
+  <motion.section
+    initial={{ opacity: 0, y: 40 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, amount: 0.005 }}
+    transition={{ duration: 0.4, delay: 0.1 }}
+    className={`bg-white -mb-12 md:max-w-[65rem] max-w-3xl mx-auto py-8 text-center`}
+  >
+    <div className="flex items-center gap-3 border-b pb-4 mb-4 justify-center">
+      <h2 className={`text-2xl font-bold ${styles.textColor}`}>תחומי לימוד</h2>
+    </div>
+
+    {(() => {
+      const groupedSubjects = groupSubjectsByDegree(tutorData.subjects || []);
+      const activeTypes = Object.entries(groupedSubjects).filter(([_, subjects]) => subjects.length > 0);
+
+      // If only one degree has subjects, show without accordion
+      if (activeTypes.length === 1) {
+        const [type, subjects] = activeTypes[0];
+        const { yearOne, yearTwo, yearThree, yearFour } = getCoursesByType(type);
+        
+        return (
+          <div className="mt-4">
+            {renderCoursesByYear(yearOne, "שנה א׳")}
+            {renderCoursesByYear(yearTwo, "שנה ב׳")}
+            {yearThree.length > 0 && renderCoursesByYear(yearThree, "שנה ג׳")}
+            {yearFour.length > 0 && renderCoursesByYear(yearFour, "שנה ד׳")}
+          </div>
+        );
+      }
+
+      // Multiple degrees - show accordion style
+      return activeTypes.map(([type, subjects]) => {
+        const { yearOne, yearTwo, yearThree, yearFour } = getCoursesByType(type);
+        const degreeLabel = DEGREE_NAMES[type] || "תחום אחר";
+
+        return (
+          <div key={type} className="mb-2 text-center">
+            <div 
+              onClick={() => setOpenSections(prev => ({ ...prev, [type]: !prev[type] }))}
+              className={`cursor-pointer text-xl font-bold mb-4 flex items-center justify-center relative rounded-lg p-4 ${styles.degreeBg}`}
             >
-              <div className="flex items-center gap-3 border-b pb-4 mb-4 justify-center">
-                <h2 className={`text-2xl font-bold ${styles.textColor}`}>תחומי לימוד</h2>
-              </div>
+              <span>{degreeLabel}</span>
+              <motion.svg 
+                animate={{ rotate: openSections[type] ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+                className="w-5 h-5 mr-2" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+              </motion.svg>
+            </div>
+            <AnimatePresence>
+              {openSections[type] && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className="overflow-hidden"
+                >
+                  {renderCoursesByYear(yearOne, "שנה א׳")}
+                  {renderCoursesByYear(yearTwo, "שנה ב׳")}
+                  {yearThree.length > 0 && renderCoursesByYear(yearThree, "שנה ג׳")}
+                  {yearFour.length > 0 && renderCoursesByYear(yearFour, "שנה ד׳")}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        );
+      });
+    })()}
+  </motion.section>
+)}
 
-              {/* Get the appropriate course arrays based on courseType */}
-              {(() => {
-                const { yearOne, yearTwo, yearThree, yearFour } = getCoursesByType(courseType);
-
-                return (
-                  <>
-                    {renderCoursesByYear(yearOne, "שנה א'")}
-                    {renderCoursesByYear(yearTwo, "שנה ב'")}
-                    {yearThree.length > 0 && renderCoursesByYear(yearThree, "שנה ג'")}
-                    {yearFour.length > 0 && renderCoursesByYear(yearFour, "שנה ד'")}
-                    {renderOtherCourses(yearOne, yearTwo, yearThree, yearFour)}
-                  </>
-                );
-              })()}
-            </motion.section>
-          )}
           
           {/* Education & Events Section */}
           <motion.div
