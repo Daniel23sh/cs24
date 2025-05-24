@@ -8,9 +8,11 @@ const ProfileCard = ({ tutorData, styles }) => {
   const scrollToBottom = () => {
     window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
   };
-  
-  const linke = "https://www.linkedin.com/in/daniel-shatzov/";
-  const githu = "https://github.com/Daniel23sh";
+  const isDevMode = process.env.REACT_APP_DEV?.toLowerCase() === 'true';
+
+  const linke = tutorData.linkedin || "" //"https://www.linkedin.com/in/daniel-shatzov/";
+  const githu = tutorData.github || "" //"https://github.com/Daniel23sh";
+  const other = tutorData.other || "" 
   const [localData, setLocalData] = useState(tutorData)
   // keep in sync when parent prop changes
   useEffect(() => {
@@ -28,7 +30,6 @@ const ProfileCard = ({ tutorData, styles }) => {
     // strip non-digits
     const cleaned = num.replace(/\D/g, "");
     // match Israeli mobile 0XX-XXXX-XXX (10 digits)
-    const match = cleaned.match(/^(0\d{2})(\d{3})(\d{4})$/);
     const match = cleaned.match(/^(0\d{2})(\d{3})(\d{4})$/);
     return match ? `${match[1]}-${match[2]}-${match[3]}` : num;
   };
@@ -78,7 +79,6 @@ const ProfileCard = ({ tutorData, styles }) => {
               <Verified className="h-6 w-6 md:mt-1 text-white fill-blue-500" />
             </div>
            
-           
             {/* Rating & Mobile Price */}
             <div className="flex flex-col md:flex-row items-center md:items-start gap-2">
               <div className="flex items-center">
@@ -86,7 +86,6 @@ const ProfileCard = ({ tutorData, styles }) => {
                 <span className="ml-1 font-semibold text-gray-900">
                 {rating ? rating.toFixed(1) : "N/A"}
                 </span>
-                <span className="ml-1 text-gray-500"  dir="ltr">
                 <span className="ml-1 text-gray-500"  dir="ltr">
                   ({tutorData.feedback?.length || 0} reviews)
                 </span>

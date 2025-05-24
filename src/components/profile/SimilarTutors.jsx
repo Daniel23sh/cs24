@@ -7,7 +7,7 @@ const TutorComponent = ({ tutors, styles }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [visibleCount, setVisibleCount] = useState(3)
   const carouselRef = useRef(null)
-  const { id } = useParams()
+  const { id, courseType } = useParams()
   const sectionKey = courseType + "Tutors"
   const sectionTutors = tutors[sectionKey] || []
   const [tutorData, setTutorData] = useState(null)
