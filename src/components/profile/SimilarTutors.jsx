@@ -3,8 +3,7 @@ import { useParams } from "react-router-dom"
 import { ChevronLeft, ChevronRight, Users, Star } from "lucide-react"
 import { Link } from "react-router-dom"
 import image from "../../config/user-profile.png"
-
-const TutorComponent = ({ tutors, styles, courseType }) => {
+const TutorComponent = ({ tutors, styles }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [visibleCount, setVisibleCount] = useState(3)
   const carouselRef = useRef(null)
