@@ -11,6 +11,7 @@ import SimilarTutors from "../components/profile/SimilarTutors"
 import EducationCard from "../components/profile/EducationCard"
 import ContactCard from "../components/profile/ContactCard"
 import UpcomingEvents from "../components/profile/EventsCard"
+import CoursesCard from "../components/profile/CoursesCard"
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer";
 import { courseTypeOptions } from "../config/courseStyles";
@@ -23,7 +24,6 @@ import {
   ieYearOneCourses, ieYearTwoCourses, ieYearThreeCourses, ieYearFourCourses
 } from "../config/CoursesLinks";
 
-
 const ProfilePage = () => {
   const { id, courseType } = useParams()
   const { user } = useAuth();
@@ -31,7 +31,6 @@ const ProfilePage = () => {
     courseTypeOptions.map(option => [option.type, option.label])
   );
   
-  //const displayName = decodeURIComponent(tutorName.replace(/-/g, " "))
   const [tutorData, setTutorData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null)
@@ -271,8 +270,7 @@ const groupSubjectsByDegree = (subjects) => {
         transition={{ duration: 0.4, delay: 0.1 }}
       >
         <ProfileCard styles={styles} tutorData={tutorData} />
-        
-        </motion.div>
+      </motion.div>
       
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -287,84 +285,86 @@ const groupSubjectsByDegree = (subjects) => {
           className={`bg-white rounded-xl border mb-6 w-full ${styles.cardBorder} max-w-[73rem] mx-auto space-y-8 mt-4 px-4 pb-12`}
         >
           {/* Subjects Section */}
-{tutorData.subjects?.length > 0 && (
-  <motion.section
-    initial={{ opacity: 0, y: 40 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, amount: 0.005 }}
-    transition={{ duration: 0.4, delay: 0.1 }}
-    className={`bg-white -mb-12 md:max-w-[65rem] max-w-3xl mx-auto py-8 text-center`}
-  >
-    <div className="flex items-center gap-3 border-b pb-4 mb-4 justify-center">
-      <h2 className={`text-2xl font-bold ${styles.textColor}`}>תחומי לימוד</h2>
-    </div>
-
-    {(() => {
-      const groupedSubjects = groupSubjectsByDegree(tutorData.subjects || []);
-      const activeTypes = Object.entries(groupedSubjects).filter(([_, subjects]) => subjects.length > 0);
-
-      // If only one degree has subjects, show without accordion
-      if (activeTypes.length === 1) {
-        const [type, subjects] = activeTypes[0];
-        const { yearOne, yearTwo, yearThree, yearFour } = getCoursesByType(type);
-        
-        return (
-          <div className="mt-4">
-            {renderCoursesByYear(yearOne, "שנה א׳")}
-            {renderCoursesByYear(yearTwo, "שנה ב׳")}
-            {yearThree.length > 0 && renderCoursesByYear(yearThree, "שנה ג׳")}
-            {yearFour.length > 0 && renderCoursesByYear(yearFour, "שנה ד׳")}
-          </div>
-        );
-      }
-
-      // Multiple degrees - show accordion style
-      return activeTypes.map(([type, subjects]) => {
-        const { yearOne, yearTwo, yearThree, yearFour } = getCoursesByType(type);
-        const degreeLabel = DEGREE_NAMES[type] || "תחום אחר";
-
-        return (
-          <div key={type} className="mb-2 text-center">
-            <div 
-              onClick={() => setOpenSections(prev => ({ ...prev, [type]: !prev[type] }))}
-              className={`cursor-pointer text-xl font-bold mb-4 flex items-center justify-center relative rounded-lg p-4 ${styles.degreeBg}`}
+          {tutorData.subjects?.length > 0 && (
+            <motion.section
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.005 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className={`bg-white -mb-12 md:max-w-[65rem] max-w-3xl mx-auto py-8 text-center`}
             >
-              <span>{degreeLabel}</span>
-              <motion.svg 
-                animate={{ rotate: openSections[type] ? 180 : 0 }}
-                transition={{ duration: 0.3 }}
-                className="w-5 h-5 mr-2" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-              </motion.svg>
-            </div>
-            <AnimatePresence>
-              {openSections[type] && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                  className="overflow-hidden"
-                >
-                  {renderCoursesByYear(yearOne, "שנה א׳")}
-                  {renderCoursesByYear(yearTwo, "שנה ב׳")}
-                  {yearThree.length > 0 && renderCoursesByYear(yearThree, "שנה ג׳")}
-                  {yearFour.length > 0 && renderCoursesByYear(yearFour, "שנה ד׳")}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        );
-      });
-    })()}
-  </motion.section>
-)}
+              <div className="flex items-center gap-3 border-b pb-4 mb-4 justify-center">
+                <h2 className={`text-2xl font-bold ${styles.textColor}`}>תחומי לימוד</h2>
+              </div>
 
-          
+              {(() => {
+                const groupedSubjects = groupSubjectsByDegree(tutorData.subjects || []);
+                const activeTypes = Object.entries(groupedSubjects).filter(([_, subjects]) => subjects.length > 0);
+
+                // If only one degree has subjects, show without accordion
+                if (activeTypes.length === 1) {
+                  const [type, subjects] = activeTypes[0];
+                  const { yearOne, yearTwo, yearThree, yearFour } = getCoursesByType(type);
+                  
+                  return (
+                    <div className="mt-4">
+                      {renderCoursesByYear(yearOne, "שנה א׳")}
+                      {renderCoursesByYear(yearTwo, "שנה ב׳")}
+                      {yearThree.length > 0 && renderCoursesByYear(yearThree, "שנה ג׳")}
+                      {yearFour.length > 0 && renderCoursesByYear(yearFour, "שנה ד׳")}
+                    </div>
+                  );
+                }
+
+                // Multiple degrees - show accordion style
+                return activeTypes.map(([type, subjects]) => {
+                  const { yearOne, yearTwo, yearThree, yearFour } = getCoursesByType(type);
+                  const degreeLabel = DEGREE_NAMES[type] || "תחום אחר";
+
+                  return (
+                    <div key={type} className="mb-2 text-center">
+                      <div 
+                        onClick={() => setOpenSections(prev => ({ ...prev, [type]: !prev[type] }))}
+                        className={`cursor-pointer text-xl font-bold mb-4 flex items-center justify-center relative rounded-lg p-4 ${styles.degreeBg}`}
+                      >
+                        <span>{degreeLabel}</span>
+                        <motion.svg 
+                          animate={{ rotate: openSections[type] ? 180 : 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="w-5 h-5 mr-2" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                        </motion.svg>
+                      </div>
+                      <AnimatePresence>
+                        {openSections[type] && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            className="overflow-hidden"
+                          >
+                            {renderCoursesByYear(yearOne, "שנה א׳")}
+                            {renderCoursesByYear(yearTwo, "שנה ב׳")}
+                            {yearThree.length > 0 && renderCoursesByYear(yearThree, "שנה ג׳")}
+                            {yearFour.length > 0 && renderCoursesByYear(yearFour, "שנה ד׳")}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                });
+              })()}
+            </motion.section>
+          )}
+
+          {/* Courses Card */}
+          <CoursesCard styles={styles} tutorData={tutorData} />
+
           {/* Education & Events Section */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -385,7 +385,7 @@ const groupSubjectsByDegree = (subjects) => {
           </motion.div>
         </motion.div>
 
-          <motion.div
+        <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.35 }}
@@ -439,7 +439,7 @@ const groupSubjectsByDegree = (subjects) => {
           >
             <ContactCard tutor={tutorData} styles={styles} />
           </motion.div>
-          </motion.div>
+        </motion.div>
         <div className="mt-12">
         { isDevMode && <Footer /> }
         </div>

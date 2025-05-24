@@ -125,7 +125,7 @@ const CourseCard = ({ course }) => {
               ? 'bg-blue-600 text-white hover:bg-blue-700'
               : 'bg-gray-600 text-white hover:bg-gray-700'
           }`}
-          onClick={() => navigate(`/course/${course.id}`)}
+          onClick={() => navigate(`/courses/${course.id}`)}
         >
           {course.has_access ? 'צפה עכשיו' : 'למידע נוסף'}
         </button>

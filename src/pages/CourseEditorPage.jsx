@@ -1265,7 +1265,7 @@ export default function CourseEditorPage() {
                           variant="outline" 
                           size="sm" 
                           className="w-full flex items-center justify-center gap-1"
-                          onClick={() => navigate(`/course/${courseId}`)}
+                          onClick={() => navigate(`/courses/${courseId}`)}
                         >
                           <FileVideo className="h-4 w-4 mr-1" />
                           צפייה בקורס
