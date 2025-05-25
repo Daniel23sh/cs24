@@ -180,9 +180,8 @@ const Courses = () => {
         if (!response.ok) {
           throw new Error('Failed to fetch courses');
         }
-
         const { courses, user_access } = await response.json();
-        
+        console.log(user_access)
         // Store user access information
         setUserAccess(user_access || []);
         
