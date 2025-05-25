@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import { courseStyles } from '../config/courseStyles';
+import Footer from '../components/Footer';
 
 const Terms = () => {
   const [styles, setStyles] = useState(courseStyles.cs);
@@ -436,6 +437,7 @@ const Terms = () => {
           </p>
         </section>
       </div>
+      <Footer />
     </div>
   );
 };

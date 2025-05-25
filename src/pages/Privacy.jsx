@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import { courseStyles } from '../config/courseStyles';
-
+import Footer from '../components/Footer';
 const Privacy = () => {
   const [styles, setStyles] = useState(courseStyles.cs);
   const [courseType, setCourseType] = useState('cs');
@@ -226,6 +226,7 @@ const Privacy = () => {
           </p>
         </section>
       </div>
+      <Footer />
     </div>
   );
 };
