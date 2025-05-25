@@ -175,10 +175,16 @@ const groupSubjectsByDegree = (subjects) => {
 
     try {
       // Get specific tutor profile
-      const { data: tutorProfile, error: tutorError } = await supabase
-        .rpc('get_tutor_profile', {
-          p_tutor_id: id
-        });
+      const { data: tutorProfile, error: tutorError } = await supabase.functions.invoke('get-tutor-page', {
+        body: { tutor_id: id }
+      });
+
+      if (tutorError) {
+        console.error('Error fetching tutor profile:', tutorError);
+        fallback();
+        return;
+      }
+      console.log(tutorProfile)
       const { data: newDegreeId, error: degreeError } = await supabase.rpc(
         'get_degree_id_by_details',
         {
@@ -196,9 +202,17 @@ const groupSubjectsByDegree = (subjects) => {
         return;
       }
       setTutorsWithFeedback(scoreAndSortTutors(tutors));
-       // Filter to find the specific tutor by id and displayName
-       if (tutorProfile[0]) {
-        setTutorData((tutorProfile[0]));
+      // Set tutor data from the Edge Function response
+      if (tutorProfile) {
+        const tutorData = {
+          ...tutorProfile.tutor_profile,
+          feedback: tutorProfile.feedback || [],
+          has_user_feedback: tutorProfile.has_user_feedback,
+          is_owner: tutorProfile.is_owner,
+          reviews_count: tutorProfile.reviews_count,
+          subjects: tutorProfile.tutor_profile.selections || [] // Map selections to subjects for compatibility
+        };
+        setTutorData(tutorData);
       } else {
         setError("המורה המבוקש לא נמצא.");
       }
