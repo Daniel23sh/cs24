@@ -23,6 +23,7 @@ import {
   eeYearOneCourses, eeYearTwoCourses, eeYearThreeCourses, eeYearFourCourses,
   ieYearOneCourses, ieYearTwoCourses, ieYearThreeCourses, ieYearFourCourses
 } from "../config/CoursesLinks";
+import Loader from "../components/Loader";
 
 const ProfilePage = () => {
   const { id, courseType } = useParams()
@@ -253,12 +254,11 @@ const groupSubjectsByDegree = (subjects) => {
 
   if (loading)
     return (
-      <div className={`text-center mt-10 ${styles.textColor}`}>
-        <div
-          className="animate-spin h-10 w-10 border-4 border-t-transparent rounded-full mx-auto mb-4"
-          style={{ borderColor: `currentColor transparent currentColor currentColor` }}
-        ></div>
-        טוען...
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <Loader />
+          <p className="mt-4 text-gray-600">טוען מורים...</p>
+        </div>
       </div>
     )
 

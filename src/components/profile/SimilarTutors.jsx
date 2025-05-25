@@ -94,9 +94,13 @@ const TutorComponent = ({ tutors, styles }) => {
             disabled={!isMobile && currentIndex === 0}
             className={`absolute top-1/2 transform -translate-y-1/2 z-10 mt-8
           ${isMobile ? "left-2 p-1" : "left-0 p-2"} rounded-full bg-white shadow-md transition
-          ${!isMobile && currentIndex === 0 ? "text-gray-300 cursor-not-allowed" : "text-blue-500 hover:bg-blue-50"}`}
+          ${
+            !isMobile && currentIndex === 0
+              ? "text-gray-300 cursor-not-allowed"
+              : `${styles.arrowColor}`
+          } ${(isMobile || tutors.length <= 3) ? "hidden" : ""}`}
           >
-            <ChevronLeft className={isMobile ? "hidden w-4 h-4" : "w-6 h-6 "} />
+            <ChevronLeft className="w-6 h-6" />
           </button>
 
           {/* Cards container */}
@@ -173,9 +177,9 @@ const TutorComponent = ({ tutors, styles }) => {
             !isMobile && currentIndex + visibleCount >= tutors.length
               ? "text-gray-300 cursor-not-allowed"
               : `${styles.arrowColor}`
-          }`}
+          } ${(isMobile || tutors.length <= 3) ? "hidden" : ""}`}
           >
-            <ChevronRight className={isMobile ? "hidden w-4 h-4" : "w-6 h-6"} />
+            <ChevronRight className="w-6 h-6" />
           </button>
         </div>
       )}

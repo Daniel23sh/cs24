@@ -128,6 +128,12 @@ const CoursesCard = ({ styles, tutorData }) => {
   const CourseCard = ({ course }) => {
     const hasAccess = userAccess.includes(course.id); // Check if user has access to this course
 
+    const handleButtonClick = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      window.open(`/courses/${course.id}`, '_blank');
+    };
+
     return (
       <div className={`course-card snap-start bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-300 scale-95 ${isMobile ? '' : 'hover:scale-90'} border border-gray-200`}>
         <div className={`relative h-40 flex items-center justify-center ${
@@ -153,21 +159,28 @@ const CoursesCard = ({ styles, tutorData }) => {
                 className={`w-16 h-16 rounded-full ${
                   hasAccess ? `${styles.buttonPrimary}` : 'bg-gray-500 hover:bg-gray-600'
                 } flex items-center justify-center mb-2 mx-auto transition-all duration-300 cursor-pointer hover:opacity-90`}
-                onClick={() => window.open(`/courses/${course.id}`, '_blank')}
+                onClick={handleButtonClick}
+                onTouchStart={(e) => e.stopPropagation()}
+                onTouchMove={(e) => e.stopPropagation()}
+                onTouchEnd={(e) => e.stopPropagation()}
                 role="button"
                 aria-label={hasAccess ? "צפה בקורס" : "רכוש עכשיו"}
               >
                 {hasAccess ? (
-                  <div className="group relative">
-                    <Play className="w-8 h-8 text-white group-hover:opacity-0 transition-opacity absolute inset-0" />
-                    <Tv className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </div>
+ 
+                    <div className="group relative">
+                      <Play className="w-8 h-8 text-white group-hover:opacity-0 transition-opacity absolute inset-0" />
+                      <Tv className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
+
                 ) : (
-                  <div className="group relative">
-                    <Lock className="w-8 h-8 text-white group-hover:opacity-0 transition-opacity absolute inset-0" />
-                    <LockOpen className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </div>
-                )}
+  
+                    <div className="group relative">
+                      <Lock className="w-8 h-8 text-white group-hover:opacity-0 transition-opacity absolute inset-0" />
+                      <LockOpen className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
+                  )
+                }
               </div>
               <h4 className={`text-sm font-medium text-white`}>
                 {hasAccess ? 'צפה בקורס' : 'רכוש עכשיו'}
@@ -197,7 +210,7 @@ const CoursesCard = ({ styles, tutorData }) => {
             className={`w-full py-2 px-4 rounded-md transition-colors duration-300 text-sm font-medium text-white hover:opacity-90 hidden ${
               hasAccess ? styles.buttonPrimary : 'bg-gray-600 hover:bg-gray-700'
             }`}
-            onClick={() => window.open(`/courses/${course.id}`, '_blank')}
+            onClick={handleButtonClick}
           >
             {hasAccess ? 'צפה בקורס' : 'רכוש עכשיו'}
           </button>
