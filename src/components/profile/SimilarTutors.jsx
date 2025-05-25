@@ -172,7 +172,7 @@ const TutorComponent = ({ tutors, styles }) => {
           ${
             !isMobile && currentIndex + visibleCount >= tutors.length
               ? "text-gray-300 cursor-not-allowed"
-              : "text-blue-500 hover:bg-blue-50"
+              : `${styles.arrowColor}`
           }`}
           >
             <ChevronRight className={isMobile ? "hidden w-4 h-4" : "w-6 h-6"} />

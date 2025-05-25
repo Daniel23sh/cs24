@@ -1,13 +1,21 @@
 import { useState, useEffect } from "react"
-import { Star, Phone, Linkedin, Github, Verified, MapPin, Paperclip, Share2, PhoneCallIcon } from "lucide-react";
+import { Star, Phone, Linkedin, Github, Verified, MapPin, Paperclip, Share2, PhoneCallIcon, Edit } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import image from "../../config/user-profile.png";
 
 
 const ProfileCard = ({ tutorData, styles }) => {
+  const navigate = useNavigate();
+  
   // Scroll to bottom of the page
   const scrollToBottom = () => {
     window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
   };
+  
+  const handleEditClick = () => {
+    navigate('/dashboard?tab=tutorProfile');
+  };
+  
   const isDevMode = process.env.REACT_APP_DEV?.toLowerCase() === 'true';
 
   const linke = tutorData.linkedin || "" //"https://www.linkedin.com/in/daniel-shatzov/";
@@ -37,12 +45,23 @@ const ProfileCard = ({ tutorData, styles }) => {
     <div className={`block p-4 relative z-20 ${ isDevMode && 'pt-24' }`}>
       <div className=" mx-auto -mb-8 max-w-[73rem] md:p-0 pb-4 md:pb-4">
         <div className={`relative bg-white border ${styles.cardBorder} rounded-xl shadow-md overflow-hidden flex flex-col md:flex-row mx-auto`}>
+          {/* Edit button - only visible to owner */}
+          {tutorData.is_owner && (
+            <button
+              onClick={handleEditClick}
+              className={`absolute top-2 left-2 p-2 rounded-full bg-white hover:bg-gray-100 ${isDevMode ? 'hidden md:block' : 'hidden'}`}
+              aria-label="Edit profile"
+            >
+              <Edit className={`h-5 w-5 ${styles.linksIconColor}`} />
+            </button>
+          )}
+          
           {/* share button */}
           <a
             href={`https://wa.me/?text=${encodeURIComponent(`הנה הפרופיל של ${tutorData.name}👨‍🏫\n\nhttps://${window.location.host}/tutors/cs/${tutorData.id}`)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className={`absolute top-2 left-2 p-2 rounded-full bg-white hover:bg-gray-100  hidden md:block ${isDevMode ? "" : 'hidden'}`}
+            className={`absolute ${tutorData.is_owner ? 'top-2 left-14' : 'top-2 left-2'} p-2 rounded-full bg-white hover:bg-gray-100 hidden md:block ${isDevMode ? "" : 'hidden'}`}
             aria-label="Share profile"
           >
             <Share2 className={`h-5 w-5 bg-rounded ${styles.linksIconColor}`} />
@@ -59,12 +78,22 @@ const ProfileCard = ({ tutorData, styles }) => {
                 e.target.src = "/placeholder.svg?height=300&width=300";
               }}
             />
-            {/* share button */}
+            {/* Mobile buttons */}
+            {tutorData.is_owner && (
+              <button
+                onClick={handleEditClick}
+                className="absolute top-2 right-2 p-2 rounded-full bg-white hover:bg-gray-100 md:hidden"
+                aria-label="Edit profile"
+              >
+                <Edit className={`h-4 w-4 ${styles.linksIconColor}`} />
+              </button>
+            )}
+            {/* Share button mobile */}
             <a
               href={`https://api.whatsapp.com/send?text=${encodeURIComponent(` הנה הפרופיל של ${tutorData.name}👨‍🏫\n\n🔗 https://${window.location.host}/tutors/cs/${tutorData.id}`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className={`absolute top-2 left-2 p-2 rounded-full bg-white hover:bg-gray-100 md:hidden`}
+              className="absolute top-2 left-2 p-2 rounded-full bg-white hover:bg-gray-100 md:hidden"
               aria-label="Share profile"
             >
               <Share2 className={`h-4 w-4 ${styles.linksIconColor}`} />
