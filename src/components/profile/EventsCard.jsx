@@ -62,9 +62,9 @@ const UpcomingEvents = ({
                         ? `${startMonth}-${endMonth}`
                         : startMonth}
                     </div>
-                    {event.registration_url && (
+                    {event.event_link && (
                       <a 
-                        href={event.registration_url} 
+                        href={event.event_link} 
                         target="_blank" 
                         rel="noopener noreferrer" 
                         className="mt-4 text-sm bg-white text-blue-600 px-2 py-1 rounded-md hover:bg-blue-50 transition-colors cursor-pointer"
