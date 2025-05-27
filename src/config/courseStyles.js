@@ -32,7 +32,6 @@ const courseStyles = {
     ringColor: 'ring-blue-600',
     logoStart: '#2563eb',
     logoEnd: '#1e3a8a',
-    degreeBg: 'bg-blue-300 hover:bg-blue-200',
     arrowColor: 'text-blue-500 hover:bg-blue-50'
   },
   ee: {
@@ -68,7 +67,6 @@ const courseStyles = {
     ringColor: 'ring-purple-600',
     logoStart: '#9333ea',
     logoEnd: '#581c87',
-    degreeBg: 'bg-purple-300 hover:bg-purple-200',
     arrowColor: 'text-purple-500 hover:bg-purple-50'
   },
   ie: {
@@ -104,7 +102,6 @@ const courseStyles = {
     ringColor: 'ring-rose-600',
     logoStart: '#e11d48',
     logoEnd: '#881337',
-    degreeBg: 'bg-rose-300 hover:bg-rose-200',
     arrowColor: 'text-rose-500 hover:bg-rose-50'
   },
 };
