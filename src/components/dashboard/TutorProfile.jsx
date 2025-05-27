@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Save, Edit, Trash2, Loader, Plus, ExternalLink } from 'lucide-react';
-import { Save, Edit, Trash2, Loader, Plus, ImagePlus, X } from 'lucide-react';
+import { Save, Edit, Trash2, Loader, Plus, ImagePlus, X, ExternalLink } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { supabase } from '../../lib/supabase';

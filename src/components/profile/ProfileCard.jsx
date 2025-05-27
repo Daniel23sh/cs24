@@ -58,8 +58,9 @@ const ProfileCard = ({ tutorData, styles }) => {
           
           {/* share button */}
           <a
-            href={`https://wa.me/?text=${encodeURIComponent(`הנה הפרופיל של ${tutorData.name}👨‍🏫\n\nhttps://${window.location.host}/tutors/cs/${tutorData.id}`)}`}
-            target="_blank"
+            href={`https://wa.me/?text=${encodeURIComponent(
+              `לפרטים נוספים על ${tutorData.name} — לחצו כאן:\nhttps://${window.location.host}/tutors/cs/${tutorData.id}`
+            )}`}            target="_blank"
             rel="noopener noreferrer"
             className={`absolute ${tutorData.is_owner ? 'top-2 left-14' : 'top-2 left-2'} p-2 rounded-full bg-white hover:bg-gray-100 hidden md:block ${isDevMode ? "" : 'hidden'}`}
             aria-label="Share profile"
@@ -70,7 +71,7 @@ const ProfileCard = ({ tutorData, styles }) => {
           {/* Profile Photo */}
           <div className="relative mx-auto w-40 h-40 md:w-52 md:h-48 md:mt-4 mt-6 md:m-2 md:m-4">
             <img
-              src={image || "/placeholder.svg"}
+              src={tutorData.profile_image_url || "/placeholder.svg"}
               alt={tutorData.name}
               className="border w-full h-full object-cover object-center rounded-xl"
               onError={(e) => {
@@ -90,7 +91,9 @@ const ProfileCard = ({ tutorData, styles }) => {
             )}
             {/* Share button mobile */}
             <a
-              href={`https://api.whatsapp.com/send?text=${encodeURIComponent(` הנה הפרופיל של ${tutorData.name}👨‍🏫\n\n🔗 https://${window.location.host}/tutors/cs/${tutorData.id}`)}`}
+              href={`https://api.whatsapp.com/send/?text=${encodeURIComponent(
+                `לפרטים נוספים על ${tutorData.name} — לחצו כאן:\nhttps://${window.location.host}/tutors/cs/${tutorData.id}`
+              )}`}
               target="_blank"
               rel="noopener noreferrer"
               className="absolute top-2 left-2 p-2 rounded-full bg-white hover:bg-gray-100 md:hidden"
@@ -123,9 +126,11 @@ const ProfileCard = ({ tutorData, styles }) => {
 
             {/* About Me */}
             <div className="text-right mt-4 md:pr-2 pr-4 md:pl-6 pl-2">
+            {tutorData.about_me && (
               <p className={`${styles.textColor} whitespace-pre-line leading-relaxed`}>
-                {<span><strong>"</strong>{tutorData.about_me || "עוד לא הוספתי"}<strong>"</strong></span>}
+                {<span><strong>"</strong>{tutorData.about_me}<strong>"</strong></span>}
               </p>
+            )}
             </div>
 
             {/* Container: column-flex/right-align on mobile, two-column grid on md+ */}
@@ -142,12 +147,14 @@ const ProfileCard = ({ tutorData, styles }) => {
               </div>
 
               {/* Price */}
-              <div className="hidden md:flex mt-4 items-center text-gray-700">
-                <div className={`w-8 h-8 flex items-center justify-center rounded-full ${styles.linksIconBg} mr-2`}>
-                  <span className={`text-3xl leading-none mb-2 font-light ${styles.iconColor}`}>₪</span>
+              {tutorData.price && tutorData.price > 0 && (
+                <div className="hidden md:flex mt-4 items-center text-gray-700">
+                  <div className={`w-8 h-8 flex items-center justify-center rounded-full ${styles.linksIconBg} mr-2`}>
+                    <span className={`text-3xl leading-none mb-2 font-light ${styles.iconColor}`}>₪</span>
+                  </div>
+                  <p className="text-base text-gray-700 mr-2">{tutorData.price} לשעה</p>
                 </div>
-                <p className="text-base text-gray-700 mr-2">{tutorData.private_price} לשעה</p>
-              </div>
+              )}
 
               {/* Phone */}
               {tutorData.phone && (

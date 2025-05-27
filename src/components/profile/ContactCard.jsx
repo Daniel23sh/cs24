@@ -83,7 +83,7 @@ const ContactCard = ({ tutor, styles }) => {
           </select>
           <a
             href={`https://wa.me/${tutor.phone.replace(/^0/, '972')}?text=${encodeURIComponent(
-              `שלום, אני מתעניין במקצוע ${selectedSubject}.`
+              `היי, אשמח לשמוע פרטים על שיעורים פרטיים לגבי קורס ${selectedSubject}.`
             )}`}
             target="_blank"
             rel="noopener noreferrer"

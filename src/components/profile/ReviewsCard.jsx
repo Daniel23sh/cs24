@@ -407,7 +407,7 @@ export default function ReviewsSection({ reviews, styles, tutor, user, loadTutor
                   </div>
                   <div className="flex items-center gap-2">
                     <StarRating rating={review.rating} size={16} />
-                    {tutor && review.id === tutor.user_feedback_id && (
+                    {tutor && tutor.has_user_feedback && review.id === tutor.user_feedback_id && (
                       <button
                         onClick={handleDeleteFeedback}
                         className="text-gray-400 hover:text-red-500 transition-colors"

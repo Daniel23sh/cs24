@@ -209,6 +209,7 @@ const groupSubjectsByDegree = (subjects) => {
           ...tutorProfile.tutor_profile,
           feedback: tutorProfile.feedback || [],
           has_user_feedback: tutorProfile.has_user_feedback,
+          user_feedback_id: tutorProfile.user_feedback_id,
           is_owner: tutorProfile.is_owner,
           reviews_count: tutorProfile.reviews_count,
           subjects: tutorProfile.tutor_profile.selections || [] // Map selections to subjects for compatibility
@@ -339,7 +340,7 @@ const groupSubjectsByDegree = (subjects) => {
                     <div key={type} className="mb-2 text-center">
                       <div 
                         onClick={() => setOpenSections(prev => ({ ...prev, [type]: !prev[type] }))}
-                        className={`cursor-pointer text-xl font-bold mb-4 flex items-center justify-center relative rounded-lg p-4 ${styles.degreeBg}`}
+                        className={`cursor-pointer text-xl font-bold mb-4 flex items-center justify-center relative rounded-lg p-4 ${styles.buttonPrimary}`}
                       >
                         <span>{degreeLabel}</span>
                         <motion.svg 
