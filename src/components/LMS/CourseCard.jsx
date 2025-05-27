@@ -120,7 +120,7 @@ const CourseCard = ({ course, courseType = 'cs', hidePriceInfo = false }) => {
         {/* Sale badge - only show if not purchased and not hiding price info */}
         {!course.has_access && !hidePriceInfo && isOnSale && (
           <div className="absolute top-3 left-3 bg-green-500 text-white px-2 py-1 rounded-md text-xs font-bold">
-            {discountPercentage}%
+            {discountPercentage}% הנחה{daysLeft ? ` | נותרו ${daysLeft} ימים` : ''}
           </div>
         )}
       </div>
