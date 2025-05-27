@@ -121,9 +121,9 @@ const UserDashboard = () => {
     return (
       <div className="min-h-screen bg-gray-50">
         <Navbar />
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="text-center p-8 rounded-lg bg-white shadow-lg border border-blue-100 max-w-md w-full">
-            <div className="mb-4">
+        <div className="flex items-center justify-center min-h-[calc(100vh-64px)]">
+          <div className="flex flex-col items-center justify-center text-center p-8 rounded-lg bg-white shadow-lg border border-blue-100 max-w-md w-full">
+            <div className="flex justify-center mb-4">
               <LoaderComponent />
             </div>
             <p className="text-gray-600 text-lg font-medium">
@@ -262,6 +262,7 @@ const UserDashboard = () => {
               <UserCouponsManagement
                 dashboardData={dashboardData}
                 tutorCourses={dashboardData.my_courses}
+                isParentLoading={loading || isLoading}
               />
             )}
 
@@ -503,7 +504,7 @@ const UserDashboard = () => {
                                 <Button
                                   variant="outline"
                                   size="sm"
-                                  onClick={() => navigate(`/course/${course.video_course_id}`)}
+                                  onClick={() => navigate(`/courses/${course.video_course_id}`)}
                                 >
                                   צפייה בקורס <ChevronRight size={16} />
                                 </Button>
