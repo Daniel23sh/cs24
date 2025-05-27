@@ -220,7 +220,7 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
               <div className="flex justify-end mt-2">
                 <Link
                   to={`/tutors/${courseType}/${tutor.id}`}
-                  className={`${styles.textSecondary} px-3 py-1 text-sm border-b border-current`}
+                  className={`${styles.textSecondary}  ${isDevMode ? "": "hidden"} px-3 py-1 text-sm border-b border-current`}
                 >
                   צפייה בפרופיל
                 </Link>
