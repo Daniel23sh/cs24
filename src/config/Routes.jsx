@@ -17,6 +17,9 @@ import About from '../pages/About';
 import Privacy from '../pages/Privacy';
 import Terms from '../pages/Terms';
 import ThankYou from '../pages/ThankYou';
+import AlgoVisualizer from '../components/Algo_visualizer/AlgoVisualizer';
+import ArrayQueue from '../components/Algo_visualizer/data_structures/ArrayQueue';
+import ArrayStack from '../components/Algo_visualizer/data_structures/ArrayStack';
 
 const AppRoutes = () => {
   return (
@@ -32,17 +35,21 @@ const AppRoutes = () => {
         <Route path="/courses" element={<Courses />} />
         <Route path="/courses/:courseId" element={<CourseDetails />} />
         <Route path="/tutors/:courseType/:id" element={<ProfilePage />} />
-        <Route path="*" element={<NotFoundPage />} />
         <Route path="/create-course" element={<CourseCreationPage />} />
         <Route path="/course-editor/:courseId" element={<CourseEditorPage />} />
         <Route path="/no-access" element={<NoAccessPage />} />
         <Route path="/upload-success" element={<UploadSuccess />} />
         <Route path="/dashboard" element={<UserDashboard />} />
         <Route path="/thank-you" element={<ThankYou />} />
+        
+        {/* Algorithm Visualizer Routes */}
+        <Route path="/algo" element={<AlgoVisualizer />} />
+        <Route path="/algo/queue" element={<ArrayQueue />} />
+        <Route path="/algo/stack" element={<ArrayStack />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
 };
 
 export default AppRoutes; 
-
