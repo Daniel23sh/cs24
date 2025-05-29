@@ -228,24 +228,39 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
             {tutor.feedback?.length > 0 && (
               <div>
              <div className="flex md:justify-between justify-center items-center gap-4 ">
-              <Button
-                className={styles.textSecondary}
-                onClick={() => setShowReviews(!showReviews)}
-              >
-                {showReviews
-                  ? 'הסתר תגובות'
-                  : `ראה תגובות (${reviewsWithComments.length})`}
-              </Button>
-              <div className="flex flex-col items-center">
-                <Link
-                  to={`/tutors/${courseType}/${tutor.id}`}
-                  //state={{ tutor }}
-                  className={`${styles.textSecondary} ${isDevMode ? "": "hidden"} text-center px-3 py-1 text-sm border-b border-current pr-0.5 pl-0.5`}
-                >
-                  צפייה בפרופיל
-                </Link>
-                <div className={`w-16 h-0.5 ${styles.textSecondary}`}></div>
-              </div>
+              {reviewsWithComments.length > 0 ? (
+                <>
+                  <Button
+                    className={styles.textSecondary}
+                    onClick={() => setShowReviews(!showReviews)}
+                  >
+                    {showReviews
+                      ? 'הסתר תגובות'
+                      : `ראה תגובות (${reviewsWithComments.length})`}
+                  </Button>
+                  <div className="flex flex-col items-center">
+                    <Link
+                      to={`/tutors/${courseType}/${tutor.id}`}
+                      className={`${styles.textSecondary} ${isDevMode ? "": "hidden"} text-center px-3 py-1 text-sm border-b border-current pr-0.5 pl-0.5`}
+                    >
+                      צפייה בפרופיל
+                    </Link>
+                    <div className={`w-16 h-0.5 ${styles.textSecondary}`}></div>
+                  </div>
+                </>
+              ) : (
+                <div className="flex justify-end w-full">
+                  <div className="flex flex-col items-center">
+                    <Link
+                      to={`/tutors/${courseType}/${tutor.id}`}
+                      className={`${styles.textSecondary} ${isDevMode ? "": "hidden"} text-center px-3 py-1 text-sm border-b border-current pr-0.5 pl-0.5`}
+                    >
+                      צפייה בפרופיל
+                    </Link>
+                    <div className={`w-16 h-0.5 ${styles.textSecondary}`}></div>
+                  </div>
+                </div>
+              )}
             </div>
                 {showDeleteButton && userFeedback && (
                   <div className="mt-2 space-y-2">
