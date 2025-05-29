@@ -26,6 +26,7 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
   const [showReviews, setShowReviews] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+  const [showAllSubjects, setShowAllSubjects] = useState(false);
 
   const MAX_COMMENT_LENGTH = 200; // Maximum character limit for comments
   const userIsAdmin = user && isAdmin(user.email);
@@ -200,7 +201,7 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
         <CardContent className="pt-0">
           <div className="space-y-2">
             <div className="flex flex-wrap gap-1.5 -mx-0.5">
-              {tutor.subjects?.slice(0, 3).map((subject, index) => (
+              {(showAllSubjects ? tutor.subjects : tutor.subjects?.slice(0, 4))?.map((subject, index) => (
                 <span
                   key={index}
                   className={`text-xs px-2 py-1 rounded-full whitespace-nowrap ${styles.subjectBg} ${styles.textSecondary}`}
@@ -208,12 +209,13 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
                   {subject.course_name}
                 </span>
               ))}
-              {tutor.subjects?.length > 3 && (
-                <span
-                  className={`text-xs px-2 py-1 rounded-full whitespace-nowrap ${styles.subjectBg} ${styles.textSecondary}`}
+              {!showAllSubjects && tutor.subjects?.length > 4 && (
+                <button
+                  onClick={() => setShowAllSubjects(true)}
+                  className={`text-xs px-2 py-1 rounded-full whitespace-nowrap ${styles.subjectBg} ${styles.textSecondary} hover:opacity-80 cursor-pointer`}
                 >
-                  {tutor.subjects.length - 3}+
-                </span>
+                  {tutor.subjects.length - 4}+
+                </button>
               )}
             </div>
             {!tutor.feedback?.length && (
