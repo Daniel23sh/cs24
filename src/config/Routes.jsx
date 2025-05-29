@@ -20,7 +20,7 @@ const About = React.lazy(() => import(/* webpackChunkName: "about" */ '../pages/
 const Privacy = React.lazy(() => import(/* webpackChunkName: "privacy" */ '../pages/Privacy'));
 const Terms = React.lazy(() => import(/* webpackChunkName: "terms" */ '../pages/Terms'));
 const ThankYou = React.lazy(() => import(/* webpackChunkName: "thank-you" */ '../pages/ThankYou'));
-const TutorPresentation = React.lazy(() => import(/* webpackChunkName: "tutor-presentation" */ '../components/TutorPresentation'));
+const TutorPresentation = React.lazy(() => import(/* webpackChunkName: "tutor-presentation" */ '../pages/TutorPresentation'));
 
 const AppRoutes = () => {
   return (
