@@ -1,8 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 import { Button } from './ui/button';
-import { Briefcase, RefreshCw, Bell, ChevronDown, ChevronUp } from 'lucide-react';
+import { Briefcase, Bell, ChevronDown, ChevronUp } from 'lucide-react';
 import { motion, useAnimation } from 'framer-motion';
+import { courseStyles } from '../config/courseStyles';
+import { jobChannelMappings } from '../config/courseMappings';
+import useAuth from "../hooks/useAuth";
+import LoginButton from './navbarUtils/LoginButton';
 
 // Add useWindowSize hook at the top of the file
 const useWindowSize = () => {
@@ -35,17 +39,26 @@ const JobPostingsCard = ({ courseType = 'cs' }) => {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [subscribeSuccess, setSubscribeSuccess] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const controls = useAnimation();
   const isMounted = useRef(false);
+  const jobListRef = useRef(null);
+  const auth = useAuth();
 
-  // Theme variables based on course type
-  const textColor = courseType === 'cs' ? 'text-blue-950' : 'text-purple-950';
-  const buttonBg = courseType === 'cs' ? 'bg-blue-700 hover:bg-blue-800' : 'bg-purple-800 hover:bg-purple-900';
-  const cardBorder = courseType === 'cs' ? 'border-blue-200' : 'border-purple-200';
-  const jobItemBg = courseType === 'cs' ? 'bg-blue-50' : 'bg-purple-50';
-  const dateBg = courseType === 'cs' ? 'bg-blue-100' : 'bg-purple-100';
-  const dateText = courseType === 'cs' ? 'text-blue-800' : 'text-purple-800';
-  const iconColor = courseType === 'cs' ? 'text-blue-600' : 'text-purple-600';
+  const styles = courseStyles[courseType] || courseStyles.cs;
+
+  const getJobTitle = () => {
+    switch (courseType) {
+      case 'cs':
+        return 'משרות למדמ"ח';
+      case 'ee':
+        return 'משרות לחשמל';
+      case 'ie':
+        return 'משרות לתעשייה וניהול';
+      default:
+        return 'משרות';
+    }
+  };
 
   // Form submit function for subscribe modal
   const handleSubmit = async (e) => {
@@ -111,38 +124,73 @@ const JobPostingsCard = ({ courseType = 'cs' }) => {
     };
   }, [controls]);
   
-  
   // Fetch jobs from the API
-  const fetchJobs = async () => {
+  const fetchJobs = useCallback(async () => {
     setIsLoading(true);
     try {
+      const channelId = jobChannelMappings[courseType];
+      if (!channelId) {
+        setJobs([]);
+        return;
+      }
+      
       const response = await fetch(process.env.REACT_APP_JOBS_API_URL);
       const data = await response.json();
-      const jobsData = courseType === 'cs' ? data["secretjuniordevelopers"] : data["-1002263628689"];
-      setJobs(jobsData || []);
+      const jobsData = data[channelId];
+
+      // Create a Set to track unique jobs using a composite key
+      const uniqueJobs = new Map();
+      
+      if (Array.isArray(jobsData)) {
+        jobsData.forEach(job => {
+          const key = `${job.title}-${job.date}-${job.url}`;
+          if (!uniqueJobs.has(key)) {
+            uniqueJobs.set(key, {
+              ...job,
+              id: key // Using the composite key as the id
+            });
+          }
+        });
+      }
+      
+      // Convert Map values back to array and sort by date (newest first)
+      const uniqueJobsArray = Array.from(uniqueJobs.values()).sort((a, b) => {
+        const [aMonth, aDay, aYear] = a.date.split("/");
+        const [bMonth, bDay, bYear] = b.date.split("/");
+        return new Date(bYear, bMonth - 1, bDay) - new Date(aYear, aMonth - 1, aDay);
+      });
+
+      setJobs(uniqueJobsArray);
     } catch (error) {
-      // Removed console.error
+      setJobs([]);
     } finally {
       setIsLoading(false);
     }
-  }
-  
+  }, [courseType]);
+
   useEffect(() => {
     fetchJobs();
-  }, [courseType]);
+  }, [fetchJobs]); // Now fetchJobs only changes when courseType changes
 
   // Update isOpen when screen size changes
   useEffect(() => {
     setIsOpen(width >= 1024);
   }, [width]);
 
+  // Scroll handler for job list
+  const handleJobListScroll = () => {
+    if (jobListRef.current) {
+      setIsScrolled(jobListRef.current.scrollTop > 0);
+    }
+  };
+
   return (
-    <Card className={`mb-4 bg-white relative ${cardBorder}`}>
+    <Card className={`mb-4 border bg-white relative ${styles.cardBorder}`}>
       {/* Bell bubble */}
       <motion.div
         initial={{ rotate: 0, y: 0 }}
         animate={controls}
-        className={`absolute -top-4 -right-4 ${buttonBg} rounded-full p-2 shadow-md border border-gray-200 cursor-pointer`}
+        className={`absolute -top-4 -right-4 z-20 ${styles.buttonPrimary} rounded-full p-2 shadow-md border border-gray-200 cursor-pointer`}
         onClick={() => setShowSubscribeModal(true)}
       >
         <Bell className="h-5 w-5 text-white" />
@@ -184,7 +232,7 @@ const JobPostingsCard = ({ courseType = 'cs' }) => {
                   <Button variant="outline" onClick={() => setShowSubscribeModal(false)}>
                     ביטול
                   </Button>
-                  <Button variant="inline" type="submit" className={`${buttonBg} text-white`}>
+                  <Button variant="inline" type="submit" className={`${styles.buttonPrimary} text-white`}>
                     אישור
                   </Button>
                 </div>
@@ -195,21 +243,21 @@ const JobPostingsCard = ({ courseType = 'cs' }) => {
       )}
 
       {/* Card Header with Dropdown Toggle */}
-      <CardHeader 
-        className={width < 1024 ? "cursor-pointer" : ""}
+      <CardHeader
+        className={`relative z-10 bg-white ${isOpen ? 'rounded-t-lg' : 'rounded-lg'} transition-shadow ${width < 1024 ? "cursor-pointer" : ""} ${isScrolled ? 'shadow-[0_2px_4px_rgba(0,0,0,0.1)]' : ''}`}
         onClick={() => width < 1024 && setIsOpen(!isOpen)}
       >
         <div className="flex justify-between items-center w-full">
-          <CardTitle className={`text-2xl flex items-center gap-2 ${textColor}`}>
-            <Briefcase className={`h-6 w-6 ${iconColor}`} />
-            {courseType === 'cs' ? "משרות למדמ״ח" : "משרות לחשמל"}
+          <CardTitle className={`text-2xl flex items-center gap-2 ${styles.textColor}`}>
+            <Briefcase className={`h-6 w-6 ${styles.iconColor}`} />
+            {getJobTitle()}
           </CardTitle>
           {/* Only show toggle icon on mobile */}
           {width < 1024 && (
             isOpen ? (
-              <ChevronUp className={`h-6 w-6 ${iconColor}`} />
+              <ChevronUp className={`h-6 w-6 ${styles.iconColor}`} />
             ) : (
-              <ChevronDown className={`h-6 w-6 ${iconColor}`} />
+              <ChevronDown className={`h-6 w-6 ${styles.iconColor}`} />
             )
           )}
         </div>
@@ -217,38 +265,93 @@ const JobPostingsCard = ({ courseType = 'cs' }) => {
 
       {/* Dropdown Content */}
       {isOpen && (
-        <CardContent>
+        <CardContent className='pb-0'>
           {isLoading ? (
             <div className="flex justify-center p-8">
-              <div className={`animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 ${courseType === 'cs' ? 'border-blue-600' : 'border-purple-600'}`}></div>
+              <div className={`animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 ${styles.iconColor}`}></div>
+            </div>
+          ) : !jobChannelMappings[courseType] ? (
+            <div className="text-center p-8 text-gray-500">
+              לא קיימות משרות כרגע
             </div>
           ) : (
-            <div className="h-96 overflow-y-auto pr-1 space-y-3">
-              {jobs.map(job => (
-                <div 
-                  key={job.id || `job-${job.title}-${job.date}`}
-                  className={`rounded-lg ${jobItemBg} p-4 flex items-center justify-between gap-4`}
-                >
-                  {/* Job Title */}
-                  <div className="flex-1 min-w-0">
-                    <h3 className={`font-medium ${textColor} break-words`}>
-                      {job.title}
-                    </h3>
+            <div
+              ref={jobListRef}
+              onScroll={handleJobListScroll}
+              className={`px-3 overflow-y-auto  ${auth.session ? 'pb-9 h-[402px]' : 'lg:h-[402px]'}`}
+            >
+              <div className="space-y-3">
+                {auth.session ? jobs.map(job => (
+                  <Card className={`rounded-lg ${styles.bgLight} p-4 flex items-center justify-between gap-4`} key={job.id || `job-${job.title}-${job.date}`}>
+                    <div className="flex-1 min-w-0">
+                      <h3 className={`font-medium ${styles.textColor}`}>
+                        {job.title}
+                      </h3>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className={`text-xs font-medium px-2 py-1 rounded-full ${styles.subjectBg} ${styles.textColor}`}>
+                        {formatDate(job.date)}
+                      </span>
+                      <Button
+                        className={`text-white ${styles.buttonPrimary} text-sm`}
+                        onClick={() => window.open(job.url, '_blank')}
+                      >
+                        להגשה
+                      </Button>
+                    </div>
+                  </Card>
+                )) : jobs.slice(0,2).map(job => (
+                  <Card className={`rounded-lg ${styles.bgLight} p-4 flex items-center justify-between gap-4`} key={job.id || `job-${job.title}-${job.date}`}>
+                    <div className="flex-1 min-w-0">
+                      <h3 className={`font-medium ${styles.textColor}`}>
+                        {job.title}
+                      </h3>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className={`text-xs font-medium px-2 py-1 rounded-full ${styles.subjectBg} ${styles.textColor}`}>
+                        {formatDate(job.date)}
+                      </span>
+                      <Button
+                        className={`text-white ${styles.buttonPrimary} text-sm`}
+                        onClick={() => window.open(job.url, '_blank')}
+                      >
+                        להגשה
+                      </Button>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+              {!auth.session && jobs.length > 2 && (
+                <div className='relative py-3'>
+                  <div className="blur pointer-events-none select-none space-y-3">
+                    {jobs.slice(2, 4).map(job => (
+                        <Card className={`rounded-lg ${styles.bgLight} p-4 flex items-center justify-between gap-4`} key={job.id || `job-${job.title}-${job.date}`}>
+                          <div className="flex-1 min-w-0">
+                            <h3 className={`font-medium ${styles.textColor}`}>
+                              {job.title}
+                            </h3>
+                          </div>
+                          <div className="flex items-center gap-2 shrink-0">
+                            <span className={`text-xs font-medium px-2 py-1 rounded-full ${styles.subjectBg} ${styles.textColor}`}>
+                              {formatDate(job.date)}
+                            </span>
+                            <Button
+                              className={`text-white ${styles.buttonPrimary} text-sm`}
+                            >
+                              להגשה
+                            </Button>
+                          </div>
+                        </Card>
+                    ))}
                   </div>
-                  {/* Date and Action Button */}
-                  <div className="flex items-center gap-2 shrink-0">
-                    <span className={`text-xs font-medium px-2 py-1 rounded-full ${dateBg} ${dateText}`}>
-                      {formatDate(job.date)}
-                    </span>
-                    <Button
-                      className={`text-white ${buttonBg} text-sm`}
-                      onClick={() => window.open(job.url, '_blank')}
-                    >
-                      להגשה
-                    </Button>
+                  <div className={`absolute inset-0 flex items-center justify-center`}>
+                     <div className={`p-4 flex flex-col text-center gap-4 bg-white rounded-lg shadow-lg ${styles.cardBorder} border-2`}>
+                        <p className={`font-medium ${styles.textColor}`}>התחברו כדי לראות את כל המשרות</p>
+                        <LoginButton styles={styles} />
+                     </div>
                   </div>
                 </div>
-              ))}
+              )}
             </div>
           )}
         </CardContent>

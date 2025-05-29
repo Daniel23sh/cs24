@@ -1,0 +1,544 @@
+{
+  "csTutors": [
+    {
+      "id" : 1,
+      "name": "דוד עזרן",
+      "subjects": [
+        { "course_name": "תכנות מונחה עצמים" },
+        { "course_name": "סדנה מתקדמת בתכנות" },
+        { "course_name": "מבני נתונים" },
+        { "course_name": "מבוא למדעי המחשב" }
+      ],
+      "phone": "0508121999",
+      "linkedin": "",
+      "github": "",
+      "youtube": "",
+      "fieldOfStudy": "מדעי המחשב",
+      "institution": "המכון הטכנולוגי חולון",
+      "startDate": "אפר 2019",
+      "endDate": "אוג 2023",
+      "feedback": [
+        { "rating": 5, "comment": "מעולה ממש!", "created_at": "2025-11-01" },
+        { "rating": 5, "comment": "ברור מאוד", "created_at": "2025-11-04" },
+        { "rating": 4, "comment": "היה יכול להאט לפעמים", "created_at": "2025-11-10" }
+      ],
+      "average_rating": 4.67,
+      "feedback_count": 3,
+      "status": "פרונטלי",
+      "private_price": 150,
+      "group_price": 120,
+      "mail": "",
+      "grades": [
+        { "id": 1, "subject": "תכנות מונחה עצמים", "grade": "95", "year": "2023" },
+        { "id": 2, "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year": "2022" },
+        { "id": 3, "subject": "מבני נתונים", "grade": "85", "year": "2021" },
+        { "id": 4, "subject": "מבוא למדעי המחשב", "grade": "88", "year": "2021" }
+      ],
+      "events": [
+        {
+          "id": 1,
+          "startDate": "2025-04-01",
+          "endDate": "2025-04-03",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "הסבר על תכנות מונחה עצמים",
+          "description": "הסבר מעמיק על עקרונות התכנות המונחה עצמים."
+        },
+        {
+          "id": 2,
+          "startDate": "2025-04-04",
+          "endDate": "2025-04-04",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "תרגול סדנה מתקדמת בתכנות",
+          "description": "תרגול מעשי שבו המשתתפים יפתרו בעיות מתקדמות בתחום התכנות."
+        },
+        {
+          "id": 3,
+          "startDate": "2025-05-10",
+          "endDate": "2025-05-12",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "שיעור על מבני נתונים",
+          "description": "הסבר על סוגי מבני הנתונים והשימושים השונים בהם."
+        }
+      ]
+    },
+    {
+      "id" : 2,
+      "name": "עידן מרמור",
+      "subjects": [
+        { "course_name": "אלגוריתמים 1" },
+        { "course_name": "מבני נתונים" },
+        { "course_name": "מבוא למדעי המחשב" },
+        { "course_name": "אלגוריתמים 2" }
+      ],
+      "phone": "0537204416",
+      "linkedin": "https://www.linkedin.com/in/daniel-shatzov/",
+      "github": "",
+      "youtube": "",
+      "fieldOfStudy": "מדעי המחשב",
+      "institution": "המכון הטכנולוגי חולון",
+      "startDate": "אפר 2019",
+      "endDate": "אוג 2023",
+      "feedback": [
+        { "rating": 3, "comment": "בסדר, אבל לא מספיק ברור", "created_at": "2025-10-22" },
+        { "rating": 4, "comment": "סביר", "created_at": "2025-11-01" }
+      ],
+      "average_rating": 3.5,
+      "feedback_count": 2,
+      "status": "פרונטלי",
+      "private_price": 200,
+      "group_price": 100,
+      "mail": "",
+      "grades": [
+        { "id": 1, "subject": "תכנות מונחה עצמים", "grade": "95", "year": "2023" },
+        { "id": 2, "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year": "2022" },
+        { "id": 3, "subject": "מבני נתונים", "grade": "85", "year": "2021" },
+        { "id": 4, "subject": "מבוא למדעי המחשב", "grade": "88", "year": "2021" }
+      ],
+      "events": [
+        {
+          "id": 1,
+          "startDate": "2025-04-01",
+          "endDate": "2025-04-03",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "הסבר על תכנות מונחה עצמים",
+          "description": "הסבר מעמיק על עקרונות התכנות המונחה עצמים."
+        },
+        {
+          "id": 2,
+          "startDate": "2025-04-04",
+          "endDate": "2025-04-04",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "תרגול סדנה מתקדמת בתכנות",
+          "description": "תרגול מעשי שבו המשתתפים יפתרו בעיות מתקדמות בתחום התכנות."
+        },
+        {
+          "id": 3,
+          "startDate": "2025-05-10",
+          "endDate": "2025-05-12",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "שיעור על מבני נתונים",
+          "description": "הסבר על סוגי מבני הנתונים והשימושים השונים בהם."
+        }
+      ]
+    },
+    {
+      "id" : 3,
+      "name": "אליעד גבריאל",
+      "subjects": [
+        { "course_name": "מבוא למדעי המחשב" },
+        { "course_name": "סדנה מתקדמת" },
+        { "course_name": "מונחה עצמים" }
+      ],
+      "phone": "0542542199",
+      "linkedin": "",
+      "github": "",
+      "youtube": "",
+      "fieldOfStudy": "מדעי המחשב",
+      "institution": "המכון הטכנולוגי חולון",
+      "startDate": "אפר 2019",
+      "endDate": "אוג 2023",
+      "feedback": [
+        { "rating": 5, "comment": "פשוט גאון", "created_at": "2025-10-11" },
+        { "rating": 5, "comment": "ממש סבלני", "created_at": "2025-10-20" },
+        { "rating": 5, "comment": "הכי טוב שלמדתי איתו", "created_at": "2025-04-03" },
+        { "rating": 4, "comment": "מעולה, אבל קפץ קצת מהר", "created_at": "2025-11-08" },
+        { "rating": 4, "comment": "מעולה1, אבל קפץ קצת מהר", "created_at": "2025-11-10" },
+        { "rating": 4, "comment": "מעול2, אבל קפץ קצת מהר", "created_at": "2025-11-09" }
+      ],
+      "average_rating": 4.75,
+      "feedback_count": 6,
+      "status": "זום",
+      "private_price": 150,
+      "group_price": 100,
+      "mail": "",
+      "grades": [
+        { "id": 1, "subject": "תכנות מונחה עצמים", "grade": "95", "year": "2023" },
+        { "id": 2, "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year": "2022" },
+        { "id": 3, "subject": "מבני נתונים", "grade": "85", "year": "2021" },
+        { "id": 4, "subject": "מבוא למדעי המחשב", "grade": "88", "year": "2021" }
+      ],
+      "events": [
+  
+      ]
+    },
+    {
+      "id" : 4,
+      "name": "טל זכריה",
+      "subjects": [
+        { "course_name": "מבוא למדעי המחשב" },
+        { "course_name": "סדנה מתקדמת בתכנות" },
+        { "course_name": "אוטומטים ושפות פורמליות" },
+        { "course_name": "חישוביות וסיבוכיות" }
+      ],
+      "phone": "0542075966",
+      "linkedin": "",
+      "github": "",
+      "youtube": "",
+      "fieldOfStudy": "מדעי המחשב",
+      "institution": "המכון הטכנולוגי חולון",
+      "startDate": "אפר 2019",
+      "endDate": "אוג 2023",
+      "feedback": [
+        { "rating": 5, "comment": "מורה מדהים", "created_at": "2025-11-05" }
+      ],
+      "average_rating": 5.0,
+      "feedback_count": 1,
+      "status": "פרונטלי",
+      "private_price": 150,
+      "group_price": 100,
+      "mail": "",
+      "grades": [
+        { "id": 1, "subject": "תכנות מונחה עצמים", "grade": "95", "year": "2023" },
+        { "id": 2, "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year": "2022" },
+        { "id": 3, "subject": "מבני נתונים", "grade": "85", "year": "2021" },
+        { "id": 4, "subject": "מבוא למדעי המחשב", "grade": "88", "year": "2021" }
+      ],
+      "events": [
+        {
+          "id": 1,
+          "startDate": "2025-04-01",
+          "endDate": "2025-04-03",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "הסבר על תכנות מונחה עצמים",
+          "description": "הסבר מעמיק על עקרונות התכנות המונחה עצמים."
+        },
+        {
+          "id": 2,
+          "startDate": "2025-04-04",
+          "endDate": "2025-04-04",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "תרגול סדנה מתקדמת בתכנות",
+          "description": "תרגול מעשי שבו המשתתפים יפתרו בעיות מתקדמות בתחום התכנות."
+        },
+        {
+          "id": 3,
+          "startDate": "2025-05-10",
+          "endDate": "2025-05-12",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "שיעור על מבני נתונים",
+          "description": "הסבר על סוגי מבני הנתונים והשימושים השונים בהם."
+        }
+      ]
+    },
+    {
+      "id" : 5,
+      "name": "עמית אוחנה",
+      "subjects": [
+        { "course_name": "מבוא למדעי המחשב" },
+        { "course_name": "סדנה מתקדמת בתכנות" },
+        { "course_name": "מבני נתונים" },
+        { "course_name": "אלגו 1 + 2" }
+      ],
+      "phone": "0537005288",
+      "linkedin": "",
+      "github": "",
+      "youtube": "",
+      "fieldOfStudy": "מדעי המחשב",
+      "institution": "המכון הטכנולוגי חולון",
+      "startDate": "אפר 2019",
+      "endDate": "אוג 2023",
+      "feedback": [
+        { "rating": 4, "comment": "היה טוב, אבל קצת מהיר", "created_at": "2025-11-01" },
+        { "rating": 4, "comment": "הסביר טוב", "created_at": "2025-11-07" },
+        { "rating": 4, "comment": "ענה על כל השאלות", "created_at": "2025-11-10" }
+      ],
+      "average_rating": 4.0,
+      "feedback_count": 3,
+      "status": "זום",
+      "private_price": 150,
+      "group_price": 100,
+      "mail": "",
+      "grades": [
+        { "id": 1, "subject": "תכנות מונחה עצמים", "grade": "95", "year": "2023" },
+        { "id": 2, "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year": "2022" },
+        { "id": 3, "subject": "מבני נתונים", "grade": "85", "year": "2021" },
+        { "id": 4, "subject": "מבוא למדעי המחשב", "grade": "88", "year": "2021" }
+      ],
+      "events": [
+        {
+          "id": 1,
+          "startDate": "2025-04-01",
+          "endDate": "2025-04-03",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "הסבר על תכנות מונחה עצמים",
+          "description": "הסבר מעמיק על עקרונות התכנות המונחה עצמים."
+        },
+        {
+          "id": 2,
+          "startDate": "2025-04-04",
+          "endDate": "2025-04-04",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "תרגול סדנה מתקדמת בתכנות",
+          "description": "תרגול מעשי שבו המשתתפים יפתרו בעיות מתקדמות בתחום התכנות."
+        },
+        {
+          "id": 3,
+          "startDate": "2025-05-10",
+          "endDate": "2025-05-12",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "שיעור על מבני נתונים",
+          "description": "הסבר על סוגי מבני הנתונים והשימושים השונים בהם."
+        }
+      ]
+    },
+    {
+      "id" : 6,
+      "name": "עדי צלניקר",
+      "subjects": [
+        { "course_name": "1+2 אינפי" },
+        { "course_name": "ליניארית 1+2" }
+      ],
+      "phone": "0507304007",
+      "linkedin": "",
+      "github": "",
+      "youtube": "",
+      "fieldOfStudy": "מדעי המחשב",
+      "institution": "המכון הטכנולוגי חולון",
+      "startDate": "אפר 2019",
+      "endDate": "אוג 2023",
+      "feedback": [
+        { "rating": 5, "comment": "הסברים מעולים!", "created_at": "2025-11-06" },
+        { "rating": 5, "comment": "הציל אותי לפני המבחן", "created_at": "2025-11-09" }
+      ],
+      "average_rating": 5.0,
+      "feedback_count": 2,
+      "status": "זום",
+      "private_price": 150,
+      "group_price": 100,
+      "mail": "",
+      "grades": [
+        { "id": 1, "subject": "תכנות מונחה עצמים", "grade": "95", "year": "2023" },
+        { "id": 2, "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year": "2022" },
+        { "id": 3, "subject": "מבני נתונים", "grade": "85", "year": "2021" },
+        { "id": 4, "subject": "מבוא למדעי המחשב", "grade": "88", "year": "2021" }
+      ],
+      "events": [
+        {
+          "id": 1,
+          "startDate": "2025-04-01",
+          "endDate": "2025-04-03",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "הסבר על תכנות מונחה עצמים",
+          "description": "הסבר מעמיק על עקרונות התכנות המונחה עצמים."
+        },
+        {
+          "id": 2,
+          "startDate": "2025-04-04",
+          "endDate": "2025-04-04",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "תרגול סדנה מתקדמת בתכנות",
+          "description": "תרגול מעשי שבו המשתתפים יפתרו בעיות מתקדמות בתחום התכנות."
+        },
+        {
+          "id": 3,
+          "startDate": "2025-05-10",
+          "endDate": "2025-05-12",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "שיעור על מבני נתונים",
+          "description": "הסבר על סוגי מבני הנתונים והשימושים השונים בהם."
+        }
+      ]
+    }
+  ],
+  "eeTutors": [
+    {
+      "id" : 7,
+      "name": "עומר יצחקי",
+      "subjects": [
+        { "course_name": "מכינה בפיזיקה" },
+        { "course_name": "פיזיקה 1" }
+      ],
+      "phone": "0542488426",
+      "linkedin": "",
+      "github": "",
+      "youtube": "",
+      "fieldOfStudy": "מדעי המחשב",
+      "institution": "המכון הטכנולוגי חולון",
+      "startDate": "אפר 2019",
+      "endDate": "אוג 2023",
+      "feedback": [
+        { "rating": 5, "comment": "פשוט מסביר מדהים", "created_at": "2025-10-09" },
+        { "rating": 4, "comment": "לפעמים רץ קדימה מדי", "created_at": "2025-10-17" },
+        { "rating": 5, "comment": "מרצה עם סבלנות אין קץ", "created_at": "2025-11-02" }
+      ],
+      "average_rating": 4.67,
+      "feedback_count": 3,
+      "status": "זום",
+      "private_price": 150,
+      "group_price": 100,
+      "mail": "",
+      "grades": [
+        { "id": 1, "subject": "תכנות מונחה עצמים", "grade": "95", "year": "2023" },
+        { "id": 2, "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year": "2022" },
+        { "id": 3, "subject": "מבני נתונים", "grade": "85", "year": "2021" },
+        { "id": 4, "subject": "מבוא למדעי המחשב", "grade": "88", "year": "2021" }
+      ],
+      "events": [
+        {
+          "id": 1,
+          "startDate": "2025-04-01",
+          "endDate": "2025-04-03",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "הסבר על תכנות מונחה עצמים",
+          "description": "הסבר מעמיק על עקרונות התכנות המונחה עצמים."
+        },
+        {
+          "id": 2,
+          "startDate": "2025-04-04",
+          "endDate": "2025-04-04",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "תרגול סדנה מתקדמת בתכנות",
+          "description": "תרגול מעשי שבו המשתתפים יפתרו בעיות מתקדמות בתחום התכנות."
+        },
+        {
+          "id": 3,
+          "startDate": "2025-05-10",
+          "endDate": "2025-05-12",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "שיעור על מבני נתונים",
+          "description": "הסבר על סוגי מבני הנתונים והשימושים השונים בהם."
+        }
+      ]
+    },
+    {
+      "id" : 8,
+      "name": "איזבל קריכלי",
+      "subjects": [
+        { "course_name": "מבוא לחשמל" }
+      ],
+      "phone": "0545736399",
+      "linkedin": "",
+      "github": "",
+      "youtube": "",
+      "fieldOfStudy": "מדעי המחשב",
+      "institution": "המכון הטכנולוגי חולון",
+      "startDate": "אפר 2019",
+      "endDate": "אוג 2023",
+      "feedback": [
+        { "rating": 5, "comment": "עזרה לי להבין נושאים שהיו נראים לי סינית", "created_at": "2025-11-06" }
+      ],
+      "average_rating": 5.0,
+      "feedback_count": 1,
+      "status": "זום",
+      "private_price": 150,
+      "group_price": 100,
+      "mail": "",
+      "grades": [
+        { "id": 1, "subject": "תכנות מונחה עצמים", "grade": "95", "year": "2023" },
+        { "id": 2, "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year": "2022" },
+        { "id": 3, "subject": "מבני נתונים", "grade": "85", "year": "2021" },
+        { "id": 4, "subject": "מבוא למדעי המחשב", "grade": "88", "year": "2021" }
+      ],
+      "events": [
+        {
+          "id": 1,
+          "startDate": "2025-04-01",
+          "endDate": "2025-04-03",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "הסבר על תכנות מונחה עצמים",
+          "description": "הסבר מעמיק על עקרונות התכנות המונחה עצמים."
+        },
+        {
+          "id": 2,
+          "startDate": "2025-04-04",
+          "endDate": "2025-04-04",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "תרגול סדנה מתקדמת בתכנות",
+          "description": "תרגול מעשי שבו המשתתפים יפתרו בעיות מתקדמות בתחום התכנות."
+        },
+        {
+          "id": 3,
+          "startDate": "2025-05-10",
+          "endDate": "2025-05-12",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "שיעור על מבני נתונים",
+          "description": "הסבר על סוגי מבני הנתונים והשימושים השונים בהם."
+        }
+      ]
+    }
+  ],
+  "ieTutors": [
+    {
+      "id" : 9,
+      "name": "אורן לוי",
+      "subjects": [
+        { "course_name": "מבוא להנדסה תעשיה וניהול" },
+        { "course_name": "סטטיסטיקה" }
+      ],
+      "phone": "0541234567",
+      "linkedin": "",
+      "github": "",
+      "youtube": "",
+      "fieldOfStudy": "מדעי המחשב",
+      "institution": "המכון הטכנולוגי חולון",
+      "startDate": "אפר 2019",
+      "endDate": "אוג 2023",
+      "feedback": [
+        { "rating": 4, "comment": "היה בסדר", "created_at": "2025-11-01" },
+        { "rating": 5, "comment": "הסביר טוב", "created_at": "2025-11-05" }
+      ],
+      "average_rating": 4.5,
+      "feedback_count": 2,
+      "status": "זום",
+      "private_price": 150,
+      "group_price": 100,
+      "mail": "",
+      "grades": [
+        { "id": 1, "subject": "תכנות מונחה עצמים", "grade": "95", "year": "2023" },
+        { "id": 2, "subject": "סדנה מתקדמת בתכנות", "grade": "90", "year": "2022" },
+        { "id": 3, "subject": "מבני נתונים", "grade": "85", "year": "2021" },
+        { "id": 4, "subject": "מבוא למדעי המחשב", "grade": "88", "year": "2021" }
+      ],
+      "events": [
+        {
+          "id": 1,
+          "startDate": "2025-04-01",
+          "endDate": "2025-04-03",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "הסבר על תכנות מונחה עצמים",
+          "description": "הסבר מעמיק על עקרונות התכנות המונחה עצמים."
+        },
+        {
+          "id": 2,
+          "startDate": "2025-04-04",
+          "endDate": "2025-04-04",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "תרגול סדנה מתקדמת בתכנות",
+          "description": "תרגול מעשי שבו המשתתפים יפתרו בעיות מתקדמות בתחום התכנות."
+        },
+        {
+          "id": 3,
+          "startDate": "2025-05-10",
+          "endDate": "2025-05-12",
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "title": "שיעור על מבני נתונים",
+          "description": "הסבר על סוגי מבני הנתונים והשימושים השונים בהם."
+        }
+      ]
+    }
+  ]
+}
