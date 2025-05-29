@@ -17,6 +17,7 @@ import About from '../pages/About';
 import Privacy from '../pages/Privacy';
 import Terms from '../pages/Terms';
 import ThankYou from '../pages/ThankYou';
+import TutorPresentation from '../components/TutorPresentation';
 
 const AppRoutes = () => {
   return (
@@ -32,6 +33,7 @@ const AppRoutes = () => {
         <Route path="/courses" element={<Courses />} />
         <Route path="/courses/:courseId" element={<CourseDetails />} />
         <Route path="/tutors/:courseType/:id" element={<ProfilePage />} />
+        <Route path="/teach" element={<TutorPresentation />} />
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/create-course" element={<CourseCreationPage />} />
         <Route path="/course-editor/:courseId" element={<CourseEditorPage />} />
