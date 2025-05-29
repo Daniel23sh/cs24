@@ -30,31 +30,28 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
 
   const MAX_COMMENT_LENGTH = 200; // Maximum character limit for comments
   const userIsAdmin = user && isAdmin(user.email);
-
   const styles = courseStyles[courseType] || courseStyles.cs;
-
   const hasUserFeedback = tutor.has_user_feedback;
-
   const reviewsWithComments = tutor.feedback?.filter(fb => fb.comment?.trim()) || [];
   const isDevMode = process.env.REACT_APP_DEV?.toLowerCase() === 'true';
 
+  // Sort all reviews by date, newest first
   const sortedReviews = [...reviewsWithComments].sort((a, b) => {
     return new Date(b.created_at) - new Date(a.created_at);
   });
+
+  // Only show delete button if has_user_feedback is true AND we have a valid user_feedback_id
+  const showDeleteButton = tutor.has_user_feedback && tutor.user_feedback_id;
+
+  // Get the user's feedback using the ID and make sure it's the most recent one
+  const userFeedback = showDeleteButton 
+    ? sortedReviews.find(fb => fb.id === tutor.user_feedback_id)
+    : null;
 
   const displayedReviews = showAllReviews 
     ? sortedReviews 
     : sortedReviews.slice(0, 1);
 
-  // Only show delete button if has_user_feedback is true AND we have a valid user_feedback_id
-  const showDeleteButton = tutor.has_user_feedback && tutor.user_feedback_id;
-
-  // Get the user's feedback using the ID
-  const userFeedback = showDeleteButton 
-    ? tutor.feedback?.find(fb => fb.id === tutor.user_feedback_id)
-    : null;
-
- 
   const handleFeedbackClick = async () => {
     if (!user) {
       setShowLoginModal(true);
@@ -289,10 +286,10 @@ const TutorCard = ({ tutor, courseType, user, onSubmitFeedback, loadTutorsWithFe
                 {showReviews && reviewsWithComments.length > 0 && (
                   <div className="mt-2 space-y-2">
                     <div className="max-h-[220px] overflow-y-auto pr-2 space-y-2">
-                      {reviewsWithComments.map((fb, index) => {
-                        const isUserOwnFeedback = hasUserFeedback && index === 0;
+                      {sortedReviews.map((fb, index) => {
+                        const isUserOwnFeedback = fb.id === tutor.user_feedback_id;
                         return (
-                          <div key={index} className={`${isUserOwnFeedback ? 'bg-blue-50' : 'bg-gray-50'} rounded-lg p-3 relative`}>
+                          <div key={fb.id || index} className={`${isUserOwnFeedback ? 'bg-blue-50' : 'bg-gray-50'} rounded-lg p-3 relative`}>
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-1">
                               
