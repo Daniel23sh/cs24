@@ -29,9 +29,10 @@ const Contact = () => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white py-12 px-4 sm:px-6 mt-16">
       <Layout>
-        <Navbar />
         <div className="max-w-5xl mx-auto">
           <div className="flex justify-center">
             {/* Contact Form - Commented Out */}
@@ -153,6 +154,7 @@ const Contact = () => {
         </div>
       </Layout>
     </div>
+    </>
   );
 };
 
