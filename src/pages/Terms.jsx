@@ -157,7 +157,6 @@ const Terms = () => {
               <li>PayPal</li>
               <li>Apple Pay</li>
               <li>Google Pay</li>
-              <li>Mobile Payment Applications (e.g., Bitcoin, Ethereum, Litecoin, etc.)</li>
             </ul>
             <p className="mb-4">
             You agree to provide current, complete, and accurate purchase and account information for all purchases made via the Services. You further agree to promptly update account and payment information, including email address, payment method, and payment card expiration date, to ensure we can complete your transactions and contact you as needed.

@@ -90,6 +90,41 @@ const RefundPolicy = () => {
         </section>
 
         <section className="mb-8">
+          <h2 className={`${styles.textSecondary} text-2xl font-bold mb-4`}>אמצעי תשלום</h2>
+          <div className="space-y-4">
+            <p>אנו מקבלים את אמצעי התשלום הבאים:</p>
+            <ul className="list-disc pr-5 space-y-2">
+              <li>Visa</li>
+              <li>Mastercard</li>
+              <li>PayPal</li>
+              <li>Apple Pay</li>
+              <li>Google Pay</li>
+            </ul>
+            <p className="mb-4">
+              הנכם מסכימים לספק מידע עדכני, מלא ומדויק לגבי הרכישה וחשבונכם עבור כל הרכישות שבוצעו באמצעות השירותים. כמו כן, הנכם מסכימים לעדכן במהירות את פרטי החשבון והתשלום, כולל כתובת דוא"ל, אמצעי תשלום ותאריך תפוגה של כרטיס התשלום, כדי להבטיח שנוכל להשלים את העסקאות שלכם וליצור איתכם קשר בעת הצורך.
+            </p>
+            <p className="mb-4">
+              כל התשלומים יבוצעו בשקלים חדשים (ש"ח). מע"מ יתווסף למחיר הרכישות כנדרש. אנו שומרים לעצמנו את הזכות לשנות מחירים בכל עת.
+            </p>
+          </div>
+        </section>
+
+        <section className="mb-8">
+          <h2 className={`${styles.textSecondary} text-2xl font-bold mb-4`}>מדיניות החזרים מפורטת</h2>
+          <div className="space-y-4">
+            <p className="mb-4">
+              כל מכירות הקורסים הדיגיטליים הן סופיות ואינן ניתנות להחזר. ברכישת הקורס וקבלת גישה לתכנים הדיגיטליים, הנכם מאשרים ומסכימים כי אינכם זכאים לבטל את הרכישה או לקבל החזר כספי, בהתאם לחוק הגנת הצרכן, תשמ"א-1981.
+            </p>
+            <p className="mb-4">
+              מדיניות זו קיימת מכיוון שלא ניתן להחזיר תוכן דיגיטלי לאחר שהוא נצפה או הורד באותו מצב, וכדי להגן על זכויות הקניין הרוחני הקשורות לקורסים שלנו.
+            </p>
+            <p className="mb-4">
+              אם נתקלתם בבעיות בגישה לחומרי הקורס או שאתם מאמינים שהייתה טעות ברכישה שלכם, אנא צרו איתנו קשר.
+            </p>
+          </div>
+        </section>
+
+        <section className="mb-8">
           <h2 className={`${styles.textSecondary} text-2xl font-bold mb-4`}>יצירת קשר</h2>
           <div className="space-y-4">
             <p>לכל שאלה או פנייה בנושא העסקה או הקורסים, ניתן ליצור קשר:</p>
@@ -182,6 +217,41 @@ const RefundPolicy = () => {
               <li>Update content regularly as needed.</li>
               <li>Maintain high academic standards for all materials.</li>
             </ul>
+          </div>
+        </section>
+
+        <section className="mb-8">
+          <h2 className={`${styles.textSecondary} text-2xl font-bold mb-4`}>Payment Methods</h2>
+          <div className="space-y-4">
+            <p>We accept the following forms of payment:</p>
+            <ul className="list-disc pl-5 space-y-2">
+              <li>Visa</li>
+              <li>Mastercard</li>
+              <li>PayPal</li>
+              <li>Apple Pay</li>
+              <li>Google Pay</li>
+            </ul>
+            <p className="mb-4">
+              You agree to provide current, complete, and accurate purchase and account information for all purchases made via the Services. You further agree to promptly update account and payment information, including email address, payment method, and payment card expiration date, to ensure we can complete your transactions and contact you as needed.
+            </p>
+            <p className="mb-4">
+              All payments shall be made in Israeli New Shekels (ILS). Applicable sales tax will be added to the price of purchases as required. We reserve the right to change prices at any time.
+            </p>
+          </div>
+        </section>
+
+        <section className="mb-8">
+          <h2 className={`${styles.textSecondary} text-2xl font-bold mb-4`}>Detailed Refund Policy</h2>
+          <div className="space-y-4">
+            <p className="mb-4">
+              All sales of digital courses are final and non-refundable. By purchasing and accessing our digital content, you acknowledge and agree that you are not entitled to cancel your purchase or receive a refund, in accordance with the Israeli Consumer Protection Law, 5741-1981.
+            </p>
+            <p className="mb-4">
+              This policy is in place because digital content, once accessed or downloaded, cannot be returned in the same condition, and to protect the intellectual property rights associated with our courses.
+            </p>
+            <p className="mb-4">
+              If you encounter any issues accessing the course materials or believe there has been an error in your purchase, please contact us.
+            </p>
           </div>
         </section>
 
