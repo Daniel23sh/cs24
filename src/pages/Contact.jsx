@@ -109,8 +109,8 @@ const Contact = () => {
             </Card>
             */}
 
-            {/* Contact Information */}
-            <Card className="shadow-lg border-2 transform transition-all duration-300 hover:scale-[1.02] hover:border-blue-200 hover:shadow-[0_0_15px_rgba(147,51,234,0.5)] bg-white hover:bg-blue-50 max-w-md w-full">
+            {/* Contact Information purple[0_0_15px_rgba(147,51,234,0.5)]*/}
+            <Card className="shadow-lg border-2 transform transition-all duration-300 hover:scale-[1.02] hover:border-blue-200 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] bg-white hover:bg-blue-50 max-w-md w-full">
               <CardHeader className="text-center pb-6">
                 <div className="mx-auto w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4 transition-all duration-300 group-hover:bg-blue-200">
                   <MapPin className="w-6 h-6 text-blue-600 transition-transform duration-300 hover:scale-110" />
