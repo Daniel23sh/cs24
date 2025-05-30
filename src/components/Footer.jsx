@@ -35,9 +35,9 @@ const Footer = ({ whiteText = false }) => {
                       </Link>
                   </div>
                   <div class="px-5 py-2">
-                     {/* <Link to="/contact" className={`text-base leading-6 ${linkColorClass}`}>
+                      <Link to="/contact" className={`text-base leading-6 ${linkColorClass}`}>
                           צור קשר
-                      </Link>*/}
+                      </Link>
                   </div>
               </nav>
               {/* <div class="flex justify-center mt-8 gap-6">
