@@ -21,6 +21,8 @@ const Privacy = React.lazy(() => import(/* webpackChunkName: "privacy" */ '../pa
 const Terms = React.lazy(() => import(/* webpackChunkName: "terms" */ '../pages/Terms'));
 const ThankYou = React.lazy(() => import(/* webpackChunkName: "thank-you" */ '../pages/ThankYou'));
 const TutorPresentation = React.lazy(() => import(/* webpackChunkName: "tutor-presentation" */ '../pages/TutorPresentation'));
+const Contact = React.lazy(() => import(/* webpackChunkName: "contact" */ '../pages/Contact'));
+const RefundPolicy = React.lazy(() => import(/* webpackChunkName: "refund-policy" */ '../pages/RefundPolicy'));
 
 const AppRoutes = () => {
   return (
@@ -33,6 +35,7 @@ const AppRoutes = () => {
           <Route path="/gpa" element={<GpaCalc />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
+          <Route path="/refund-policy" element={<RefundPolicy />} />
           <Route path="/about" element={<About />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/courses/:courseId" element={<CourseDetails />} />
@@ -45,7 +48,7 @@ const AppRoutes = () => {
           <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/thank-you" element={<ThankYou />} />
           <Route path="/teach" element={<TutorPresentation />} />
-
+          <Route path="/contact" element={<Contact />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

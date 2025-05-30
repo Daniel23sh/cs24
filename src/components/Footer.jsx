@@ -29,6 +29,16 @@ const Footer = ({ whiteText = false }) => {
                           מדיניות פרטיות
                       </Link>
                   </div>
+                  <div class="px-5 py-2">
+                      <Link to="/refund-policy" className={`text-base leading-6 ${linkColorClass}`}>
+                          מדיניות ביטולים והחזרים
+                      </Link>
+                  </div>
+                  <div class="px-5 py-2">
+                      <Link to="/contact" className={`text-base leading-6 ${linkColorClass}`}>
+                          צור קשר
+                      </Link>
+                  </div>
               </nav>
               {/* <div class="flex justify-center mt-8 gap-6">
                   <a href="#" class="text-gray-400 hover:text-gray-500">
