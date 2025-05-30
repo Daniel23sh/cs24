@@ -157,15 +157,25 @@ const Terms = () => {
               <li>PayPal</li>
               <li>Apple Pay</li>
               <li>Google Pay</li>
+              <li>Mobile Payment Applications (e.g., Bitcoin, Ethereum, Litecoin, etc.)</li>
             </ul>
             <p className="mb-4">
-              You agree to provide current, complete, and accurate purchase and account information for all purchases made via the Services. You further agree to promptly update account and payment information, including email address, payment method, and payment card expiration date, so that we can complete your transactions and contact you as needed. Sales tax will be added to the price of purchases as deemed required by us. We may change prices at any time. All payments shall be in ILS.
-            </p>
+            You agree to provide current, complete, and accurate purchase and account information for all purchases made via the Services. You further agree to promptly update account and payment information, including email address, payment method, and payment card expiration date, to ensure we can complete your transactions and contact you as needed.
+
+All payments shall be made in Israeli New Shekels (ILS). Applicable sales tax will be added to the price of purchases as required. We reserve the right to change prices at any time.            </p>
           </section>
 
           <section className="mb-8">
             <h2 className={`${styles.textSecondary} text-2xl font-bold mb-4`}>7. REFUNDS POLICY</h2>
-            <p className="mb-4">All sales are final and no refund will be issued.</p>
+            <p className="mb-4">
+              All sales of digital courses are final and non-refundable. By purchasing and accessing our digital content, you acknowledge and agree that you are not entitled to cancel your purchase or receive a refund, in accordance with the Israeli Consumer Protection Law, 5741-1981.
+            </p>
+            <p className="mb-4">
+              This policy is in place because digital content, once accessed or downloaded, cannot be returned in the same condition, and to protect the intellectual property rights associated with our courses.
+            </p>
+            <p className="mb-4">
+              If you encounter any issues accessing the course materials or believe there has been an error in your purchase, please contact us.
+            </p>
           </section>
 
           <section className="mb-8">
